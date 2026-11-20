@@ -15,9 +15,7 @@ const trendCases = {
   }
 };
 const pressureChart = document.querySelector("#pressure-chart");
-const levelChart = document.querySelector("#level-chart");
 const pressureAxis = { min: 1, max: 3.5, ticks: [1, 1.5, 2, 2.5, 3, 3.5], labels: ["−5 хв", "−4", "−3", "−2", "−1", "Зупинка"] };
-const levelAxis = { min: 10, max: 50, ticks: [10, 20, 30, 40, 50], labels: ["10:24", "", "10:30", "", "10:36", "", "10:42"] };
 
 function drawChart(canvas, values, axis) {
   if (!canvas.clientWidth) return;
@@ -94,7 +92,6 @@ function updatePressure() {
 
 function updateCharts() {
   if (pressureChart.clientWidth) updatePressure();
-  if (levelChart.clientWidth) drawChart(levelChart, [45, 43, 37, 29, 24, 19, 15], levelAxis);
 }
 
 const tabList = document.querySelector("[data-tabs]");
@@ -153,16 +150,31 @@ bindButtons("event", {
 }, ["#event-title", "#event-description"]);
 
 bindButtons("source", {
-  scada: ["Події й вимірювання", "Сигнали, стани й часові мітки допомагають зіставити падіння рівня, зміну тиску та момент зупинки.", "У прикладі: журнал подій і тренд LT-101."],
-  plc: ["Логіка роботи", "Проєкт контролера пояснює, від яких умов залежить запуск і які сигнали використовує обладнання.", "У прикладі: умови дозволу запуску P-204."],
-  docs: ["Умови та процедури", "Інструкції дають контекст для перевірки порогів, умов подачі та допустимих режимів.", "У прикладі: інструкція насоса P-204."],
-  team: ["Знання з практики", "Погоджені експертні правила й записи зміни допомагають вибрати перевірку та передати контекст наступній зміні.", "У прикладі: результат перевірки ще не внесено."]
+  scada: ["Події й вимірювання", "Записи показують, що сталося першим: падіння рівня, зміна тиску чи зупинка.", "Приклад — журнал подій і графік рівня."],
+  plc: ["Умови запуску", "З програми контролера видно, за яких умов обладнання може запуститися.", "Приклад — які сигнали потрібні для запуску насоса."],
+  docs: ["Як має працювати обладнання", "Інструкції та схеми допомагають звірити умови роботи й знайти, що переглянути.", "Приклад — розділ інструкції про запуск насоса."],
+  team: ["Що вже перевіряли", "Інженер записує підтверджений випадок. Наступна зміна може знайти його, якщо проблема повториться.", "Приклад — що перевірили минулого разу й що це показало."]
 }, ["#source-title", "#source-text", "#source-example"]);
 
 bindChoice("#report-choice", {
   engineer: ["Передача зміни", "Перед зупинкою лінії B зафіксовано низький рівень LT-101 і падіння тиску PT-204. О 10:24:10 поріг запуску P-204 змінили з 35 % до 15 %. Перевірити фактичну подачу та умови запуску. Результат перевірки ще не внесено."],
   manager: ["Огляд для керівника", "Пріоритет зміни — розібратися з повторними зупинками лінії B. Команді потрібно перевірити подачу та оцінити можливий вплив зміни порога. Підтвердженої причини поки немає."]
 }, ["#report-title", "#report-text"]);
+
+bindChoice("#resource-choice", {
+  energy: [
+    "144 кВт·год", "168 кВт·год", "0,12 → 0,14 кВт·год",
+    "Де шукати перевитрату електроенергії?",
+    "За того самого обсягу зміна B витратила на 24 кВт·год більше.",
+    "Зіставте покази лічильника з графіком роботи. Окремо перегляньте споживання, коли випуску не було."
+  ],
+  water: [
+    "4 200 л", "4 800 л", "3,5 → 4,0 л",
+    "Де шукати перевитрату води?",
+    "За того самого обсягу зміна B витратила на 600 л більше.",
+    "Звірте покази лічильника із записами промивання. Перевірте, чи відрізнялися тривалість або кількість циклів."
+  ]
+}, ["#resource-before", "#resource-after", "#resource-per-unit", "#resource-question", "#resource-finding", "#resource-check"]);
 
 bindChoice("#deployment-choice", {
   local: ["В інфраструктурі підприємства", "Залишається у визначеному периметрі", "Обчислення та обробка за політиками підприємства"],
@@ -173,5 +185,120 @@ document.querySelector("#trend-choice").addEventListener("change", updatePressur
 window.addEventListener("resize", updateCharts);
 document.fonts.ready.then(updateCharts);
 
-const pilotDialog = document.querySelector("#pilot-dialog");
-document.querySelector("#pilot-open").addEventListener("click", () => pilotDialog.showModal());
+const walkthrough = document.querySelector("#walkthrough");
+const walkthroughToggle = document.querySelector("#walkthrough-toggle");
+const walkthroughPhase = document.querySelector("#walkthrough-phase");
+const walkthroughProgress = document.querySelector("#walkthrough-progress");
+const walkthroughSelect = document.querySelector("#walkthrough-case");
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+const walkthroughSteps = [
+  { label: "Інженер ставить запитання", duration: 2000 },
+  { duration: 1500 },
+  { duration: 1500 },
+  { duration: 1700 },
+  { label: "Асистент зіставляє записи", duration: 1000 },
+  { label: "Інженер отримує підказку", duration: 10500 }
+];
+const walkthroughCases = {
+  resources: {
+    question: "Чому на той самий обсяг пішло більше електроенергії?",
+    answerTitle: "Почніть із періодів без роботи.",
+    answer: "Лічильник показує витрати навіть тоді, коли ділянка нічого не випускала.",
+    limit: "Спершу з’ясуйте, яке споживання в цей час потрібне за регламентом.",
+    sources: [
+      ["Лічильник", "Витрати зросли зі 144 до 168 кВт·год.", "Асистент читає покази лічильника"],
+      ["Обсяг роботи", "Обидві зміни випустили по 1 200 одиниць.", "Асистент порівнює випуск"],
+      ["Графік роботи", "Частина витрат припала на час без випуску.", "Асистент перевіряє графік роботи"]
+    ]
+  },
+  incident: {
+    question: "Лінія B зупинилася. Що перевірити першим?",
+    answerTitle: "Перевірте подачу до насоса.",
+    answer: "Перед зупинкою впали рівень на вході й тиск. Нестача подачі може це пояснити.",
+    limit: "Даних про витрату немає. Причину ще треба перевірити.",
+    sources: [
+      ["Журнал подій", "Рівень і тиск впали перед зупинкою.", "Асистент читає журнал подій"],
+      ["Історія рівня", "Рівень падав ще до сигналу про зупинку.", "Асистент дивиться історію рівня"],
+      ["Інструкція насоса", "В інструкції є умови запуску й подачі.", "Асистент звіряється з інструкцією"]
+    ]
+  }
+};
+const revealedWalkthroughElements = walkthrough.querySelectorAll("[data-show-step]");
+const walkthroughSources = walkthrough.querySelectorAll("[data-source-step]");
+let walkthroughCase = walkthroughCases[walkthroughSelect.value];
+let walkthroughStage = motionPreference.matches ? walkthroughSteps.length - 1 : 0;
+let walkthroughPlaying = !motionPreference.matches;
+let walkthroughOnscreen = false;
+let walkthroughTimer;
+
+function showWalkthroughStage() {
+  revealedWalkthroughElements.forEach(element => {
+    element.dataset.visible = walkthroughStage >= Number(element.dataset.showStep);
+  });
+  walkthroughSources.forEach(element => {
+    element.dataset.reading = walkthroughStage === Number(element.dataset.sourceStep);
+  });
+  walkthroughPhase.textContent = walkthroughSteps[walkthroughStage].label ?? walkthroughCase.sources[walkthroughStage - 1][2];
+  walkthroughProgress.value = walkthroughStage;
+  walkthroughToggle.textContent = walkthroughPlaying ? "Пауза" : "Відтворити";
+}
+
+function scheduleWalkthrough() {
+  window.clearTimeout(walkthroughTimer);
+  if (!walkthroughPlaying || !walkthroughOnscreen || document.hidden) return;
+  walkthroughTimer = window.setTimeout(() => {
+    walkthroughStage = (walkthroughStage + 1) % walkthroughSteps.length;
+    showWalkthroughStage();
+    scheduleWalkthrough();
+  }, walkthroughSteps[walkthroughStage].duration);
+}
+
+function updateWalkthroughCase() {
+  walkthroughCase = walkthroughCases[walkthroughSelect.value];
+  document.querySelector("#walkthrough-question").textContent = walkthroughCase.question;
+  document.querySelector("#walkthrough-answer-title").textContent = walkthroughCase.answerTitle;
+  document.querySelector("#walkthrough-answer").textContent = walkthroughCase.answer;
+  document.querySelector("#walkthrough-limit").textContent = walkthroughCase.limit;
+  walkthroughSources.forEach((source, index) => {
+    const [title, description] = walkthroughCase.sources[index];
+    source.querySelector("strong").textContent = title;
+    source.querySelector("p").textContent = description;
+  });
+}
+
+walkthroughSelect.addEventListener("change", () => {
+  updateWalkthroughCase();
+  walkthroughStage = walkthroughPlaying ? 0 : walkthroughSteps.length - 1;
+  showWalkthroughStage();
+  scheduleWalkthrough();
+});
+walkthroughToggle.addEventListener("click", () => {
+  walkthroughPlaying = !walkthroughPlaying;
+  showWalkthroughStage();
+  scheduleWalkthrough();
+});
+document.querySelector("#walkthrough-replay").addEventListener("click", () => {
+  walkthroughStage = 0;
+  walkthroughPlaying = true;
+  showWalkthroughStage();
+  scheduleWalkthrough();
+});
+document.addEventListener("visibilitychange", scheduleWalkthrough);
+motionPreference.addEventListener("change", event => {
+  if (!event.matches) return;
+  walkthroughPlaying = false;
+  walkthroughStage = walkthroughSteps.length - 1;
+  showWalkthroughStage();
+  scheduleWalkthrough();
+});
+
+document.querySelector("#walkthrough-actions").hidden = false;
+document.querySelector("#walkthrough-selector").hidden = false;
+document.querySelector("#walkthrough-status").hidden = false;
+updateWalkthroughCase();
+showWalkthroughStage();
+const walkthroughObserver = new IntersectionObserver(([entry]) => {
+  walkthroughOnscreen = entry.intersectionRatio >= 0.2;
+  scheduleWalkthrough();
+}, { threshold: 0.2 });
+walkthroughObserver.observe(walkthrough);

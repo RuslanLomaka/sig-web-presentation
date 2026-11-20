@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Інтерактивна демонстрація AI-асистента Smart Industry Group для промислових даних.">
+  <meta name="description" content="Промисловий AI-асистент SIG допомагає знаходити втрати ресурсів, розбирати простої та зберігати досвід команди.">
   <meta name="color-scheme" content="light">
-  <title>AI-асистент для промислових даних · Smart Industry Group</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="demo.js" defer></script>
+  <title>Промисловий AI-асистент · Smart Industry Group</title>
+  <link rel="stylesheet" href="styles.css?v=2">
+  <script src="demo.js?v=2" defer></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main">Перейти до вмісту</a>
@@ -17,11 +17,11 @@
         <img src="assets/sig.svg" width="111" height="43" alt="Smart Industry Group">
       </a>
       <nav aria-label="Розділи презентації">
-        <a href="#demo">Демонстрація</a>
-        <a href="#context">Джерела даних</a>
-        <a href="#control">Доступ і контроль</a>
+        <a href="#demo">Як це працює</a>
+        <a href="#examples">Приклади</a>
+        <a href="#pilot">З чого почати</a>
       </nav>
-      <a class="button button-outline" href="#pilot">План пілоту</a>
+      <a class="button button-outline" href="https://sig-automation.com/ua#contacts">Контакти SIG</a>
     </div>
   </header>
 
@@ -30,20 +30,10 @@
       <div class="hero-image" aria-hidden="true"></div>
       <div class="frame hero-layout">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-line"></span> AI-асистент для промислових даних</p>
-          <h1 id="hero-title">Лінія зупинилася.<br><em>Що перевірити<br class="wide-break"> першим?</em></h1>
-          <p>Асистент зіставляє аварії, тренди й історію налаштувань. Інженер бачить послідовність подій, можливу причину та джерела для перевірки.</p>
-          <a class="button button-primary" href="#demo">Розібрати зупинку лінії</a>
-        </div>
-        <div class="hero-panel" aria-label="Умовний журнал подій лінії B">
-          <div class="hero-panel-head">
-            <div><span class="panel-kicker">Журнал подій</span><strong>Лінія B</strong></div>
-            <span class="tag tag-stop"><span aria-hidden="true"></span> Зупинка</span>
-          </div>
-          <div class="hero-event"><time>10:42:16</time><span>Низький рівень на вході</span><code>LT-101</code></div>
-          <div class="hero-event"><time>10:42:18</time><span>Падіння тиску</span><code>PT-204</code></div>
-          <div class="hero-event"><time>10:42:20</time><span>Зупинка лінії</span><code>LINE B</code></div>
-          <p class="hero-panel-note">Умовні дані демонстрації</p>
+          <h1 id="hero-title">Промисловий<br><em>AI-асистент</em></h1>
+          <p>Де можна заощадити ресурси, скоротити простої чи прибрати ручну роботу? Асистент SIG шукає відповідь у ваших даних, показує джерела й підказує наступний крок.</p>
+          <a class="button button-primary" href="#demo">Подивитися демо</a>
+          <p class="hero-audiences">Виробництво · Харчова галузь · Логістика · Обладнання медзакладів</p>
         </div>
       </div>
     </section>
@@ -51,25 +41,92 @@
     <section class="section demo-section" id="demo" aria-labelledby="demo-title">
       <div class="frame">
         <div class="section-intro demo-intro">
-          <div><p class="eyebrow"><span class="eyebrow-line"></span> Інтерактивна демонстрація</p>
-            <h2 id="demo-title">Від сигналу до перевірки</h2></div>
-          <p>Оберіть запит інженера й відкрийте джерела, на яких ґрунтується відповідь. Усі приклади використовують вигадані дані.</p>
+          <div><h2 id="demo-title">Від запитання до відповіді</h2></div>
+          <p>Оберіть ситуацію. Подивіться, які записи читає асистент і з чого пропонує почати.</p>
         </div>
+        <div class="walkthrough" id="walkthrough" aria-label="Демонстрація розмови інженера з асистентом">
+          <div class="walkthrough-bar">
+            <p><strong>Розмова з асистентом</strong><span>Умовний приклад</span></p>
+            <label class="walkthrough-select" id="walkthrough-selector" hidden><span class="visually-hidden">Сценарій демонстрації</span>
+              <select id="walkthrough-case"><option value="resources">Витрати ресурсів</option><option value="incident">Зупинка лінії</option></select>
+            </label>
+            <div class="walkthrough-actions" id="walkthrough-actions" hidden>
+              <button type="button" id="walkthrough-toggle">Пауза</button>
+              <button type="button" id="walkthrough-replay">Спочатку</button>
+            </div>
+          </div>
+          <div class="walkthrough-body">
+            <div class="conversation">
+              <div class="conversation-message conversation-question">
+                <span>Інженер</span>
+                <p id="walkthrough-question">Чому на той самий обсяг пішло більше електроенергії?</p>
+              </div>
+              <div class="conversation-message conversation-answer" data-show-step="5">
+                <span>Асистент SIG</span>
+                <p><strong id="walkthrough-answer-title">Почніть із періодів без роботи.</strong> <span id="walkthrough-answer">Лічильник показує витрати навіть тоді, коли ділянка нічого не випускала.</span></p>
+                <p class="conversation-limit" id="walkthrough-limit">Спершу з’ясуйте, яке споживання в цей час потрібне за регламентом.</p>
+              </div>
+            </div>
+            <div class="walkthrough-sources">
+              <h3>Що перевіряє асистент</h3>
+              <ol>
+                <li data-source-step="1" data-show-step="1"><span class="source-light" aria-hidden="true"></span><div><strong>Лічильник</strong><p data-show-step="2">Витрати зросли зі 144 до 168 кВт·год.</p></div></li>
+                <li data-source-step="2" data-show-step="2"><span class="source-light" aria-hidden="true"></span><div><strong>Обсяг роботи</strong><p data-show-step="3">Обидві зміни випустили по 1 200 одиниць.</p></div></li>
+                <li data-source-step="3" data-show-step="3"><span class="source-light" aria-hidden="true"></span><div><strong>Графік роботи</strong><p data-show-step="4">Частина витрат припала на час без випуску.</p></div></li>
+              </ol>
+            </div>
+          </div>
+          <div class="walkthrough-status" id="walkthrough-status" hidden><span id="walkthrough-phase"></span><progress id="walkthrough-progress" max="5" value="0" aria-label="Хід демонстрації"></progress></div>
+        </div>
+      </div>
+    </section>
 
+    <section class="section examples-section" id="examples" aria-labelledby="examples-title">
+      <div class="frame">
+        <div class="section-intro">
+          <div><h2 id="examples-title">Що ще можна запитати?</h2></div>
+          <p>Той самий підхід підходить для різних задач — від витрат води на миття до затримок на складі. Оберіть приклад. Дані умовні.</p>
+        </div>
         <div class="demo-shell">
           <div class="tabs" role="tablist" aria-label="Сценарії асистента" data-tabs>
-            <button type="button" role="tab" id="tab-incident" aria-controls="incident" aria-selected="true">Зупинка лінії</button>
-            <button type="button" role="tab" id="tab-trends" aria-controls="trends" aria-selected="false" tabindex="-1">Тренди</button>
-            <button type="button" role="tab" id="tab-settings" aria-controls="settings" aria-selected="false" tabindex="-1">Зміна порога</button>
-            <button type="button" role="tab" id="tab-stable" aria-controls="stable" aria-selected="false" tabindex="-1">Стабільний режим</button>
+            <button type="button" role="tab" id="tab-resources" aria-controls="resources" aria-selected="true">Витрати ресурсів</button>
+            <button type="button" role="tab" id="tab-incident" aria-controls="incident" aria-selected="false" tabindex="-1">Зупинка лінії</button>
+            <button type="button" role="tab" id="tab-trends" aria-controls="trends" aria-selected="false" tabindex="-1">Історія тиску</button>
+            <button type="button" role="tab" id="tab-stable" aria-controls="stable" aria-selected="false" tabindex="-1">Поліпшення процесу</button>
             <button type="button" role="tab" id="tab-handover" aria-controls="handover" aria-selected="false" tabindex="-1">Передача зміни</button>
           </div>
 
-          <div class="scenario" id="incident" role="tabpanel" aria-labelledby="tab-incident" tabindex="0">
+          <div class="scenario" id="resources" role="tabpanel" aria-labelledby="tab-resources" tabindex="0">
             <div class="scenario-input">
-              <div class="scenario-head"><p class="panel-kicker">SCADA · Лінія B</p><span class="tag tag-stop">Зупинка</span></div>
+              <h3>Той самий обсяг. Більші витрати.</h3>
+              <p class="small-note">Дві зміни, по 1 200 одиниць продукції.</p>
+              <fieldset class="choice-group" id="resource-choice">
+                <legend>Що порівняти?</legend>
+                <label><input type="radio" name="resource" value="energy" checked><span>Електроенергія</span></label>
+                <label><input type="radio" name="resource" value="water"><span>Вода</span></label>
+              </fieldset>
+              <dl class="facts resource-comparison" aria-live="polite" aria-atomic="true">
+                <div><dt>Зміна A</dt><dd id="resource-before">144 кВт·год</dd></div>
+                <div><dt>Зміна B</dt><dd id="resource-after">168 кВт·год</dd></div>
+                <div><dt>На одиницю</dt><dd id="resource-per-unit">0,12 → 0,14 кВт·год</dd></div>
+              </dl>
+            </div>
+            <div class="scenario-output">
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
+              <h3 id="resource-question">Де шукати перевитрату електроенергії?</h3>
+              <dl class="answer">
+                <div><dt>Що видно</dt><dd id="resource-finding">За того самого обсягу зміна B витратила на 24 кВт·год більше.</dd></div>
+                <div><dt>Що перевірити</dt><dd id="resource-check">Зіставте покази лічильника з графіком роботи. Окремо перегляньте споживання, коли випуску не було.</dd></div>
+              </dl>
+              <p class="small-note map-note">Це приклад пошуку втрат. Економію можна оцінити після перевірки й повторного вимірювання.</p>
+            </div>
+          </div>
+
+          <div class="scenario" id="incident" role="tabpanel" aria-labelledby="tab-incident" tabindex="0" hidden>
+            <div class="scenario-input">
+              <div class="scenario-head"><p class="panel-kicker">Журнал лінії B</p><span class="tag tag-stop">Зупинка</span></div>
               <h3>Події перед зупинкою</h3>
-              <p class="small-note">Виберіть подію, щоб побачити деталі.</p>
+              <p class="small-note">Натисніть на подію, щоб побачити деталі.</p>
               <div class="event-list" aria-label="Події лінії B">
                 <button class="event" type="button" data-event="level" aria-pressed="true"><time>10:42:16</time><span>Низький рівень на вході</span><code>LT-101</code></button>
                 <button class="event" type="button" data-event="pressure" aria-pressed="false"><time>10:42:18</time><span>Падіння тиску</span><code>PT-204</code></button>
@@ -84,11 +141,11 @@
               <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
               <h3>Що перевірити після зупинки лінії B?</h3>
               <dl class="answer">
-                <div><dt>Факт</dt><dd>Перед зупинкою журнал зафіксував низький рівень на вході та падіння тиску.</dd></div>
-                <div><dt>Гіпотеза</dt><dd>До насоса P-204 могло надходити недостатньо матеріалу.</dd></div>
-                <div><dt>Перевірка</dt><dd>Зіставити рівень LT-101 з фактичною подачею до насоса й умовами запуску.</dd></div>
+                <div><dt>Що сталося</dt><dd>Перед зупинкою впали рівень на вході й тиск.</dd></div>
+                <div><dt>Можлива причина</dt><dd>До насоса могло надходити замало матеріалу.</dd></div>
+                <div><dt>Що перевірити</dt><dd>Чи вистачало матеріалу в момент запуску насоса.</dd></div>
               </dl>
-              <p class="missing"><strong>Прогалина в даних.</strong> Історія витрати FT-204 недоступна. Причину ще не підтверджено.</p>
+              <p class="missing"><strong>Чого бракує.</strong> Немає даних про витрату. Причину ще треба перевірити.</p>
               <details class="evidence">
                 <summary>Джерела відповіді <span>3</span></summary>
                 <ul>
@@ -120,34 +177,11 @@
               <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
               <h3>Чи падав тиск перед зупинками P-204?</h3>
               <dl class="answer">
-                <div><dt>Повторення</dt><dd>12 та 18 квітня тиск знижувався в останні хвилини перед зупинкою.</dd></div>
-                <div><dt>Прогалина</dt><dd>24 квітня частина записів відсутня. Повторення для цієї зупинки встановити неможливо.</dd></div>
-                <div><dt>Перевірка</dt><dd>Відкрити тиск, струм і рівень на вході в однакових часових вікнах. Зіставити їх зі змінами налаштувань.</dd></div>
+                <div><dt>Що повторилося</dt><dd>12 та 18 квітня тиск падав перед зупинкою.</dd></div>
+                <div><dt>Чого бракує</dt><dd>За 24 квітня є лише частина записів.</dd></div>
+                <div><dt>Що перевірити</dt><dd>Порівняти тиск, струм і рівень за останні п’ять хвилин до кожної зупинки.</dd></div>
               </dl>
               <details class="evidence"><summary>Основа порівняння <span>2</span></summary><ul><li>Три умовні записи про зупинки з журналу подій.</li><li>Історія PT-204 за п’ять хвилин до кожної події. Прогалини в архіві залишено видимими.</li></ul></details>
-            </div>
-          </div>
-
-          <div class="scenario" id="settings" role="tabpanel" aria-labelledby="tab-settings" tabindex="0" hidden>
-            <div class="scenario-input">
-              <p class="panel-kicker">Історія налаштувань · P-204</p>
-              <h3>Поріг змінився до аварії</h3>
-              <div class="setting-change"><div><span>Було</span><strong>35 %</strong></div><div><span>Стало</span><strong>15 %</strong></div><time>10:24:10</time></div>
-              <figure class="chart-figure">
-                <figcaption>Рівень LT-101, % · 10:24–10:42</figcaption>
-                <canvas id="level-chart" role="img" aria-describedby="level-note"></canvas>
-                <p class="small-note" id="level-note">До 10:42 рівень знизився з 45 % до 15 %. Лінія зупинилася о 10:42:20.</p>
-              </figure>
-            </div>
-            <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
-              <h3>Яка зміна передувала зупинці?</h3>
-              <dl class="answer">
-                <div><dt>Факт</dt><dd>Поріг запуску P-204 знизили приблизно за 18 хвилин до зупинки.</dd></div>
-                <div><dt>Гіпотеза</dt><dd>Знижений поріг міг вплинути на умови подачі. Послідовність подій дає підставу перевірити цей зв’язок.</dd></div>
-                <div><dt>Перевірка</dt><dd>Зіставити поріг із регламентом, рівнем на вході та фактичними умовами запуску насоса.</dd></div>
-              </dl>
-              <details class="evidence"><summary>Джерела відповіді <span>3</span></summary><ul><li>Журнал зміни порога запуску P-204.</li><li>Архів рівня LT-101 за 10:24–10:42.</li><li>Журнал зупинок лінії B.</li></ul></details>
             </div>
           </div>
 
@@ -205,45 +239,42 @@
 
     <section class="section context-section" id="context" aria-labelledby="context-title">
       <div class="frame">
-        <div class="section-intro"><div><p class="eyebrow"><span class="eyebrow-line"></span> Виробничий контекст</p>
-          <h2 id="context-title">На чому ґрунтується відповідь?</h2></div>
-          <p>Сигнали показують, що сталося. Історія, логіка роботи та знання команди допомагають визначити, що перевірити.</p>
+        <div class="section-intro"><div><h2 id="context-title">Де асистент шукає відповіді?</h2></div>
+          <p>Він може шукати в документах, даних обладнання та випадках, які вже перевіряла ваша команда.</p>
         </div>
         <div class="source-map">
           <div class="source-list" aria-label="Джерела контексту">
-            <button type="button" data-source="scada" aria-pressed="true"><span class="source-kind">01</span><span>SCADA та PLC</span></button>
-            <button type="button" data-source="plc" aria-pressed="false"><span class="source-kind">02</span><span>Проєкт PLC</span></button>
-            <button type="button" data-source="docs" aria-pressed="false"><span class="source-kind">03</span><span>Документація</span></button>
-            <button type="button" data-source="team" aria-pressed="false"><span class="source-kind">04</span><span>Знання команди</span></button>
+            <button type="button" data-source="scada" aria-pressed="true">Дані обладнання</button>
+            <button type="button" data-source="plc" aria-pressed="false">Програма контролера</button>
+            <button type="button" data-source="docs" aria-pressed="false">Схеми та інструкції</button>
+            <button type="button" data-source="team" aria-pressed="false">Досвід команди</button>
           </div>
           <div class="source-connector" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <article class="source-description" aria-live="polite" aria-atomic="true">
-            <p class="panel-kicker">Роль джерела</p>
             <h3 id="source-title">Події й вимірювання</h3>
-            <p id="source-text">Сигнали, стани й часові мітки допомагають зіставити падіння рівня, зміну тиску та момент зупинки.</p>
-            <p class="source-example" id="source-example">У прикладі: журнал подій і тренд LT-101.</p>
+            <p id="source-text">Записи показують, що сталося першим: падіння рівня, зміна тиску чи зупинка.</p>
+            <p class="source-example" id="source-example">Приклад — журнал подій і графік рівня.</p>
           </article>
           <div class="source-tail" aria-hidden="true"></div>
           <div class="source-result"><span class="assistant-mark" aria-hidden="true">✦</span><strong>Асистент SIG</strong><span>Пояснення з джерелами для інженера</span></div>
         </div>
-        <p class="small-note map-note">Перед пілотом SIG і команда підприємства погоджують потрібні джерела та доступ.</p>
+        <p class="small-note map-note">Перед підключенням ви обираєте, які джерела асистент зможе читати.</p>
       </div>
     </section>
 
     <section class="section control-section" id="control" aria-labelledby="control-title">
       <div class="frame">
-        <div class="section-intro"><div><p class="eyebrow"><span class="eyebrow-line"></span> Доступ і контроль</p>
-          <h2 id="control-title">Рішення залишається<br>за інженером</h2></div>
-          <p>Стартовий режим пілоту передбачає доступ на читання. Команда оцінює пояснення асистента й діє за процедурами підприємства.</p>
+        <div class="section-intro"><div><h2 id="control-title">Ви вирішуєте, що робити</h2></div>
+          <p>На першому етапі асистент читає дозволені дані й дає підказку. Інженер перевіряє її та вирішує, що робити з обладнанням.</p>
         </div>
         <ol class="control-flow">
-          <li><span>Погоджені джерела</span><small>SCADA, історія, документи</small></li>
-          <li><span>Доступ на читання</span><small>Права та журнал запитів за політикою проєкту</small></li>
-          <li><span>Асистент SIG</span><small>Зіставляє дані й пояснює результат</small></li>
-          <li><span>Інженер</span><small>Перевіряє підстави, вирішує й діє</small></li>
+          <li><span>Ви обираєте джерела</span><small>Документи, журнали, дані обладнання</small></li>
+          <li><span>Ви даєте дозвіл читати</span><small>Доступ лише до погоджених матеріалів</small></li>
+          <li><span>Асистент пояснює</span><small>Дає відповідь і показує джерела</small></li>
+          <li><span>Інженер перевіряє</span><small>Рішення залишається за командою</small></li>
         </ol>
         <div class="deployment">
-          <div><h3>Де працюватиме модель?</h3><p>Архітектуру й умови обробки даних погоджуємо з вашою IT/OT-командою.</p></div>
+          <div><h3>Модель можна оновити</h3><p>Проєктуємо асистента так, щоб документи й досвід команди зберігалися окремо. Коли з’явиться краща модель, ці знання можна використовувати й далі.</p></div>
           <div class="deploy-content">
             <fieldset class="choice-group" id="deployment-choice">
               <legend class="visually-hidden">Варіант розгортання</legend>
@@ -263,18 +294,17 @@
     <section class="section pilot-section" id="pilot" aria-labelledby="pilot-title">
       <div class="frame">
         <div class="section-intro">
-          <div><p class="eyebrow"><span class="eyebrow-line"></span> Пілот SIG</p><h2 id="pilot-title">Почнімо з одного<br>виробничого питання</h2></div>
-          <p>На одному реальному випадку порівняємо звичний пошук і роботу з асистентом. Критерії погодимо до початку пілоту.</p>
+          <div><h2 id="pilot-title">Почнімо з вашої задачі</h2></div>
+          <p>Оберімо одну задачу. Разом перевіримо, чи допоможе асистент заощадити час, зменшити втрати або зберегти досвід команди.</p>
         </div>
         <ol class="pilot-steps">
-          <li><span>01</span><h3>Сценарій</h3><p>Визначаємо питання та критерії результату.</p></li>
-          <li><span>02</span><h3>Дані й доступ</h3><p>Узгоджуємо джерела, права та спосіб підключення.</p></li>
-          <li><span>03</span><h3>Перевірка</h3><p>Інженери випробовують асистента на реальних запитаннях.</p></li>
-          <li><span>04</span><h3>Оцінка</h3><p>Порівнюємо час до корисної перевірки, джерела й наступні кроки.</p></li>
+          <li><h3>Знайти відповідь</h3><p>Почнемо з одного питання та потрібних документів. Команда перевірить відповідь і джерела.</p></li>
+          <li><h3>Зберегти досвід</h3><p>Підтверджені випадки можна записувати, щоб наступна зміна могла їх знайти.</p></li>
+          <li><h3>Додати потрібне</h3><p>Далі можна підключити аналіз витрат води й енергії, облік простоїв або звіти для команди.</p></li>
         </ol>
-        <div class="pilot-action">
-          <div><h3>Підготуйте один випадок для зустрічі</h3><p>Яку проблему команда досліджує вручну? Де зберігаються потрібні дані?</p></div>
-          <button type="button" class="button button-primary" id="pilot-open">Що підготувати</button>
+        <div class="pilot-action" id="contact">
+          <div><h3>Хочете побачити демо?</h3><p>Розкажіть нам про одну ситуацію, яка забирає час у вашої команди.</p></div>
+          <a class="button button-primary" href="https://sig-automation.com/ua#contacts">Запросити демо в SIG</a>
         </div>
       </div>
     </section>
@@ -284,20 +314,9 @@
     <div class="frame footer-layout">
       <a class="brand" href="#top" aria-label="Smart Industry Group — на початок"><img src="assets/sig.svg" width="96" height="37" alt="Smart Industry Group"></a>
       <p>Презентаційна демонстрація · Умовні сценарії та дані</p>
-      <a href="#top">На початок</a>
+      <a href="https://sig-automation.com/ua#contacts">Контакти на сайті SIG</a>
     </div>
   </footer>
 
-  <dialog id="pilot-dialog" aria-labelledby="pilot-dialog-title">
-    <form method="dialog" class="dialog-close"><button type="submit" aria-label="Закрити">×</button></form>
-    <p class="eyebrow"><span class="eyebrow-line"></span> Перша робоча зустріч</p>
-    <h2 id="pilot-dialog-title">Що підготувати для пілоту</h2>
-    <ol class="step-list">
-      <li><strong>Виробниче питання</strong><p>Опишіть один випадок, який команда регулярно аналізує вручну.</p></li>
-      <li><strong>Джерела й доступ</strong><p>Визначте, де є журнали, тренди або інструкції та хто відповідає за доступ.</p></li>
-      <li><strong>Критерій користі</strong><p>Оберіть, що порівняти, наприклад час до корисної перевірки або якість її обґрунтування.</p></li>
-    </ol>
-    <a class="button button-primary" href="pilot-checklist.txt" download>Зберегти список</a>
-  </dialog>
 </body>
 </html>
