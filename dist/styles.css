@@ -371,13 +371,11 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 @media (min-width: 1100px) { .logo-grid { grid-template-columns: repeat(5, 1fr); } }
 .logo-grid .logo-word { color: var(--forest); font-weight: 700; font-size: .93rem; line-height: 1.2; text-wrap: balance; }
 .logo-grid .logo-more { background: transparent; border-style: dashed; color: var(--muted); font-size: .86rem; }
-.logo-grid .logo-featured { border-color: var(--action); box-shadow: inset 0 0 0 1px var(--action); }
 /* Logo facts */
 .logo-hint { margin: -14px 0 18px; }
 .logo-grid li[data-fact] { cursor: help; transition: border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
 .logo-grid li[data-fact]:hover, .logo-grid li[data-fact][aria-describedby] { border-color: var(--action); transform: translateY(-2px); box-shadow: 0 8px 18px rgba(16, 27, 23, .09); }
 .logo-grid li[data-fact]:focus-visible { outline-offset: 2px; }
-.logo-grid li.logo-featured[data-fact]:hover, .logo-grid li.logo-featured[data-fact][aria-describedby] { box-shadow: inset 0 0 0 1px var(--action), 0 8px 18px rgba(16, 27, 23, .09); }
 .logo-toggle { display: none; justify-content: center; align-items: center; margin-top: 0; padding: 9px 14px; border: 1px solid #bfcdbf; border-radius: 6px; background: var(--paper); color: var(--action); font-size: .88rem; font-weight: 700; }
 .fact-tip {
   position: fixed; z-index: 20; width: min(310px, calc(100vw - 24px)); padding: 12px 14px 13px;
