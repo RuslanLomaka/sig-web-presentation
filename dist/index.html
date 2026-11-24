@@ -3,25 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Промисловий AI-асистент SIG допомагає знаходити втрати ресурсів, розбирати простої та зберігати досвід команди.">
+  <meta name="description" content="Промисловий AI-асистент SIG допомагає знаходити втрати ресурсів, розбирати простої та зберігати досвід команди." data-i18n-content="metaDescription">
   <meta name="color-scheme" content="light">
-  <title>Промисловий AI-асистент · Smart Industry Group</title>
-  <link rel="stylesheet" href="styles.css?v=2">
-  <script src="demo.js?v=2" defer></script>
+  <title data-i18n="pageTitle">Промисловий AI-асистент · Smart Industry Group</title>
+  <link rel="stylesheet" href="styles.css?v=3">
+  <script src="i18n.js?v=3"></script>
+  <script src="demo.js?v=3" defer></script>
 </head>
 <body id="top">
-  <a class="skip-link" href="#main">Перейти до вмісту</a>
+  <a class="skip-link" href="#main" data-i18n="skipLink">Перейти до вмісту</a>
   <header class="site-header">
     <div class="frame header-layout">
-      <a class="brand" href="#top" aria-label="Smart Industry Group — на початок">
+      <a class="brand" href="#top" aria-label="Smart Industry Group — на початок" data-i18n-aria="brandHome">
         <img src="assets/sig.svg" width="111" height="43" alt="Smart Industry Group">
       </a>
-      <nav aria-label="Розділи презентації">
-        <a href="#demo">Як це працює</a>
-        <a href="#examples">Приклади</a>
-        <a href="#pilot">З чого почати</a>
+      <nav aria-label="Розділи презентації" data-i18n-aria="navLabel">
+        <a href="#demo" data-i18n="navDemo">Як це працює</a>
+        <a href="#examples" data-i18n="navExamples">Приклади</a>
+        <a href="#pilot" data-i18n="navPilot">З чого почати</a>
       </nav>
-      <a class="button button-outline" href="https://sig-automation.com/ua#contacts">Контакти SIG</a>
+      <div class="header-actions">
+        <div class="lang-switch">
+          <div class="lang-btns" role="group" aria-label="Мова" data-i18n-aria="languageLabel">
+            <button type="button" data-lang="ua" lang="uk" class="active" aria-pressed="true" aria-label="Українська"><span class="lang-full">Українська</span><span class="lang-short" aria-hidden="true">UA</span></button>
+            <button type="button" data-lang="en" lang="en" aria-pressed="false" aria-label="English"><span class="lang-full">English</span><span class="lang-short" aria-hidden="true">EN</span></button>
+            <button type="button" data-lang="de" lang="de" aria-pressed="false" aria-label="Deutsch"><span class="lang-full">Deutsch</span><span class="lang-short" aria-hidden="true">DE</span></button>
+          </div>
+        </div>
+        <a class="button button-outline" href="https://sig-automation.com/ua#contacts" data-i18n="headerContact" data-i18n-href="contactsUrl">Контакти SIG</a>
+      </div>
     </div>
   </header>
 
@@ -30,10 +40,10 @@
       <div class="hero-image" aria-hidden="true"></div>
       <div class="frame hero-layout">
         <div class="hero-copy">
-          <h1 id="hero-title">Промисловий<br><em>AI-асистент</em></h1>
-          <p>Де можна заощадити ресурси, скоротити простої чи прибрати ручну роботу? Асистент SIG шукає відповідь у ваших даних, показує джерела й підказує наступний крок.</p>
-          <a class="button button-primary" href="#demo">Подивитися демо</a>
-          <p class="hero-audiences">Виробництво · Харчова галузь · Логістика · Обладнання медзакладів</p>
+          <h1 id="hero-title"><span data-i18n="heroTitle1">Промисловий</span><br><em data-i18n="heroTitle2">AI-асистент</em></h1>
+          <p data-i18n="heroText">Де можна заощадити ресурси, скоротити простої чи прибрати ручну роботу? Асистент SIG шукає відповідь у ваших даних, показує джерела й підказує наступний крок.</p>
+          <a class="button button-primary" href="#demo" data-i18n="heroCta">Подивитися демо</a>
+          <p class="hero-audiences" data-i18n="heroAudiences">Виробництво · Харчова галузь · Логістика · Обладнання медзакладів</p>
         </div>
       </div>
     </section>
@@ -41,34 +51,34 @@
     <section class="section demo-section" id="demo" aria-labelledby="demo-title">
       <div class="frame">
         <div class="section-intro demo-intro">
-          <div><h2 id="demo-title">Від запитання до відповіді</h2></div>
-          <p>Оберіть ситуацію. Подивіться, які записи читає асистент і з чого пропонує почати.</p>
+          <div><h2 id="demo-title" data-i18n="demoTitle">Від запитання до відповіді</h2></div>
+          <p data-i18n="demoIntro">Оберіть ситуацію. Подивіться, які записи читає асистент і з чого пропонує почати.</p>
         </div>
-        <div class="walkthrough" id="walkthrough" aria-label="Демонстрація розмови інженера з асистентом">
+        <div class="walkthrough" id="walkthrough" aria-label="Демонстрація розмови інженера з асистентом" data-i18n-aria="walkthroughLabel">
           <div class="walkthrough-bar">
-            <p><strong>Розмова з асистентом</strong><span>Умовний приклад</span></p>
-            <label class="walkthrough-select" id="walkthrough-selector" hidden><span class="visually-hidden">Сценарій демонстрації</span>
-              <select id="walkthrough-case"><option value="resources">Витрати ресурсів</option><option value="incident">Зупинка лінії</option></select>
+            <p><strong data-i18n="walkthroughTitle">Розмова з асистентом</strong><span data-i18n="walkthroughNote">Умовний приклад</span></p>
+            <label class="walkthrough-select" id="walkthrough-selector" hidden><span class="visually-hidden" data-i18n="walkthroughCaseLabel">Сценарій демонстрації</span>
+              <select id="walkthrough-case"><option value="resources" data-i18n="caseResources">Витрати ресурсів</option><option value="incident" data-i18n="caseIncident">Зупинка лінії</option></select>
             </label>
             <div class="walkthrough-actions" id="walkthrough-actions" hidden>
               <button type="button" id="walkthrough-toggle">Пауза</button>
-              <button type="button" id="walkthrough-replay">Спочатку</button>
+              <button type="button" id="walkthrough-replay" data-i18n="walkthroughReplay">Спочатку</button>
             </div>
           </div>
           <div class="walkthrough-body">
             <div class="conversation">
               <div class="conversation-message conversation-question">
-                <span>Інженер</span>
+                <span data-i18n="roleEngineer">Інженер</span>
                 <p id="walkthrough-question">Чому на той самий обсяг пішло більше електроенергії?</p>
               </div>
               <div class="conversation-message conversation-answer" data-show-step="5">
-                <span>Асистент SIG</span>
+                <span data-i18n="assistantName">Асистент SIG</span>
                 <p><strong id="walkthrough-answer-title">Почніть із періодів без роботи.</strong> <span id="walkthrough-answer">Лічильник показує витрати навіть тоді, коли ділянка нічого не випускала.</span></p>
                 <p class="conversation-limit" id="walkthrough-limit">Спершу з’ясуйте, яке споживання в цей час потрібне за регламентом.</p>
               </div>
             </div>
             <div class="walkthrough-sources">
-              <h3>Що перевіряє асистент</h3>
+              <h3 data-i18n="sourcesHeading">Що перевіряє асистент</h3>
               <ol>
                 <li data-source-step="1" data-show-step="1"><span class="source-light" aria-hidden="true"></span><div><strong>Лічильник</strong><p data-show-step="2">Витрати зросли зі 144 до 168 кВт·год.</p></div></li>
                 <li data-source-step="2" data-show-step="2"><span class="source-light" aria-hidden="true"></span><div><strong>Обсяг роботи</strong><p data-show-step="3">Обидві зміни випустили по 1 200 одиниць.</p></div></li>
@@ -76,7 +86,7 @@
               </ol>
             </div>
           </div>
-          <div class="walkthrough-status" id="walkthrough-status" hidden><span id="walkthrough-phase"></span><progress id="walkthrough-progress" max="5" value="0" aria-label="Хід демонстрації"></progress></div>
+          <div class="walkthrough-status" id="walkthrough-status" hidden><span id="walkthrough-phase"></span><progress id="walkthrough-progress" max="5" value="0" aria-label="Хід демонстрації" data-i18n-aria="walkthroughProgress"></progress></div>
         </div>
       </div>
     </section>
@@ -84,53 +94,53 @@
     <section class="section examples-section" id="examples" aria-labelledby="examples-title">
       <div class="frame">
         <div class="section-intro">
-          <div><h2 id="examples-title">Що ще можна запитати?</h2></div>
-          <p>Той самий підхід підходить для різних задач — від витрат води на миття до затримок на складі. Оберіть приклад. Дані умовні.</p>
+          <div><h2 id="examples-title" data-i18n="examplesTitle">Що ще можна запитати?</h2></div>
+          <p data-i18n="examplesIntro">Той самий підхід підходить для різних задач — від витрат води на миття до затримок на складі. Оберіть приклад. Дані умовні.</p>
         </div>
         <div class="demo-shell">
-          <div class="tabs" role="tablist" aria-label="Сценарії асистента" data-tabs>
-            <button type="button" role="tab" id="tab-resources" aria-controls="resources" aria-selected="true">Витрати ресурсів</button>
-            <button type="button" role="tab" id="tab-incident" aria-controls="incident" aria-selected="false" tabindex="-1">Зупинка лінії</button>
-            <button type="button" role="tab" id="tab-trends" aria-controls="trends" aria-selected="false" tabindex="-1">Історія тиску</button>
-            <button type="button" role="tab" id="tab-stable" aria-controls="stable" aria-selected="false" tabindex="-1">Поліпшення процесу</button>
-            <button type="button" role="tab" id="tab-handover" aria-controls="handover" aria-selected="false" tabindex="-1">Передача зміни</button>
+          <div class="tabs" role="tablist" aria-label="Сценарії асистента" data-i18n-aria="tabsLabel" data-tabs>
+            <button type="button" role="tab" id="tab-resources" aria-controls="resources" aria-selected="true" data-i18n="caseResources">Витрати ресурсів</button>
+            <button type="button" role="tab" id="tab-incident" aria-controls="incident" aria-selected="false" tabindex="-1" data-i18n="caseIncident">Зупинка лінії</button>
+            <button type="button" role="tab" id="tab-trends" aria-controls="trends" aria-selected="false" tabindex="-1" data-i18n="tabTrends">Історія тиску</button>
+            <button type="button" role="tab" id="tab-stable" aria-controls="stable" aria-selected="false" tabindex="-1" data-i18n="tabStable">Поліпшення процесу</button>
+            <button type="button" role="tab" id="tab-handover" aria-controls="handover" aria-selected="false" tabindex="-1" data-i18n="tabHandover">Передача зміни</button>
           </div>
 
           <div class="scenario" id="resources" role="tabpanel" aria-labelledby="tab-resources" tabindex="0">
             <div class="scenario-input">
-              <h3>Той самий обсяг. Більші витрати.</h3>
-              <p class="small-note">Дві зміни, по 1 200 одиниць продукції.</p>
+              <h3 data-i18n="resTitle">Той самий обсяг. Більші витрати.</h3>
+              <p class="small-note" data-i18n="resNote">Дві зміни, по 1 200 одиниць продукції.</p>
               <fieldset class="choice-group" id="resource-choice">
-                <legend>Що порівняти?</legend>
-                <label><input type="radio" name="resource" value="energy" checked><span>Електроенергія</span></label>
-                <label><input type="radio" name="resource" value="water"><span>Вода</span></label>
+                <legend data-i18n="resLegend">Що порівняти?</legend>
+                <label><input type="radio" name="resource" value="energy" checked><span data-i18n="resEnergy">Електроенергія</span></label>
+                <label><input type="radio" name="resource" value="water"><span data-i18n="resWater">Вода</span></label>
               </fieldset>
               <dl class="facts resource-comparison" aria-live="polite" aria-atomic="true">
-                <div><dt>Зміна A</dt><dd id="resource-before">144 кВт·год</dd></div>
-                <div><dt>Зміна B</dt><dd id="resource-after">168 кВт·год</dd></div>
-                <div><dt>На одиницю</dt><dd id="resource-per-unit">0,12 → 0,14 кВт·год</dd></div>
+                <div><dt data-i18n="shiftA">Зміна A</dt><dd id="resource-before">144 кВт·год</dd></div>
+                <div><dt data-i18n="shiftB">Зміна B</dt><dd id="resource-after">168 кВт·год</dd></div>
+                <div><dt data-i18n="perUnit">На одиницю</dt><dd id="resource-per-unit">0,12 → 0,14 кВт·год</dd></div>
               </dl>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Асистент SIG</span></p>
               <h3 id="resource-question">Де шукати перевитрату електроенергії?</h3>
               <dl class="answer">
-                <div><dt>Що видно</dt><dd id="resource-finding">За того самого обсягу зміна B витратила на 24 кВт·год більше.</dd></div>
-                <div><dt>Що перевірити</dt><dd id="resource-check">Зіставте покази лічильника з графіком роботи. Окремо перегляньте споживання, коли випуску не було.</dd></div>
+                <div><dt data-i18n="whatVisible">Що видно</dt><dd id="resource-finding">За того самого обсягу зміна B витратила на 24 кВт·год більше.</dd></div>
+                <div><dt data-i18n="whatToCheck">Що перевірити</dt><dd id="resource-check">Зіставте покази лічильника з графіком роботи. Окремо перегляньте споживання, коли випуску не було.</dd></div>
               </dl>
-              <p class="small-note map-note">Це приклад пошуку втрат. Економію можна оцінити після перевірки й повторного вимірювання.</p>
+              <p class="small-note map-note" data-i18n="resMapNote">Це приклад пошуку втрат. Економію можна оцінити після перевірки й повторного вимірювання.</p>
             </div>
           </div>
 
           <div class="scenario" id="incident" role="tabpanel" aria-labelledby="tab-incident" tabindex="0" hidden>
             <div class="scenario-input">
-              <div class="scenario-head"><p class="panel-kicker">Журнал лінії B</p><span class="tag tag-stop">Зупинка</span></div>
-              <h3>Події перед зупинкою</h3>
-              <p class="small-note">Натисніть на подію, щоб побачити деталі.</p>
-              <div class="event-list" aria-label="Події лінії B">
-                <button class="event" type="button" data-event="level" aria-pressed="true"><time>10:42:16</time><span>Низький рівень на вході</span><code>LT-101</code></button>
-                <button class="event" type="button" data-event="pressure" aria-pressed="false"><time>10:42:18</time><span>Падіння тиску</span><code>PT-204</code></button>
-                <button class="event" type="button" data-event="stop" aria-pressed="false"><time>10:42:20</time><span>Зупинка лінії</span><code>LINE B</code></button>
+              <div class="scenario-head"><p class="panel-kicker" data-i18n="incKicker">Журнал лінії B</p><span class="tag tag-stop" data-i18n="tagStop">Зупинка</span></div>
+              <h3 data-i18n="incTitle">Події перед зупинкою</h3>
+              <p class="small-note" data-i18n="incNote">Натисніть на подію, щоб побачити деталі.</p>
+              <div class="event-list" aria-label="Події лінії B" data-i18n-aria="incEventsLabel">
+                <button class="event" type="button" data-event="level" aria-pressed="true"><time>10:42:16</time><span data-i18n="evLevel">Низький рівень на вході</span><code>LT-101</code></button>
+                <button class="event" type="button" data-event="pressure" aria-pressed="false"><time>10:42:18</time><span data-i18n="evPressure">Падіння тиску</span><code>PT-204</code></button>
+                <button class="event" type="button" data-event="stop" aria-pressed="false"><time>10:42:20</time><span data-i18n="evStop">Зупинка лінії</span><code>LINE B</code></button>
               </div>
               <div class="event-detail" aria-live="polite" aria-atomic="true">
                 <strong id="event-title">LT-101 · Низький рівень</strong>
@@ -138,20 +148,20 @@
               </div>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
-              <h3>Що перевірити після зупинки лінії B?</h3>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Асистент SIG</span></p>
+              <h3 data-i18n="incQuestion">Що перевірити після зупинки лінії B?</h3>
               <dl class="answer">
-                <div><dt>Що сталося</dt><dd>Перед зупинкою впали рівень на вході й тиск.</dd></div>
-                <div><dt>Можлива причина</dt><dd>До насоса могло надходити замало матеріалу.</dd></div>
-                <div><dt>Що перевірити</dt><dd>Чи вистачало матеріалу в момент запуску насоса.</dd></div>
+                <div><dt data-i18n="whatHappened">Що сталося</dt><dd data-i18n="incHappened">Перед зупинкою впали рівень на вході й тиск.</dd></div>
+                <div><dt data-i18n="possibleCause">Можлива причина</dt><dd data-i18n="incCause">До насоса могло надходити замало матеріалу.</dd></div>
+                <div><dt data-i18n="whatToCheck">Що перевірити</dt><dd data-i18n="incCheck">Чи вистачало матеріалу в момент запуску насоса.</dd></div>
               </dl>
-              <p class="missing"><strong>Чого бракує.</strong> Немає даних про витрату. Причину ще треба перевірити.</p>
+              <p class="missing"><strong data-i18n="incMissingLabel">Чого бракує.</strong> <span data-i18n="incMissingText">Немає даних про витрату. Причину ще треба перевірити.</span></p>
               <details class="evidence">
-                <summary>Джерела відповіді <span>3</span></summary>
+                <summary><span data-i18n="incSourcesLabel">Джерела відповіді</span> <span>3</span></summary>
                 <ul>
-                  <li><strong>Журнал SCADA</strong> · LT-101 о 10:42:16, PT-204 о 10:42:18 і зупинка о 10:42:20.</li>
-                  <li><strong>Історія LT-101</strong> · рівень знижувався з 10:24 до 10:42.</li>
-                  <li><strong>Інструкція P-204</strong> · умови запуску й подачі для перевірки інженером.</li>
+                  <li><strong data-i18n="incSrc1Label">Журнал SCADA</strong> · <span data-i18n="incSrc1">LT-101 о 10:42:16, PT-204 о 10:42:18 і зупинка о 10:42:20.</span></li>
+                  <li><strong data-i18n="incSrc2Label">Історія LT-101</strong> · <span data-i18n="incSrc2">рівень знижувався з 10:24 до 10:42.</span></li>
+                  <li><strong data-i18n="incSrc3Label">Інструкція P-204</strong> · <span data-i18n="incSrc3">умови запуску й подачі для перевірки інженером.</span></li>
                 </ul>
               </details>
             </div>
@@ -159,78 +169,78 @@
 
           <div class="scenario" id="trends" role="tabpanel" aria-labelledby="tab-trends" tabindex="0" hidden>
             <div class="scenario-input">
-              <p class="panel-kicker">Архів сигналів · Три зупинки</p>
-              <h3>Тиск перед зупинкою</h3>
+              <p class="panel-kicker" data-i18n="trKicker">Архів сигналів · Три зупинки</p>
+              <h3 data-i18n="trTitle">Тиск перед зупинкою</h3>
               <fieldset class="choice-group" id="trend-choice">
-                <legend>Оберіть дату прикладу</legend>
-                <label><input type="radio" name="trend" value="12" checked><span>12 квітня</span></label>
-                <label><input type="radio" name="trend" value="18"><span>18 квітня</span></label>
-                <label><input type="radio" name="trend" value="24"><span>24 квітня</span></label>
+                <legend data-i18n="trLegend">Оберіть дату прикладу</legend>
+                <label><input type="radio" name="trend" value="12" checked><span data-i18n="trDate12">12 квітня</span></label>
+                <label><input type="radio" name="trend" value="18"><span data-i18n="trDate18">18 квітня</span></label>
+                <label><input type="radio" name="trend" value="24"><span data-i18n="trDate24">24 квітня</span></label>
               </fieldset>
               <figure class="chart-figure">
-                <figcaption>Тиск PT-204, бар · 5 хвилин до зупинки</figcaption>
+                <figcaption data-i18n="trCaption">Тиск PT-204, бар · 5 хвилин до зупинки</figcaption>
                 <canvas id="pressure-chart" role="img" aria-describedby="trend-note"></canvas>
                 <p class="small-note" id="trend-note" aria-live="polite">12 квітня тиск знизився з 2,9 до 1,4 бар.</p>
               </figure>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
-              <h3>Чи падав тиск перед зупинками P-204?</h3>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Асистент SIG</span></p>
+              <h3 data-i18n="trQuestion">Чи падав тиск перед зупинками P-204?</h3>
               <dl class="answer">
-                <div><dt>Що повторилося</dt><dd>12 та 18 квітня тиск падав перед зупинкою.</dd></div>
-                <div><dt>Чого бракує</dt><dd>За 24 квітня є лише частина записів.</dd></div>
-                <div><dt>Що перевірити</dt><dd>Порівняти тиск, струм і рівень за останні п’ять хвилин до кожної зупинки.</dd></div>
+                <div><dt data-i18n="whatRepeated">Що повторилося</dt><dd data-i18n="trRepeated">12 та 18 квітня тиск падав перед зупинкою.</dd></div>
+                <div><dt data-i18n="whatMissing">Чого бракує</dt><dd data-i18n="trMissing">За 24 квітня є лише частина записів.</dd></div>
+                <div><dt data-i18n="whatToCheck">Що перевірити</dt><dd data-i18n="trCheck">Порівняти тиск, струм і рівень за останні п’ять хвилин до кожної зупинки.</dd></div>
               </dl>
-              <details class="evidence"><summary>Основа порівняння <span>2</span></summary><ul><li>Три умовні записи про зупинки з журналу подій.</li><li>Історія PT-204 за п’ять хвилин до кожної події. Прогалини в архіві залишено видимими.</li></ul></details>
+              <details class="evidence"><summary><span data-i18n="trBasisLabel">Основа порівняння</span> <span>2</span></summary><ul><li data-i18n="trBasis1">Три умовні записи про зупинки з журналу подій.</li><li data-i18n="trBasis2">Історія PT-204 за п’ять хвилин до кожної події. Прогалини в архіві залишено видимими.</li></ul></details>
             </div>
           </div>
 
           <div class="scenario" id="stable" role="tabpanel" aria-labelledby="tab-stable" tabindex="0" hidden>
             <div class="scenario-input">
-              <div class="scenario-head"><p class="panel-kicker">Лінія B · Стабільний режим</p><span class="tag tag-ok">Працює</span></div>
-              <h3>Спланувати перевірку</h3>
+              <div class="scenario-head"><p class="panel-kicker" data-i18n="stKicker">Лінія B · Стабільний режим</p><span class="tag tag-ok" data-i18n="tagOk">Працює</span></div>
+              <h3 data-i18n="stTitle">Спланувати перевірку</h3>
               <ol class="step-list">
-                <li><strong>Знайти порівнювані періоди</strong><p>Однаковий матеріал, навантаження та стан лінії.</p></li>
-                <li><strong>Обрати показники</strong><p>Стабільність подачі, тиск і відхилення процесу.</p></li>
-                <li><strong>Погодити тест</strong><p>Інженер визначає межі й умови зупинки тесту.</p></li>
-                <li><strong>Оцінити результат</strong><p>Команда порівнює показники після перевірки.</p></li>
+                <li><strong data-i18n="st1Title">Знайти порівнювані періоди</strong><p data-i18n="st1Text">Однаковий матеріал, навантаження та стан лінії.</p></li>
+                <li><strong data-i18n="st2Title">Обрати показники</strong><p data-i18n="st2Text">Стабільність подачі, тиск і відхилення процесу.</p></li>
+                <li><strong data-i18n="st3Title">Погодити тест</strong><p data-i18n="st3Text">Інженер визначає межі й умови зупинки тесту.</p></li>
+                <li><strong data-i18n="st4Title">Оцінити результат</strong><p data-i18n="st4Text">Команда порівнює показники після перевірки.</p></li>
               </ol>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
-              <h3>Як оцінити налаштування без аварії?</h3>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Асистент SIG</span></p>
+              <h3 data-i18n="stQuestion">Як оцінити налаштування без аварії?</h3>
               <dl class="answer">
-                <div><dt>Порівняти</dt><dd>Почати з періодів зі схожим навантаженням і відокремити їх від запусків та зупинок.</dd></div>
-                <div><dt>Підготувати</dt><dd>Погодити з інженером, який параметр перевіряти, за яким показником і коли завершувати тест.</dd></div>
-                <div><dt>Оцінити</dt><dd>Команда проводить погоджений тест за процедурами підприємства й вирішує, чи залишати налаштування.</dd></div>
+                <div><dt data-i18n="stCompareLabel">Порівняти</dt><dd data-i18n="stCompare">Почати з періодів зі схожим навантаженням і відокремити їх від запусків та зупинок.</dd></div>
+                <div><dt data-i18n="stPrepareLabel">Підготувати</dt><dd data-i18n="stPrepare">Погодити з інженером, який параметр перевіряти, за яким показником і коли завершувати тест.</dd></div>
+                <div><dt data-i18n="stEvaluateLabel">Оцінити</dt><dd data-i18n="stEvaluate">Команда проводить погоджений тест за процедурами підприємства й вирішує, чи залишати налаштування.</dd></div>
               </dl>
             </div>
           </div>
 
           <div class="scenario" id="handover" role="tabpanel" aria-labelledby="tab-handover" tabindex="0" hidden>
             <div class="scenario-input">
-              <p class="panel-kicker">Журнал зміни · Лінія B</p>
-              <h3>Передати контекст команді</h3>
+              <p class="panel-kicker" data-i18n="hoKicker">Журнал зміни · Лінія B</p>
+              <h3 data-i18n="hoTitle">Передати контекст команді</h3>
               <dl class="facts">
-                <div><dt>Стан лінії</dt><dd>Зупинка о 10:42:20</dd></div>
-                <div><dt>Перед зупинкою</dt><dd>Низький рівень і падіння тиску</dd></div>
-                <div><dt>Історія налаштувань</dt><dd>Змінили поріг запуску P-204</dd></div>
-                <div><dt>Дії команди</dt><dd>Результат перевірки ще не внесено</dd></div>
+                <div><dt data-i18n="hoStateLabel">Стан лінії</dt><dd data-i18n="hoState">Зупинка о 10:42:20</dd></div>
+                <div><dt data-i18n="hoBeforeLabel">Перед зупинкою</dt><dd data-i18n="hoBefore">Низький рівень і падіння тиску</dd></div>
+                <div><dt data-i18n="hoSettingsLabel">Історія налаштувань</dt><dd data-i18n="hoSettings">Змінили поріг запуску P-204</dd></div>
+                <div><dt data-i18n="hoActionsLabel">Дії команди</dt><dd data-i18n="hoActions">Результат перевірки ще не внесено</dd></div>
               </dl>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> Асистент SIG</p>
-              <h3>Що передати про цю зупинку?</h3>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Асистент SIG</span></p>
+              <h3 data-i18n="hoQuestion">Що передати про цю зупинку?</h3>
               <fieldset class="choice-group" id="report-choice">
-                <legend>Чернетка для</legend>
-                <label><input type="radio" name="report" value="engineer" checked><span>Інженера</span></label>
-                <label><input type="radio" name="report" value="manager"><span>Керівника</span></label>
+                <legend data-i18n="hoLegend">Чернетка для</legend>
+                <label><input type="radio" name="report" value="engineer" checked><span data-i18n="hoEngineer">Інженера</span></label>
+                <label><input type="radio" name="report" value="manager"><span data-i18n="hoManager">Керівника</span></label>
               </fieldset>
               <div class="report" aria-live="polite" aria-atomic="true">
                 <strong id="report-title">Передача зміни</strong>
                 <p id="report-text">Перед зупинкою лінії B зафіксовано низький рівень LT-101 і падіння тиску PT-204. О 10:24:10 поріг запуску P-204 змінили з 35 % до 15 %. Перевірити фактичну подачу та умови запуску. Результат перевірки ще не внесено.</p>
               </div>
-              <p class="small-note">Відповідальна людина перевіряє чернетку перед передачею.</p>
+              <p class="small-note" data-i18n="hoNote">Відповідальна людина перевіряє чернетку перед передачею.</p>
             </div>
           </div>
         </div>
@@ -239,15 +249,15 @@
 
     <section class="section context-section" id="context" aria-labelledby="context-title">
       <div class="frame">
-        <div class="section-intro"><div><h2 id="context-title">Де асистент шукає відповіді?</h2></div>
-          <p>Він може шукати в документах, даних обладнання та випадках, які вже перевіряла ваша команда.</p>
+        <div class="section-intro"><div><h2 id="context-title" data-i18n="ctxTitle">Де асистент шукає відповіді?</h2></div>
+          <p data-i18n="ctxIntro">Він може шукати в документах, даних обладнання та випадках, які вже перевіряла ваша команда.</p>
         </div>
         <div class="source-map">
-          <div class="source-list" aria-label="Джерела контексту">
-            <button type="button" data-source="scada" aria-pressed="true">Дані обладнання</button>
-            <button type="button" data-source="plc" aria-pressed="false">Програма контролера</button>
-            <button type="button" data-source="docs" aria-pressed="false">Схеми та інструкції</button>
-            <button type="button" data-source="team" aria-pressed="false">Досвід команди</button>
+          <div class="source-list" aria-label="Джерела контексту" data-i18n-aria="ctxSourcesLabel">
+            <button type="button" data-source="scada" aria-pressed="true" data-i18n="srcScada">Дані обладнання</button>
+            <button type="button" data-source="plc" aria-pressed="false" data-i18n="srcPlc">Програма контролера</button>
+            <button type="button" data-source="docs" aria-pressed="false" data-i18n="srcDocs">Схеми та інструкції</button>
+            <button type="button" data-source="team" aria-pressed="false" data-i18n="srcTeam">Досвід команди</button>
           </div>
           <div class="source-connector" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <article class="source-description" aria-live="polite" aria-atomic="true">
@@ -256,35 +266,35 @@
             <p class="source-example" id="source-example">Приклад — журнал подій і графік рівня.</p>
           </article>
           <div class="source-tail" aria-hidden="true"></div>
-          <div class="source-result"><span class="assistant-mark" aria-hidden="true">✦</span><strong>Асистент SIG</strong><span>Пояснення з джерелами для інженера</span></div>
+          <div class="source-result"><span class="assistant-mark" aria-hidden="true">✦</span><strong data-i18n="assistantName">Асистент SIG</strong><span data-i18n="ctxResult">Пояснення з джерелами для інженера</span></div>
         </div>
-        <p class="small-note map-note">Перед підключенням ви обираєте, які джерела асистент зможе читати.</p>
+        <p class="small-note map-note" data-i18n="ctxNote">Перед підключенням ви обираєте, які джерела асистент зможе читати.</p>
       </div>
     </section>
 
     <section class="section control-section" id="control" aria-labelledby="control-title">
       <div class="frame">
-        <div class="section-intro"><div><h2 id="control-title">Ви вирішуєте, що робити</h2></div>
-          <p>На першому етапі асистент читає дозволені дані й дає підказку. Інженер перевіряє її та вирішує, що робити з обладнанням.</p>
+        <div class="section-intro"><div><h2 id="control-title" data-i18n="ctlTitle">Ви вирішуєте, що робити</h2></div>
+          <p data-i18n="ctlIntro">На першому етапі асистент читає дозволені дані й дає підказку. Інженер перевіряє її та вирішує, що робити з обладнанням.</p>
         </div>
         <ol class="control-flow">
-          <li><span>Ви обираєте джерела</span><small>Документи, журнали, дані обладнання</small></li>
-          <li><span>Ви даєте дозвіл читати</span><small>Доступ лише до погоджених матеріалів</small></li>
-          <li><span>Асистент пояснює</span><small>Дає відповідь і показує джерела</small></li>
-          <li><span>Інженер перевіряє</span><small>Рішення залишається за командою</small></li>
+          <li><span data-i18n="flow1">Ви обираєте джерела</span><small data-i18n="flow1Note">Документи, журнали, дані обладнання</small></li>
+          <li><span data-i18n="flow2">Ви даєте дозвіл читати</span><small data-i18n="flow2Note">Доступ лише до погоджених матеріалів</small></li>
+          <li><span data-i18n="flow3">Асистент пояснює</span><small data-i18n="flow3Note">Дає відповідь і показує джерела</small></li>
+          <li><span data-i18n="flow4">Інженер перевіряє</span><small data-i18n="flow4Note">Рішення залишається за командою</small></li>
         </ol>
         <div class="deployment">
-          <div><h3>Модель можна оновити</h3><p>Проєктуємо асистента так, щоб документи й досвід команди зберігалися окремо. Коли з’явиться краща модель, ці знання можна використовувати й далі.</p></div>
+          <div><h3 data-i18n="modelTitle">Модель можна оновити</h3><p data-i18n="modelText">Проєктуємо асистента так, щоб документи й досвід команди зберігалися окремо. Коли з’явиться краща модель, ці знання можна використовувати й далі.</p></div>
           <div class="deploy-content">
             <fieldset class="choice-group" id="deployment-choice">
-              <legend class="visually-hidden">Варіант розгортання</legend>
-              <label><input type="radio" name="deployment" value="local" checked><span>Локально</span></label>
-              <label><input type="radio" name="deployment" value="cloud"><span>У хмарі</span></label>
+              <legend class="visually-hidden" data-i18n="deployLegend">Варіант розгортання</legend>
+              <label><input type="radio" name="deployment" value="local" checked><span data-i18n="deployLocal">Локально</span></label>
+              <label><input type="radio" name="deployment" value="cloud"><span data-i18n="deployCloud">У хмарі</span></label>
             </fieldset>
             <dl class="facts" aria-live="polite" aria-atomic="true">
-              <div><dt>Модель</dt><dd id="deploy-model">В інфраструктурі підприємства</dd></div>
-              <div><dt>Контекст</dt><dd id="deploy-data">Залишається у визначеному периметрі</dd></div>
-              <div><dt>Ресурси й політики</dt><dd id="deploy-terms">Обчислення та обробка за політиками підприємства</dd></div>
+              <div><dt data-i18n="deployModelLabel">Модель</dt><dd id="deploy-model">В інфраструктурі підприємства</dd></div>
+              <div><dt data-i18n="deployDataLabel">Контекст</dt><dd id="deploy-data">Залишається у визначеному периметрі</dd></div>
+              <div><dt data-i18n="deployTermsLabel">Ресурси й політики</dt><dd id="deploy-terms">Обчислення та обробка за політиками підприємства</dd></div>
             </dl>
           </div>
         </div>
@@ -294,17 +304,17 @@
     <section class="section pilot-section" id="pilot" aria-labelledby="pilot-title">
       <div class="frame">
         <div class="section-intro">
-          <div><h2 id="pilot-title">Почнімо з вашої задачі</h2></div>
-          <p>Оберімо одну задачу. Разом перевіримо, чи допоможе асистент заощадити час, зменшити втрати або зберегти досвід команди.</p>
+          <div><h2 id="pilot-title" data-i18n="pilotTitle">Почнімо з вашої задачі</h2></div>
+          <p data-i18n="pilotIntro">Оберімо одну задачу. Разом перевіримо, чи допоможе асистент заощадити час, зменшити втрати або зберегти досвід команди.</p>
         </div>
         <ol class="pilot-steps">
-          <li><h3>Знайти відповідь</h3><p>Почнемо з одного питання та потрібних документів. Команда перевірить відповідь і джерела.</p></li>
-          <li><h3>Зберегти досвід</h3><p>Підтверджені випадки можна записувати, щоб наступна зміна могла їх знайти.</p></li>
-          <li><h3>Додати потрібне</h3><p>Далі можна підключити аналіз витрат води й енергії, облік простоїв або звіти для команди.</p></li>
+          <li><h3 data-i18n="pilot1Title">Знайти відповідь</h3><p data-i18n="pilot1Text">Почнемо з одного питання та потрібних документів. Команда перевірить відповідь і джерела.</p></li>
+          <li><h3 data-i18n="pilot2Title">Зберегти досвід</h3><p data-i18n="pilot2Text">Підтверджені випадки можна записувати, щоб наступна зміна могла їх знайти.</p></li>
+          <li><h3 data-i18n="pilot3Title">Додати потрібне</h3><p data-i18n="pilot3Text">Далі можна підключити аналіз витрат води й енергії, облік простоїв або звіти для команди.</p></li>
         </ol>
         <div class="pilot-action" id="contact">
-          <div><h3>Хочете побачити демо?</h3><p>Розкажіть нам про одну ситуацію, яка забирає час у вашої команди.</p></div>
-          <a class="button button-primary" href="https://sig-automation.com/ua#contacts">Запросити демо в SIG</a>
+          <div><h3 data-i18n="ctaTitle">Хочете побачити демо?</h3><p data-i18n="ctaText">Розкажіть нам про одну ситуацію, яка забирає час у вашої команди.</p></div>
+          <a class="button button-primary" href="https://sig-automation.com/ua#contacts" data-i18n="ctaButton" data-i18n-href="contactsUrl">Запросити демо в SIG</a>
         </div>
       </div>
     </section>
@@ -312,9 +322,13 @@
 
   <footer class="site-footer">
     <div class="frame footer-layout">
-      <a class="brand" href="#top" aria-label="Smart Industry Group — на початок"><img src="assets/sig.svg" width="96" height="37" alt="Smart Industry Group"></a>
-      <p>Презентаційна демонстрація · Умовні сценарії та дані</p>
-      <a href="https://sig-automation.com/ua#contacts">Контакти на сайті SIG</a>
+      <a class="brand" href="#top" aria-label="Smart Industry Group — на початок" data-i18n-aria="brandHome"><img src="assets/sig.svg" width="96" height="37" alt="Smart Industry Group"></a>
+      <p data-i18n="footerNote">Презентаційна демонстрація · Умовні сценарії та дані</p>
+      <nav class="footer-links" aria-label="Інформація про компанію" data-i18n-aria="footerNavLabel">
+        <a href="https://sig-automation.com/ua#contacts" data-i18n="footerContacts" data-i18n-href="contactsUrl">Контакти на сайті SIG</a>
+        <a href="https://sig-automation.com/impressum" hreflang="de" data-i18n="footerImprint">Правова інформація</a>
+        <a href="https://sig-automation.com/datenschutz" hreflang="de" data-i18n="footerPrivacy">Захист даних</a>
+      </nav>
     </div>
   </footer>
 

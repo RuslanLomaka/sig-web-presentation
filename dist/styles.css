@@ -81,6 +81,29 @@ code, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .button-primary { background: var(--lime); color: #102118; }
 .button-primary:hover { background: #b6edb0; }
 
+/* Language switcher: shows the active language, expands on hover or keyboard focus. */
+.lang-pending body { visibility: hidden; }
+.lang-pending .lang-btns, .lang-pending .lang-btns button { transition: none; }
+.header-actions { display: flex; align-items: center; gap: 14px; flex: none; }
+.lang-switch { position: relative; width: 132px; height: 46px; flex: none; }
+.lang-btns {
+  position: absolute; top: 50%; right: 0; z-index: 2; transform: translateY(-50%);
+  display: flex; width: 132px; padding: 3px; gap: 2px; overflow: hidden;
+  border: 1px solid #63756a; border-radius: 999px; background: #101b17;
+  transition: width .24s ease, background .18s ease, border-color .18s ease;
+}
+.lang-btns:hover, .lang-btns:focus-within { width: 342px; background: var(--monitor); border-color: var(--lime); }
+.lang-btns button {
+  flex: 1 1 0; min-width: 0; min-height: 38px; padding: 0 10px; border: 0; border-radius: 999px;
+  background: transparent; color: #c5d2c9; font-size: .875rem; font-weight: 700; white-space: nowrap;
+  transition: opacity .16s ease, color .16s ease, background .16s ease, padding .22s ease, flex-basis .22s ease;
+}
+.lang-btns:not(:hover):not(:focus-within) button:not(.active) { flex: 0 0 0; width: 0; padding-inline: 0; opacity: 0; pointer-events: none; }
+.lang-btns:not(:hover):not(:focus-within) button.active { flex: 1 1 100%; }
+.lang-btns button.active { background: var(--lime); color: #102118; }
+.lang-btns button:not(.active):hover { background: #ffffff14; color: var(--lime); }
+.lang-short { display: none; }
+
 .hero { position: relative; isolation: isolate; overflow: hidden; background: #101c17; color: #f4f8f4; }
 .hero-image {
   position: absolute; inset: 0 0 0 48%; z-index: -1;
@@ -210,7 +233,7 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 .missing { background: #fff3da; color: #65410d; border-left: 2px solid #b47a1b; padding: 9px 11px; font-size: .88rem; margin-top: 14px; }
 .evidence { margin-top: 14px; border: 1px solid var(--line); border-radius: 5px; }
 .evidence summary { cursor: pointer; padding: 9px 12px; color: var(--action); font-weight: 700; font-size: .91rem; }
-.evidence summary span { margin-inline-start: 6px; font-size: .8rem; color: var(--muted); }
+.evidence summary span:last-child { margin-inline-start: 6px; font-size: .8rem; color: var(--muted); }
 .evidence ul { margin: 0; padding: 0 20px 12px 32px; font-size: .885rem; }
 .evidence li + li { margin-top: 5px; }
 
@@ -300,6 +323,7 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 .site-footer { background: #101b17; color: #c1d2c5; }
 .footer-layout { display: flex; justify-content: space-between; gap: 18px; align-items: center; padding-block: 19px; font-size: .875rem; }
 .site-footer a:hover { color: var(--lime); }
+.footer-links { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 @media (max-width: 1100px) {
   .frame { width: calc(100% - 62px); }
   .source-map { grid-template-columns: minmax(180px, 1fr) 28px minmax(205px, 1.3fr) 28px minmax(140px, .8fr); padding: 22px; }
@@ -325,6 +349,20 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .control-flow { grid-template-columns: repeat(2, 1fr); }
   .pilot-steps { grid-template-columns: 1fr; gap: 5px; }
   .pilot-action, .footer-layout { align-items: flex-start; flex-wrap: wrap; }
+}
+
+/* Touch screens and narrow layouts: all three languages stay visible as short codes. */
+@media (hover: none), (max-width: 800px) {
+  .lang-switch { width: auto; height: auto; }
+  .lang-btns, .lang-btns:hover, .lang-btns:focus-within { position: static; transform: none; width: auto; background: #101b17; border-color: #63756a; }
+  .lang-btns button,
+  .lang-btns:not(:hover):not(:focus-within) button:not(.active),
+  .lang-btns:not(:hover):not(:focus-within) button.active { flex: 0 0 auto; width: auto; min-width: 42px; min-height: 34px; padding-inline: 10px; opacity: 1; pointer-events: auto; }
+  .lang-full { display: none; }
+  .lang-short { display: inline; }
+}
+@media (max-width: 560px), (hover: none) and (max-width: 1100px) {
+  .header-actions .button-outline { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
