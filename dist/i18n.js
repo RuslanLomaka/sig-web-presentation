@@ -44,20 +44,18 @@
       heroCta: "Watch the demo",
       heroAudiences: "Manufacturing · Food industry · Logistics · Medical technology",
       demoTitle: "From question to answer",
-      demoIntro: "Choose a situation. See which records the assistant reads and where it suggests you start.",
-      walkthroughLabel: "Demo of a conversation between an engineer and the assistant",
-      walkthroughTitle: "Conversation with the assistant",
-      walkthroughNote: "Illustrative example",
-      walkthroughCaseLabel: "Demo scenario",
+      demoSubtitle: "Typical usage scenarios",
+      scenariosLabel: "Choose a scenario",
+      demoIntro: "Four situations play one after another. Choose one to start it, and see which records the assistant reads.",
       caseResources: "Resource consumption",
       caseIncident: "Line stoppage",
-      walkthroughReplay: "Restart",
-      roleEngineer: "Engineer",
+      caseMaintenance: "Maintenance",
+      caseStock: "Material planning",
       assistantName: "Sintelligence",
       sourcesHeading: "What the assistant checks",
       walkthroughProgress: "Demo progress",
       examplesTitle: "What else can you ask?",
-      examplesIntro: "The same approach works for many tasks, from water used for cleaning to delays in the warehouse. Pick an example. The data is illustrative.",
+      examplesIntro: "The same approach works for many tasks, from water used for cleaning to delays in the warehouse. Pick an example.",
       tabsLabel: "Assistant scenarios",
       tabTrends: "Pressure history",
       tabStable: "Process improvement",
@@ -72,7 +70,7 @@
       perUnit: "Per unit",
       whatVisible: "What it shows",
       whatToCheck: "What to check",
-      resMapNote: "This is an example of looking for losses. Savings can be estimated after checking and measuring again.",
+      resMapNote: "Savings can be estimated after checking and measuring again.",
       incKicker: "Line B log",
       tagStop: "Stopped",
       incTitle: "Events before the stoppage",
@@ -98,7 +96,7 @@
       incSrc3: "start-up and feed conditions for the engineer to check.",
       trKicker: "Signal archive · Three stoppages",
       trTitle: "Pressure before the stoppage",
-      trLegend: "Choose an example date",
+      trLegend: "Choose a date",
       trDate12: "12 April",
       trDate18: "18 April",
       trDate24: "24 April",
@@ -110,7 +108,7 @@
       trMissing: "Only part of the records exist for 24 April.",
       trCheck: "Compare pressure, current and level over the last five minutes before each stoppage.",
       trBasisLabel: "Basis for comparison",
-      trBasis1: "Three illustrative stoppage records from the event log.",
+      trBasis1: "Three stoppage records from the event log.",
       trBasis2: "PT-204 history for the five minutes before each event. Gaps in the archive are left visible.",
       stKicker: "Line B · Steady operation",
       tagOk: "Running",
@@ -201,7 +199,7 @@
       ctaTitle: "Let's discuss your use case",
       ctaText: "Tell us about one situation that costs your team time, and we will propose a pilot.",
       ctaButton: "Request a pilot call",
-      footerNote: "Sintelligence is a product of Smart Industry Group · Illustrative scenarios and data",
+      footerNote: "Sintelligence is a product of Smart Industry Group",
       footerNavLabel: "Company information",
       footerContacts: "Contact on the SIG website",
       footerImprint: "Legal notice",
@@ -228,20 +226,18 @@
       heroCta: "Demo ansehen",
       heroAudiences: "Fertigung · Lebensmittelindustrie · Logistik · Medizintechnik",
       demoTitle: "Von der Frage zur Antwort",
-      demoIntro: "Wählen Sie eine Situation. Sehen Sie, welche Aufzeichnungen der Assistent liest und wo Sie ansetzen sollten.",
-      walkthroughLabel: "Demo eines Gesprächs zwischen Ingenieur und Assistent",
-      walkthroughTitle: "Gespräch mit dem Assistenten",
-      walkthroughNote: "Beispielhafte Darstellung",
-      walkthroughCaseLabel: "Demo-Szenario",
+      demoSubtitle: "Typische Einsatzszenarien",
+      scenariosLabel: "Szenario wählen",
+      demoIntro: "Vier Situationen laufen nacheinander ab. Wählen Sie eine aus, um sie zu starten, und sehen Sie, welche Aufzeichnungen der Assistent liest.",
       caseResources: "Ressourcenverbrauch",
       caseIncident: "Linienstillstand",
-      walkthroughReplay: "Neu starten",
-      roleEngineer: "Ingenieur",
+      caseMaintenance: "Instandhaltung",
+      caseStock: "Materialplanung",
       assistantName: "Sintelligence",
       sourcesHeading: "Was der Assistent prüft",
       walkthroughProgress: "Fortschritt der Demo",
       examplesTitle: "Was können Sie noch fragen?",
-      examplesIntro: "Derselbe Ansatz passt zu vielen Aufgaben – vom Wasserverbrauch bei der Reinigung bis zu Verzögerungen im Lager. Wählen Sie ein Beispiel. Alle Daten sind Beispieldaten.",
+      examplesIntro: "Derselbe Ansatz passt zu vielen Aufgaben – vom Wasserverbrauch bei der Reinigung bis zu Verzögerungen im Lager. Wählen Sie ein Beispiel.",
       tabsLabel: "Szenarien des Assistenten",
       tabTrends: "Druckverlauf",
       tabStable: "Prozessverbesserung",
@@ -256,7 +252,7 @@
       perUnit: "Pro Einheit",
       whatVisible: "Was zu sehen ist",
       whatToCheck: "Was zu prüfen ist",
-      resMapNote: "Dies ist ein Beispiel für die Suche nach Verlusten. Einsparungen lassen sich nach Prüfung und erneuter Messung abschätzen.",
+      resMapNote: "Einsparungen lassen sich nach Prüfung und erneuter Messung abschätzen.",
       incKicker: "Protokoll Linie B",
       tagStop: "Stillstand",
       incTitle: "Ereignisse vor dem Stillstand",
@@ -282,7 +278,7 @@
       incSrc3: "Anlauf- und Zufuhrbedingungen zur Prüfung durch den Ingenieur.",
       trKicker: "Signalarchiv · Drei Stillstände",
       trTitle: "Druck vor dem Stillstand",
-      trLegend: "Beispieldatum wählen",
+      trLegend: "Datum wählen",
       trDate12: "12. April",
       trDate18: "18. April",
       trDate24: "24. April",
@@ -294,7 +290,7 @@
       trMissing: "Für den 24. April liegen nur Teile der Aufzeichnungen vor.",
       trCheck: "Druck, Strom und Füllstand in den letzten fünf Minuten vor jedem Stillstand vergleichen.",
       trBasisLabel: "Vergleichsgrundlage",
-      trBasis1: "Drei beispielhafte Stillstandseinträge aus dem Ereignisprotokoll.",
+      trBasis1: "Drei Stillstandseinträge aus dem Ereignisprotokoll.",
       trBasis2: "Verlauf von PT-204 in den fünf Minuten vor jedem Ereignis. Lücken im Archiv bleiben sichtbar.",
       stKicker: "Linie B · Stabiler Betrieb",
       tagOk: "In Betrieb",
@@ -385,7 +381,7 @@
       ctaTitle: "Sprechen wir über Ihren Anwendungsfall",
       ctaText: "Erzählen Sie uns von einer Situation, die Ihr Team Zeit kostet – wir schlagen Ihnen ein Pilotprojekt vor.",
       ctaButton: "Pilotgespräch anfragen",
-      footerNote: "Sintelligence ist ein Produkt der Smart Industry Group · Beispielhafte Szenarien und Daten",
+      footerNote: "Sintelligence ist ein Produkt der Smart Industry Group",
       footerNavLabel: "Unternehmensinformationen",
       footerContacts: "Kontakt auf der SIG-Website",
       footerImprint: "Impressum",
@@ -497,9 +493,10 @@
         thinking: "Думає · {s} с",
         thought: "Думав {s} с",
         cites: "Джерела",
-        steps: ["Інженер ставить запитання", null, null, null, "Асистент зіставляє записи", "Інженер отримує підказку"],
+        steps: ["Запитання з цеху", null, null, null, "Асистент зіставляє записи", "Відповідь із джерелами"],
         cases: {
           resources: {
+            role: "Енергоменеджер",
             question: "Чому на той самий обсяг пішло більше електроенергії?",
             answerTitle: "Почніть із періодів без роботи.",
             answer: "Лічильник показує витрати навіть тоді, коли ділянка нічого не випускала.",
@@ -511,6 +508,7 @@
             ]
           },
           incident: {
+            role: "Оператор",
             question: "Лінія B зупинилася. Що перевірити першим?",
             answerTitle: "Перевірте подачу до насоса.",
             answer: "Перед зупинкою впали рівень на вході й тиск. Нестача подачі може це пояснити.",
@@ -519,6 +517,30 @@
               ["Журнал подій", "Рівень і тиск впали перед зупинкою.", "Асистент читає журнал подій"],
               ["Історія рівня", "Рівень падав ще до сигналу про зупинку.", "Асистент дивиться історію рівня"],
               ["Інструкція насоса", "В інструкції є умови запуску й подачі.", "Асистент звіряється з інструкцією"]
+            ]
+          },
+          maintenance: {
+            role: "Механік",
+            question: "Насос P-204 знову вібрує. Хтось уже стикався з таким?",
+            answerTitle: "Перевірте муфту та співвісність.",
+            answer: "У березні насос вібрував так само. Тоді послабилася муфта, і після підтягування вібрація зникла.",
+            limit: "Спершу порівняйте вібрацію з тим випадком: цього разу причина може бути іншою.",
+            sources: [
+              ["Журнал ремонтів", "У березні підтягнули муфту насоса.", "Асистент шукає в журналі ремонтів"],
+              ["Дані вібрації", "Рівень росте вже три дні.", "Асистент дивиться дані вібрації"],
+              ["Інструкція насоса", "Після ремонту треба перевірити співвісність.", "Асистент звіряється з інструкцією"]
+            ]
+          },
+          stock: {
+            role: "Майстер зміни",
+            question: "Чи вистачить матеріалу до кінця замовлення?",
+            answerTitle: "Ні, бракуватиме приблизно 300 кг.",
+            answer: "Для замовлення потрібно ще 1 800 кг, а на складі є 1 500 кг. За нинішнього темпу цього вистачить приблизно на 3 години.",
+            limit: "Перед дозамовленням звірте зі складом зарезервовані партії.",
+            sources: [
+              ["Замовлення в ERP", "Потрібно ще 1 800 кг матеріалу.", "Асистент читає замовлення в ERP"],
+              ["Залишок на складі", "Доступно 1 500 кг.", "Асистент перевіряє залишок на складі"],
+              ["Витрата лінії", "Лінія витрачає 500 кг на годину.", "Асистент рахує витрату лінії"]
             ]
           }
         }
@@ -626,9 +648,10 @@
         thinking: "Thinking · {s} s",
         thought: "Thought for {s} s",
         cites: "Sources",
-        steps: ["The engineer asks a question", null, null, null, "The assistant compares the records", "The engineer gets a recommendation"],
+        steps: ["A question from the shop floor", null, null, null, "The assistant compares the records", "The answer, with its sources"],
         cases: {
           resources: {
+            role: "Energy manager",
             question: "Why did the same output take more electricity?",
             answerTitle: "Start with the idle periods.",
             answer: "The meter shows consumption even when the area produced nothing.",
@@ -640,6 +663,7 @@
             ]
           },
           incident: {
+            role: "Operator",
             question: "Line B has stopped. What should I check first?",
             answerTitle: "Check the feed to the pump.",
             answer: "Inlet level and pressure dropped before the stoppage. A feed shortage could explain this.",
@@ -648,6 +672,30 @@
               ["Event log", "Level and pressure dropped before the stoppage.", "The assistant reads the event log"],
               ["Level history", "The level was falling even before the stop signal.", "The assistant looks at the level history"],
               ["Pump manual", "The manual lists the start-up and feed conditions.", "The assistant checks the manual"]
+            ]
+          },
+          maintenance: {
+            role: "Maintenance technician",
+            question: "Pump P-204 is vibrating again. Has anyone seen this before?",
+            answerTitle: "Check the coupling and the alignment.",
+            answer: "The pump vibrated the same way in March. The coupling had come loose, and tightening it solved the problem.",
+            limit: "Compare the vibration with that case first. The cause may be different this time.",
+            sources: [
+              ["Repair log", "The coupling was tightened in March.", "The assistant searches the repair log"],
+              ["Vibration data", "The level has been rising for three days.", "The assistant looks at the vibration data"],
+              ["Pump manual", "Alignment must be checked after a repair.", "The assistant checks the manual"]
+            ]
+          },
+          stock: {
+            role: "Shift lead",
+            question: "Will the material last until the order is finished?",
+            answerTitle: "No, about 300 kg will be missing.",
+            answer: "The order still needs 1,800 kg, and the warehouse has 1,500 kg. At the current rate that lasts about 3 hours.",
+            limit: "Check reserved batches with the warehouse before reordering.",
+            sources: [
+              ["ERP order", "1,800 kg of material are still needed.", "The assistant reads the ERP order"],
+              ["Warehouse stock", "1,500 kg are available.", "The assistant checks the warehouse stock"],
+              ["Line consumption", "The line uses 500 kg per hour.", "The assistant calculates the line consumption"]
             ]
           }
         }
@@ -755,9 +803,10 @@
         thinking: "Denkt nach · {s} s",
         thought: "Hat {s} s nachgedacht",
         cites: "Quellen",
-        steps: ["Der Ingenieur stellt eine Frage", null, null, null, "Der Assistent gleicht die Aufzeichnungen ab", "Der Ingenieur erhält eine Empfehlung"],
+        steps: ["Eine Frage aus der Produktion", null, null, null, "Der Assistent gleicht die Aufzeichnungen ab", "Die Antwort mit Quellen"],
         cases: {
           resources: {
+            role: "Energiemanagement",
             question: "Warum wurde für dieselbe Menge mehr Strom verbraucht?",
             answerTitle: "Beginnen Sie mit den Zeiten ohne Produktion.",
             answer: "Der Zähler erfasst auch dann Verbrauch, wenn der Bereich nichts produziert.",
@@ -769,6 +818,7 @@
             ]
           },
           incident: {
+            role: "Anlagenbedienung",
             question: "Linie B steht. Was prüfe ich zuerst?",
             answerTitle: "Prüfen Sie die Zufuhr zur Pumpe.",
             answer: "Vor dem Stillstand sanken der Füllstand im Zulauf und der Druck. Eine zu geringe Zufuhr könnte das erklären.",
@@ -777,6 +827,30 @@
               ["Ereignisprotokoll", "Füllstand und Druck sanken vor dem Stillstand.", "Der Assistent liest das Ereignisprotokoll"],
               ["Füllstandsverlauf", "Der Füllstand sank schon vor dem Stillstandssignal.", "Der Assistent sieht sich den Füllstandsverlauf an"],
               ["Betriebsanleitung Pumpe", "Die Anleitung nennt Anlauf- und Zufuhrbedingungen.", "Der Assistent gleicht mit der Anleitung ab"]
+            ]
+          },
+          maintenance: {
+            role: "Instandhaltung",
+            question: "Pumpe P-204 vibriert wieder. Hatten wir das schon einmal?",
+            answerTitle: "Prüfen Sie Kupplung und Ausrichtung.",
+            answer: "Im März vibrierte die Pumpe genauso. Damals hatte sich die Kupplung gelockert, nach dem Nachziehen war das Problem behoben.",
+            limit: "Vergleichen Sie die Vibration zuerst mit diesem Fall. Die Ursache kann diesmal eine andere sein.",
+            sources: [
+              ["Reparaturprotokoll", "Im März wurde die Kupplung nachgezogen.", "Der Assistent durchsucht das Reparaturprotokoll"],
+              ["Vibrationsdaten", "Der Wert steigt seit drei Tagen.", "Der Assistent sieht sich die Vibrationsdaten an"],
+              ["Betriebsanleitung Pumpe", "Nach einer Reparatur ist die Ausrichtung zu prüfen.", "Der Assistent gleicht mit der Anleitung ab"]
+            ]
+          },
+          stock: {
+            role: "Schichtleitung",
+            question: "Reicht das Material bis zum Ende des Auftrags?",
+            answerTitle: "Nein, es fehlen etwa 300 kg.",
+            answer: "Der Auftrag braucht noch 1.800 kg, im Lager sind 1.500 kg. Beim aktuellen Tempo reicht das für rund 3 Stunden.",
+            limit: "Klären Sie reservierte Chargen mit dem Lager, bevor Sie nachbestellen.",
+            sources: [
+              ["ERP-Auftrag", "Es werden noch 1.800 kg Material benötigt.", "Der Assistent liest den ERP-Auftrag"],
+              ["Lagerbestand", "1.500 kg sind verfügbar.", "Der Assistent prüft den Lagerbestand"],
+              ["Linienverbrauch", "Die Linie verbraucht 500 kg pro Stunde.", "Der Assistent berechnet den Linienverbrauch"]
             ]
           }
         }

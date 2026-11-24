@@ -194,7 +194,11 @@ const conversation = document.querySelector("#walkthrough-conversation");
 const walkthroughToggle = document.querySelector("#walkthrough-toggle");
 const walkthroughPhase = document.querySelector("#walkthrough-phase");
 const walkthroughProgress = document.querySelector("#walkthrough-progress");
-const walkthroughSelect = document.querySelector("#walkthrough-case");
+const walkthroughBody = walkthrough.querySelector(".walkthrough-body");
+const walkthroughSourcesPanel = walkthrough.querySelector(".walkthrough-sources");
+const walkthroughRole = document.querySelector("#walkthrough-role");
+const scenarioButtons = [...walkthrough.querySelectorAll(".scenario-train [data-case]")];
+const scenarioThumb = walkthrough.querySelector(".scenario-thumb");
 const walkthroughTranscript = document.querySelector("#walkthrough-transcript");
 const questionText = document.querySelector("#walkthrough-question");
 const answerBubble = walkthrough.querySelector(".conversation-answer");
@@ -204,11 +208,13 @@ const answerParts = ["#walkthrough-answer-title", "#walkthrough-answer", "#walkt
 const sourceSteps = walkthrough.querySelectorAll(".walkthrough-sources [data-show-step]");
 const sourceItems = walkthrough.querySelectorAll("[data-source-step]");
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-const walkthroughCase = () => copy().walkthrough.cases[walkthroughSelect.value];
+let caseIndex = 0; // The scenarios play one after another in the order of the buttons.
+const caseName = () => scenarioButtons[caseIndex].dataset.case;
+const walkthroughCase = () => copy().walkthrough.cases[caseName()];
 
 // Pacing in milliseconds. The thinking timer shows simulated seconds, fast-forwarded.
 const PACE = { start: 350, key: 38, punctuation: 170, send: 550, source: 1350, compare: 1000, word: 80, part: 200, readBase: 3500, readPerWord: 200, fade: 700 };
-const THINKING_SECONDS = { resources: 14, incident: 11 };
+const THINKING_SECONDS = { resources: 14, incident: 11, maintenance: 9, stock: 12 };
 
 const cites = document.querySelector("#walkthrough-cites");
 const citesLabel = document.querySelector("#walkthrough-cites-label");
@@ -247,7 +253,7 @@ function buildTimeline() {
   const words = [];
   let at = thinkEnd + 250;
   [current.answerTitle, current.answer, current.limit].forEach((part, partIndex) => {
-    part.split(/\s+/).filter(Boolean).forEach(text => {
+    part.split(/[ \n]+/).filter(Boolean).forEach(text => {
       words.push({ part: partIndex, text, at });
       at += PACE.word;
     });
@@ -258,7 +264,7 @@ function buildTimeline() {
   return {
     current, characters, charTimes, typeEnd, thinkStart, sourceStarts, compareStart, thinkEnd,
     words, streamEnd, holdEnd, end: holdEnd + PACE.fade,
-    seconds: THINKING_SECONDS[walkthroughSelect.value] ?? 12
+    seconds: THINKING_SECONDS[caseName()] ?? 12
   };
 }
 
@@ -331,25 +337,25 @@ function renderWalkthrough(force = false) {
 
   const fading = t >= timeline.holdEnd;
   if (fading !== shown.fading) {
-    conversation.dataset.fading = fading;
+    walkthroughBody.dataset.fading = fading;
     shown.fading = fading;
+  }
+
+  // The train fills up while its scenario plays (in half-percent steps).
+  const finished = motionPreference.matches && !walkthroughPlaying;
+  const progress = finished ? 100 : Math.round(Math.min(1, t / timeline.holdEnd) * 200) / 2;
+  if (progress !== shown.progress) {
+    scenarioThumb.style.setProperty("--progress", `${progress}%`);
+    shown.progress = progress;
   }
   walkthroughToggle.textContent = walkthroughPlaying ? text.pause : text.play;
 }
 
-// Keeps the box at its final height so the page does not move while the answer streams in.
-function reserveConversationHeight() {
-  const saved = elapsed;
-  conversation.style.minHeight = "";
-  elapsed = timeline.streamEnd;
-  renderWalkthrough(true);
-  conversation.style.minHeight = `${conversation.offsetHeight}px`;
-  elapsed = saved;
-  renderWalkthrough(true);
-}
-
-function rebuildWalkthrough({ restart }) {
+// Writes the texts of the current scenario into the widget.
+function fillCase() {
   timeline = buildTimeline();
+  const { role, question, answerTitle, answer, limit, sources } = timeline.current;
+  walkthroughRole.textContent = role;
   questionText.replaceChildren(typedText, caret, ghostText);
   citesLabel.textContent = copy().walkthrough.cites;
   answerParts.forEach(part => part.replaceChildren());
@@ -361,16 +367,55 @@ function rebuildWalkthrough({ restart }) {
     return span;
   });
   sourceItems.forEach((source, index) => {
-    const [title, description] = timeline.current.sources[index];
+    const [title, description] = sources[index];
     source.querySelector("strong").textContent = title;
     source.querySelector("p").textContent = description;
   });
-  const { question, answerTitle, answer, limit } = timeline.current;
-  const sourceList = timeline.current.sources.map(([title, description], index) => `${index + 1}. ${title}: ${description}`).join(" ");
-  walkthroughTranscript.textContent = `${i18n.text("roleEngineer")}: ${question} ${i18n.text("assistantName")}: ${answerTitle} ${answer} ${limit} ${copy().walkthrough.cites}: ${sourceList}`;
-  if (restart) elapsed = 0;
-  else elapsed = Math.min(elapsed, timeline.streamEnd);
-  reserveConversationHeight();
+  const sourceList = sources.map(([title, description], index) => `${index + 1}. ${title}: ${description}`).join(" ");
+  walkthroughTranscript.textContent = `${role}: ${question} ${i18n.text("assistantName")}: ${answerTitle} ${answer} ${limit} ${copy().walkthrough.cites}: ${sourceList}`;
+}
+
+// Reserves the height of the tallest scenario, so the page moves neither while an answer
+// streams in nor when the next scenario starts.
+function reserveHeights() {
+  const saved = { caseIndex, elapsed };
+  conversation.style.minHeight = "";
+  walkthroughSourcesPanel.style.minHeight = "";
+  let conversationHeight = 0;
+  let sourcesHeight = 0;
+  scenarioButtons.forEach((button, index) => {
+    caseIndex = index;
+    fillCase();
+    elapsed = timeline.streamEnd;
+    renderWalkthrough(true);
+    conversationHeight = Math.max(conversationHeight, conversation.offsetHeight);
+    sourcesHeight = Math.max(sourcesHeight, walkthroughSourcesPanel.offsetHeight);
+  });
+  conversation.style.minHeight = `${conversationHeight}px`;
+  walkthroughSourcesPanel.style.minHeight = `${sourcesHeight}px`;
+  caseIndex = saved.caseIndex;
+  fillCase();
+  elapsed = Math.min(saved.elapsed, timeline.end);
+  renderWalkthrough(true);
+  placeThumb();
+}
+
+// Slides the train onto the current scenario, whatever the layout of the buttons.
+function placeThumb() {
+  const button = scenarioButtons[caseIndex];
+  scenarioThumb.style.width = `${button.offsetWidth}px`;
+  scenarioThumb.style.height = `${button.offsetHeight}px`;
+  scenarioThumb.style.transform = `translate(${button.offsetLeft}px, ${button.offsetTop}px)`;
+}
+
+// Opens a scenario: from its first keystroke when playing, as a finished dialog otherwise.
+function selectCase(index) {
+  caseIndex = index;
+  scenarioButtons.forEach((button, position) => button.setAttribute("aria-pressed", String(position === index)));
+  fillCase();
+  elapsed = walkthroughPlaying ? 0 : timeline.streamEnd;
+  renderWalkthrough(true);
+  placeThumb();
   scheduleWalkthrough();
 }
 
@@ -385,7 +430,10 @@ function tick() {
   const now = performance.now();
   if (lastTick) elapsed += Math.min(now - lastTick, 100);
   lastTick = now;
-  if (elapsed >= timeline.end) elapsed = 0;
+  if (elapsed >= timeline.end) {
+    selectCase((caseIndex + 1) % scenarioButtons.length); // The train moves on; after the last scenario it starts over.
+    return;
+  }
   renderWalkthrough();
   frame = window.setTimeout(tick, TICK);
 }
@@ -403,15 +451,14 @@ function scheduleWalkthrough() {
   renderWalkthrough();
 }
 
-walkthroughSelect.addEventListener("change", () => rebuildWalkthrough({ restart: walkthroughPlaying }));
+// A click starts that scenario, also when the demo was paused (but not against a reduced-motion setting).
+scenarioButtons.forEach((button, index) => button.addEventListener("click", () => {
+  if (!motionPreference.matches) walkthroughPlaying = true;
+  selectCase(index);
+}));
 walkthroughToggle.addEventListener("click", () => {
   walkthroughPlaying = !walkthroughPlaying;
   if (walkthroughPlaying && elapsed >= timeline.holdEnd) elapsed = 0;
-  scheduleWalkthrough();
-});
-document.querySelector("#walkthrough-replay").addEventListener("click", () => {
-  elapsed = 0;
-  walkthroughPlaying = true;
   scheduleWalkthrough();
 });
 document.addEventListener("visibilitychange", scheduleWalkthrough);
@@ -421,34 +468,41 @@ motionPreference.addEventListener("change", event => {
   elapsed = timeline.streamEnd;
   scheduleWalkthrough();
 });
+// Only width changes matter: phones fire resize whenever the address bar slides in or out.
 let resizeTimer;
+let measuredWidth = window.innerWidth;
 window.addEventListener("resize", () => {
+  if (window.innerWidth === measuredWidth) return;
+  measuredWidth = window.innerWidth;
   window.clearTimeout(resizeTimer);
-  resizeTimer = window.setTimeout(reserveConversationHeight, 150);
+  resizeTimer = window.setTimeout(reserveHeights, 150);
 });
 
 // A language change re-renders everything that demo.js wrote, keeping the current selections.
 document.addEventListener("sig:languagechange", () => {
   renderers.forEach(render => render());
-  rebuildWalkthrough({ restart: walkthroughPlaying });
+  reserveHeights();
+  selectCase(caseIndex);
   updateCharts();
 });
 
-document.querySelector("#walkthrough-actions").hidden = false;
-document.querySelector("#walkthrough-selector").hidden = false;
+document.querySelector("#walkthrough-bar").hidden = false;
 document.querySelector("#walkthrough-status").hidden = false;
-if (motionPreference.matches) elapsed = Number.MAX_SAFE_INTEGER; // Reduced motion: show the finished dialog.
-rebuildWalkthrough({ restart: !motionPreference.matches });
-document.fonts.ready.then(reserveConversationHeight); // Web fonts change line breaks: measure again.
+reserveHeights();
+selectCase(0); // Reduced motion: not playing, so this shows the finished dialog.
+window.setTimeout(() => scenarioThumb.classList.add("is-ready"), 100); // Slide only after the first placement.
+document.fonts.ready.then(reserveHeights); // Web fonts change line breaks: measure again.
 let walkthroughSeen = false;
 const walkthroughObserver = new IntersectionObserver(entries => {
-  walkthroughOnscreen = entries[entries.length - 1].intersectionRatio >= 0.5;
+  const { intersectionRect, boundingClientRect } = entries[entries.length - 1];
+  // Half of the demo, or half of the screen where the demo is taller than the screen.
+  walkthroughOnscreen = intersectionRect.height >= 0.5 * Math.min(boundingClientRect.height, window.innerHeight);
   if (walkthroughOnscreen && !walkthroughSeen) {
     walkthroughSeen = true;
     if (walkthroughPlaying) elapsed = 0; // Visitors see the dialog from its first keystroke.
   }
   scheduleWalkthrough();
-}, { threshold: [0, 0.5] });
+}, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
 walkthroughObserver.observe(walkthrough);
 
 // ---------------------------------------------------------------------------

@@ -175,6 +175,7 @@ code, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .section-intro > p { color: var(--muted); font-size: 1.06rem; max-width: 435px; justify-self: end; }
 h2 { font-size: clamp(2.3rem, 4.35vw, 4.25rem); line-height: 1.05; letter-spacing: -.05em; text-wrap: balance; }
 h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
+.h2-sub { display: block; margin-top: .5em; color: var(--action); font-size: clamp(1.2rem, 1.9vw, 1.75rem); line-height: 1.2; letter-spacing: -.02em; }
 
 .demo-section { background: var(--mist); padding-block: 67px; }
 .examples-section { background: #eaf0e9; border-top: 1px solid var(--line); padding-top: 67px; }
@@ -187,16 +188,24 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   display: flex; gap: 14px; align-items: center; justify-content: space-between; padding: 13px clamp(17px, 3vw, 34px);
   border-bottom: 1px solid #375143; background: #182a20;
 }
-.walkthrough-bar p { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; }
-.walkthrough-bar p span { color: #bbccbd; font-size: .88rem; }
-.walkthrough-select { margin-left: auto; }
-.walkthrough-select select {
-  appearance: none; color: #edf5ec; font: 700 .86rem/1.5 Roboto, Arial, sans-serif; cursor: pointer;
-  border: 1px solid #789385; border-radius: 4px; padding: 5px 25px 5px 9px;
-  background: linear-gradient(45deg, transparent 50%, #b9d1c1 50%) right 14px center / 5px 5px no-repeat,
-    linear-gradient(135deg, #b9d1c1 50%, transparent 50%) right 9px center / 5px 5px no-repeat #1b2e24;
+/* Scenario toggle: a pill like the open language switcher. The "train" slides from scenario to
+   scenario on its own and fills up while one plays; a click starts that scenario. */
+.scenario-train {
+  position: relative; isolation: isolate; flex: 1; display: flex; gap: 3px; padding: 3px; min-width: 0;
+  border: 1px solid #63756a; border-radius: 999px; background: #101b17;
 }
-.walkthrough-select select:hover { border-color: var(--lime); }
+.scenario-train button {
+  flex: 1 1 auto; min-height: 36px; padding: 0 16px; border: 0; border-radius: 999px; background: transparent;
+  color: #c5d4ca; font-size: .88rem; font-weight: 700; line-height: 1.2; hyphens: auto; transition: color .3s ease;
+}
+.scenario-train button:hover { color: #fff; }
+.scenario-train button[aria-pressed="true"] { color: #102118; }
+.scenario-thumb {
+  --progress: 0%;
+  position: absolute; top: 0; left: 0; z-index: -1; border-radius: 999px; pointer-events: none;
+  background: linear-gradient(90deg, var(--lime) var(--progress), #6cb873 var(--progress));
+}
+.scenario-thumb.is-ready { transition: transform .7s cubic-bezier(.65, 0, .25, 1), width .7s cubic-bezier(.65, 0, .25, 1), height .3s ease; }
 .walkthrough-actions { display: flex; gap: 8px; }
 .walkthrough-actions button {
   color: #edf5ec; border: 1px solid #5c7766; border-radius: 4px; padding: 5px 10px;
@@ -204,7 +213,8 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 }
 .walkthrough-actions button:hover { background: #2b4835; border-color: var(--lime); }
 .walkthrough-body { display: grid; grid-template-columns: minmax(0, 1.38fr) minmax(0, 1fr); }
-.conversation { display: flex; flex-direction: column; gap: 15px; padding: clamp(17px, 3vw, 34px); transition: opacity .6s ease; }
+.conversation { display: flex; flex-direction: column; gap: 15px; padding: clamp(17px, 3vw, 34px); }
+.walkthrough-body > * { transition: opacity .6s ease; }
 .conversation-message { padding: 13px 16px; border: 1px solid #3f604c; border-radius: 7px; }
 .conversation-message > span { color: #a9cfb0; font-size: .86rem; font-weight: 700; }
 .conversation-message p { margin-top: 4px; }
@@ -228,7 +238,7 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 .walkthrough-sources li p { font-size: .87rem; color: #c2d3c5; }
 .walkthrough [data-show-step] { transition: opacity .26s ease, visibility .26s ease; }
 /* Chat animation: typing caret, thinking indicator, streamed words, fade between loops. */
-.conversation[data-fading="true"] { opacity: 0; }
+.walkthrough-body[data-fading="true"] > .conversation, .walkthrough-body[data-fading="true"] > .walkthrough-sources { opacity: 0; }
 .chat-caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -.18em; background: var(--lime); animation: chat-caret 1s steps(1) infinite; }
 .chat-thinking { display: flex; align-items: center; gap: 9px; margin-top: 6px; color: #a9cfb0; font-size: .86rem; font-variant-numeric: tabular-nums; }
 .chat-thinking[data-done="true"] { color: #8ea596; }
@@ -471,9 +481,9 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .hero h1 { font-size: clamp(2.55rem, 9vw, 4.6rem); }
   .walkthrough-body { grid-template-columns: 1fr; }
   .walkthrough-bar { flex-wrap: wrap; }
-  .walkthrough-bar p { flex-basis: 100%; }
-  .walkthrough-select { margin-left: 0; flex: 1 1 160px; }
-  .walkthrough-select select { width: 100%; }
+  .scenario-train { flex: 1 0 100%; display: grid; grid-template-columns: 1fr 1fr; border-radius: 24px; }
+  .scenario-train button, .scenario-thumb { border-radius: 20px; }
+  .scenario-train button { padding: 4px 8px; }
   .tabs { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; scroll-padding-inline: 8px; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
   .tabs button { flex: 0 0 auto; scroll-snap-align: start; }
@@ -520,7 +530,7 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .hero-actions .button { flex: 1 1 auto; }
   .walkthrough-status { flex-wrap: wrap; gap: 6px 16px; }
   #walkthrough-phase { flex: 1 0 100%; }
-  .walkthrough-status progress { width: 100%; }
+  .walkthrough-status progress { flex: 1; width: auto; }
 }
 @media (max-width: 480px) {
   .answer > div, .facts > div, .deployment .facts > div { grid-template-columns: 1fr; gap: 2px; }
@@ -537,7 +547,7 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 }
 /* Comfortable touch targets on touch screens. */
 @media (pointer: coarse) {
-  .walkthrough-actions button, .walkthrough-select select, .tabs button, .logo-toggle { min-height: 44px; }
+  .walkthrough-actions button, .scenario-train button, .tabs button, .logo-toggle { min-height: 44px; }
   .choice-group label span, .deployment .choice-group label span { padding-block: 11px; }
   .header-actions .button-outline { min-height: 50px; }
   .lang-btns button,
