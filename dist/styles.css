@@ -291,6 +291,20 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 .source-result > span:last-child { color: #d5e3d7; font-size: .89rem; }
 .map-note { margin-top: 13px; }
 
+.integrations-section { background: var(--mist); border-top: 1px solid var(--line); }
+.integration-group { display: grid; grid-template-columns: minmax(220px, .36fr) 1fr; gap: 30px; padding-block: 26px; border-top: 1px solid var(--line); }
+.integration-group h3 { font-size: 1.18rem; line-height: 1.25; }
+.integration-group p { color: var(--muted); margin-top: 6px; font-size: .95rem; max-width: 360px; }
+.logo-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(122px, 1fr)); gap: 8px; }
+.logo-grid li {
+  min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 8px; background: var(--paper); border: 1px solid #dbe4da; border-radius: 7px; text-align: center;
+}
+.logo-grid img { width: auto; height: auto; max-width: 92px; max-height: 26px; }
+.logo-grid .logo-name { color: var(--muted); font-size: .76rem; line-height: 1.2; }
+.logo-grid .logo-word { color: var(--forest); font-weight: 700; font-size: .93rem; line-height: 1.2; }
+.logo-grid .logo-more { background: transparent; border-style: dashed; color: var(--muted); font-size: .86rem; }
+.logo-grid .logo-featured { border-color: var(--action); box-shadow: inset 0 0 0 1px var(--action); }
 .control-section { background: var(--ink); color: #f0f6f1; }
 .control-section .section-intro > p { color: var(--dark-muted); }
 .control-flow, .pilot-steps { display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; padding: 0; margin: 0; }
@@ -349,6 +363,8 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .control-flow { grid-template-columns: repeat(2, 1fr); }
   .pilot-steps { grid-template-columns: 1fr; gap: 5px; }
   .pilot-action, .footer-layout { align-items: flex-start; flex-wrap: wrap; }
+  .integration-group { grid-template-columns: 1fr; gap: 14px; }
+  .logo-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
 }
 
 /* Touch screens and narrow layouts: all three languages stay visible as short codes. */

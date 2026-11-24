@@ -151,6 +151,23 @@
       srcTeam: "Team experience",
       ctxResult: "An explanation with sources for the engineer",
       ctxNote: "Before connecting, you choose which sources the assistant may read.",
+      intTitle: "Works with your equipment and systems",
+      intIntro: "The assistant connects to equipment from any manufacturer, industrial networks, databases and business systems. The model can run locally on a server at your company.",
+      intBrandsTitle: "Equipment from any manufacturer",
+      intBrandsText: "Controllers, drives, sensors and operator panels, both new ones and those already running on the line.",
+      intMore: "and more",
+      intProtocolsTitle: "Industrial interfaces",
+      intProtocolsText: "The industrial networks and protocols most widely used in Germany. Others connect through gateways.",
+      intDbTitle: "Databases",
+      intDbText: "SQL, document and time-series databases: process archives, MES data and data historians.",
+      intErpTitle: "ERP, accounting and warehouse",
+      intErpText: "SAP ERP and other accounting, warehouse, maintenance and production systems, via API, database or file exchange.",
+      intMes: "Production",
+      intWms: "Warehouse",
+      intCmms: "Maintenance",
+      intAiTitle: "AI on your own server",
+      intAiText: "Open models run locally on a server at your company, without sending data to the cloud. Through MCP the assistant reaches only the systems you allow.",
+      intTrademarks: "Names and logos belong to their respective owners and are shown only to indicate compatibility.",
       ctlTitle: "You decide what to do",
       ctlIntro: "In the first phase the assistant reads the data it is allowed to and gives a hint. The engineer checks it and decides what to do with the equipment.",
       flow1: "You choose the sources",
@@ -314,6 +331,23 @@
       srcTeam: "Erfahrung des Teams",
       ctxResult: "Erklärung mit Quellen für den Ingenieur",
       ctxNote: "Vor der Anbindung legen Sie fest, welche Quellen der Assistent lesen darf.",
+      intTitle: "Arbeitet mit Ihren Anlagen und Systemen",
+      intIntro: "Der Assistent verbindet sich mit Anlagen jedes Herstellers, Industrienetzwerken, Datenbanken und Geschäftssystemen. Das Modell kann lokal auf einem Server in Ihrem Unternehmen laufen.",
+      intBrandsTitle: "Anlagen jedes Herstellers",
+      intBrandsText: "Steuerungen, Antriebe, Sensoren und Bedienpanels – neue ebenso wie solche, die bereits an der Linie laufen.",
+      intMore: "und weitere",
+      intProtocolsTitle: "Industrielle Schnittstellen",
+      intProtocolsText: "Die in Deutschland am weitesten verbreiteten Industrienetzwerke und Protokolle. Weitere binden wir über Gateways an.",
+      intDbTitle: "Datenbanken",
+      intDbText: "SQL-, Dokumenten- und Zeitreihendatenbanken: Prozessarchive, MES-Daten und Historian-Systeme.",
+      intErpTitle: "ERP, Buchhaltung und Lager",
+      intErpText: "SAP ERP und weitere Systeme für Buchhaltung, Lager, Instandhaltung und Produktion – per API, Datenbank oder Dateiaustausch.",
+      intMes: "Produktion",
+      intWms: "Lager",
+      intCmms: "Instandhaltung",
+      intAiTitle: "KI auf Ihrem eigenen Server",
+      intAiText: "Offene Modelle laufen lokal auf einem Server in Ihrem Unternehmen, ohne Daten in die Cloud zu senden. Über MCP erreicht der Assistent nur die freigegebenen Systeme.",
+      intTrademarks: "Namen und Logos gehören ihren jeweiligen Inhabern und dienen nur als Hinweis auf die Kompatibilität.",
       ctlTitle: "Sie entscheiden, was zu tun ist",
       ctlIntro: "In der ersten Phase liest der Assistent die freigegebenen Daten und gibt einen Hinweis. Der Ingenieur prüft ihn und entscheidet, was mit der Anlage geschieht.",
       flow1: "Sie wählen die Quellen",
@@ -644,7 +678,10 @@
   // Pick the language before the first paint; hide the Ukrainian source text until it is replaced.
   const root = document.documentElement;
   root.lang = locales[api.language].lang;
-  const reveal = () => root.classList.remove("lang-pending");
+  const reveal = () => {
+    void root.offsetWidth; // Apply the translated state first, so the switcher does not animate into it.
+    root.classList.remove("lang-pending");
+  };
   if (api.language !== "ua") {
     root.classList.add("lang-pending");
     window.setTimeout(reveal, 2500); // Never leave the page hidden if something goes wrong.

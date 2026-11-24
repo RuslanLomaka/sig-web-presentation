@@ -1,0 +1,20 @@
+Logos in this folder
+
+Source: Simple Icons 16.38.1 (https://simpleicons.org, https://github.com/simple-icons/simple-icons),
+icon artwork released under CC0-1.0. Each file was cropped to the logo's bounds and recoloured
+to #263e31 for this presentation.
+
+The names and logos are trademarks of their respective owners. They are shown only to indicate
+that the SIG assistant can connect to these products. Their use does not imply endorsement,
+partnership or certification. Some owners publish logo usage guidelines, for example:
+
+- MySQL: https://www.mysql.com/about/legal/logos.html
+- PostgreSQL: https://www.postgresql.org/about/policies/trademarks/
+- MariaDB: https://mariadb.com/about-us/logos/
+- InfluxDB: https://influxdata.github.io/branding/logo/usage/
+- Meta: https://www.facebook.com/brand/resources/meta/company-brand
+
+Products without a freely licensed logo (for example Beckhoff, Omron, Phoenix Contact, WAGO,
+Festo, the fieldbus organisations, Microsoft SQL Server, Oracle Database) are shown by name.
+To use an official logo, obtain it with permission from its owner, save it here as SVG and
+replace the name tile in dist/index.html.
