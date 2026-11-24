@@ -90,6 +90,7 @@ Repository variable (Settings → Secrets and variables → Actions → Variable
 | `/sintelligence does not exist for this SFTP account` | Акаунт обмежений текою сайту, тоді задайте `/`. Або теку ще не створено в IONOS. |
 | `IONOS_REMOTE_DIR is '/', but this account can see /sintelligence` | Це основний акаунт, і `/` означає весь webspace. Задайте `/sintelligence`. |
 | `The probe file … was not served` | Субдомен в IONOS указує на іншу теку, або DNS чи SSL ще не активні. Перевірте в панелі IONOS теку webspace субдомену `sintelligence`. Нічого, крім тимчасового файлу, не завантажувалося. |
+| `refused to serve the probe file (HTTP 403)` | Веб-сервер не може прочитати файл, або тека не є текою субдомену. Workflow сам виставляє права 644 для файлів і 755 для тек. Якщо помилка повторюється, перевірте теку субдомену в панелі IONOS. |
 | `URLs do not match dist/` | Завантаження обірвалося, або кеш віддав стару версію. Перезапустіть `deploy`. |
 | Помилка SSL на кроці HTTPS | Сертифікат ще не активний. Зачекайте й перезапустіть. |
 | Після push нічого не запустилося | Зміни були поза `dist/`. Запустіть `deploy` вручну. |

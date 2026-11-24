@@ -314,23 +314,33 @@ cmd_probe() {
   printf '%s\n' "$token" > "$local_file"
   printf '%s\n' "$remote" > "$PROBE_RECORD"
 
-  printf 'put "%s" "%s"\n' "$local_file" "$remote" > "$batch"
+  # sftp copies the local mode bits; the web server needs a world-readable file.
+  chmod 644 "$local_file"
+  printf 'put "%s" "%s"\n-chmod 644 "%s"\n' "$local_file" "$remote" "$remote" > "$batch"
   if ! run_sftp "$batch" "$out" "$err"; then
     show_server_errors "$err"
     die "Could not write the probe file into $IONOS_REMOTE_DIR. Check that the account may write there."
   fi
   log "Uploaded temporary probe $remote; checking $SITE_URL/$name"
 
-  local attempt body served=no
+  local attempt status served=no probe_body="$STATE_DIR/probe.body"
   for attempt in 1 2 3 4 5 6; do
-    body="$(curl -fsS --max-time 20 -H 'Cache-Control: no-cache' "$SITE_URL/$name?attempt=$attempt" 2>/dev/null || true)"
-    if [[ "$body" == "$token" ]]; then served=yes; break; fi
+    status="$(curl -sS -o "$probe_body" -w '%{http_code}' --max-time 20 -H 'Cache-Control: no-cache' \
+      "$SITE_URL/$name?attempt=$attempt" 2>/dev/null || echo 'no response')"
+    if [[ "$status" == 200 && "$(cat "$probe_body")" == "$token" ]]; then served=yes; break; fi
+    log "  attempt $attempt: HTTP $status"
     sleep 5
   done
 
   cmd_cleanup
   if [[ "$served" != yes ]]; then
-    die "The probe file written to $IONOS_REMOTE_DIR was not served at $SITE_URL. That directory is not the document root of the site, so nothing else was uploaded. Run the read-only test and check IONOS_REMOTE_DIR and the subdomain's directory in the IONOS control panel."
+    if [[ "$status" == 200 ]]; then
+      die "$SITE_URL/$name answered with different content, so $IONOS_REMOTE_DIR is not the document root of the site. Nothing else was uploaded. Run the read-only test and check the subdomain's directory in the IONOS control panel."
+    elif [[ "$status" == 403 ]]; then
+      die "$SITE_URL refused to serve the probe file (HTTP 403). The file may be unreadable for the web server, or $IONOS_REMOTE_DIR is not the site's directory. Nothing else was uploaded."
+    else
+      die "The probe file written to $IONOS_REMOTE_DIR was not served at $SITE_URL (last answer: HTTP $status). That directory is probably not the document root of the site, so nothing else was uploaded. Run the read-only test and check IONOS_REMOTE_DIR and the subdomain's directory in the IONOS control panel."
+    fi
   fi
   log "Verified: $IONOS_REMOTE_DIR is the document root of $SITE_URL."
 }
@@ -353,17 +363,19 @@ cmd_upload() {
   require_remote_dir
   local batch="$STATE_DIR/upload.batch" out="$STATE_DIR/upload.out" err="$STATE_DIR/upload.err" entry count=0
   : > "$batch"
-  # Directories first (parents sort before children); "-" ignores "already exists".
+  # sftp copies local mode bits, so set web-readable modes explicitly. A failed chmod
+  # ("-") does not stop the upload; the HTTPS verification would catch unreadable files.
+  # Directories first (parents sort before children); "-mkdir" ignores "already exists".
   while IFS= read -r -d '' entry; do
-    printf -- '-mkdir "%s"\n' "$(remote_path "$entry")" >> "$batch"
+    printf -- '-mkdir "%s"\n-chmod 755 "%s"\n' "$(remote_path "$entry")" "$(remote_path "$entry")" >> "$batch"
   done < <(list_source d)
   # Then every file, with index.html last so the page never references assets that are not there yet.
   while IFS= read -r -d '' entry; do
     [[ "$entry" == "index.html" ]] && continue
-    printf 'put "%s" "%s"\n' "$SOURCE_DIR/$entry" "$(remote_path "$entry")" >> "$batch"
+    printf 'put "%s" "%s"\n-chmod 644 "%s"\n' "$SOURCE_DIR/$entry" "$(remote_path "$entry")" "$(remote_path "$entry")" >> "$batch"
     count=$((count + 1))
   done < <(list_source f)
-  printf 'put "%s" "%s"\n' "$SOURCE_DIR/index.html" "$(remote_path index.html)" >> "$batch"
+  printf 'put "%s" "%s"\n-chmod 644 "%s"\n' "$SOURCE_DIR/index.html" "$(remote_path index.html)" "$(remote_path index.html)" >> "$batch"
   count=$((count + 1))
 
   log "Uploading $count files into $IONOS_REMOTE_DIR (existing files are overwritten, nothing is deleted)..."
