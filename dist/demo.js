@@ -410,3 +410,93 @@ const walkthroughObserver = new IntersectionObserver(([entry]) => {
   scheduleWalkthrough();
 }, { threshold: 0.2 });
 walkthroughObserver.observe(walkthrough);
+
+// ---------------------------------------------------------------------------
+// Logo facts: a small card with a fact about the product appears on mouse
+// hover, keyboard focus or a tap. Arrow keys move between logos in a group,
+// so each group is a single stop in the Tab order.
+// ---------------------------------------------------------------------------
+const factTiles = [...document.querySelectorAll(".logo-grid [data-fact]")];
+const factTip = document.createElement("div");
+factTip.className = "fact-tip";
+factTip.id = "fact-tip";
+factTip.setAttribute("role", "tooltip");
+factTip.hidden = true;
+const factTitle = document.createElement("strong");
+const factText = document.createElement("p");
+factTip.append(factTitle, factText);
+document.body.append(factTip);
+let factTile = null;
+
+function positionFact() {
+  if (!factTile) return;
+  const tile = factTile.getBoundingClientRect();
+  const width = factTip.offsetWidth;
+  const height = factTip.offsetHeight;
+  const margin = 12;
+  const left = Math.max(margin, Math.min(tile.left + tile.width / 2 - width / 2, window.innerWidth - width - margin));
+  const header = document.querySelector(".site-header").getBoundingClientRect().bottom;
+  const above = tile.top - height - 12 >= header + 8;
+  factTip.dataset.placement = above ? "top" : "bottom";
+  factTip.style.left = `${Math.round(left)}px`;
+  factTip.style.top = `${Math.round(above ? tile.top - height - 12 : tile.bottom + 12)}px`;
+  factTip.style.setProperty("--arrow-x", `${Math.round(tile.left + tile.width / 2 - left)}px`);
+}
+
+function showFact(tile) {
+  const text = copy().facts[tile.dataset.fact];
+  if (!text) return;
+  if (factTile && factTile !== tile) factTile.removeAttribute("aria-describedby");
+  factTile = tile;
+  factTitle.textContent = (tile.querySelector(".logo-word, .logo-name") || tile).textContent.trim();
+  factText.textContent = text;
+  factTip.hidden = false;
+  tile.setAttribute("aria-describedby", factTip.id);
+  positionFact();
+}
+
+function hideFact() {
+  if (!factTile) return;
+  factTile.removeAttribute("aria-describedby");
+  factTile = null;
+  factTip.hidden = true;
+}
+
+factTiles.forEach(tile => {
+  tile.addEventListener("pointerenter", event => { if (event.pointerType === "mouse") showFact(tile); });
+  tile.addEventListener("pointerleave", event => { if (event.pointerType === "mouse" && factTile === tile) hideFact(); });
+  tile.addEventListener("pointerup", event => {
+    if (event.pointerType === "mouse") return;
+    if (factTile === tile) hideFact();
+    else showFact(tile);
+  });
+  tile.addEventListener("focus", () => { if (tile.matches(":focus-visible")) showFact(tile); });
+  tile.addEventListener("blur", () => { if (factTile === tile) hideFact(); });
+});
+
+document.querySelectorAll(".logo-grid").forEach(grid => {
+  const items = [...grid.querySelectorAll("[data-fact]")];
+  items.forEach((item, index) => { item.tabIndex = index === 0 ? 0 : -1; });
+  grid.addEventListener("keydown", event => {
+    const index = items.indexOf(document.activeElement);
+    if (index === -1) return;
+    let next;
+    switch (event.key) {
+      case "ArrowRight": case "ArrowDown": next = (index + 1) % items.length; break;
+      case "ArrowLeft": case "ArrowUp": next = (index - 1 + items.length) % items.length; break;
+      case "Home": next = 0; break;
+      case "End": next = items.length - 1; break;
+      default: return;
+    }
+    event.preventDefault();
+    items[index].tabIndex = -1;
+    items[next].tabIndex = 0;
+    items[next].focus();
+  });
+});
+
+document.addEventListener("keydown", event => { if (event.key === "Escape") hideFact(); });
+document.addEventListener("pointerdown", event => { if (factTile && !event.target.closest("[data-fact]")) hideFact(); });
+window.addEventListener("scroll", positionFact, { passive: true });
+window.addEventListener("resize", positionFact);
+document.addEventListener("sig:languagechange", () => { if (factTile) showFact(factTile); });

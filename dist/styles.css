@@ -19,6 +19,7 @@
 }
 
 :root {
+  color-scheme: only light; /* The design mixes light and dark sections on purpose: opt out of forced dark modes. */
   --ink: #111d18;
   --forest: #263e31;
   --brand: #55b25d;
@@ -81,8 +82,8 @@ code, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .button-primary { background: var(--lime); color: #102118; }
 .button-primary:hover { background: #b6edb0; }
 
-/* Language switcher with flags. Collapsed it has the same shape as the other buttons and shows the
-   active language; on hover or keyboard focus it morphs into a pill with all three languages. */
+/* Language switcher. Collapsed it looks like the other buttons and shows the active language;
+   on hover or keyboard focus it morphs into a pill with all three languages, and the flags fade in. */
 .lang-pending body { visibility: hidden; }
 .lang-pending .lang-btns, .lang-pending .lang-btns button { transition: none; }
 .header-actions { display: flex; align-items: center; gap: 14px; flex: none; }
@@ -96,19 +97,26 @@ code, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .lang-btns:hover, .lang-btns:focus-within { width: 342px; border-radius: 999px; background: var(--monitor); border-color: var(--lime); }
 .lang-btns button {
   --shade: rgba(9, 18, 13, .58);
+  position: relative; isolation: isolate;
   flex: 1 1 0; min-width: 0; min-height: 38px; padding: 0 10px; border: 0; border-radius: 4px;
-  background: linear-gradient(var(--shade), var(--shade)), var(--flag) center / cover no-repeat;
-  color: #fff; font-size: .875rem; font-weight: 700; white-space: nowrap; text-shadow: 0 1px 3px rgba(0, 0, 0, .85);
-  transition: opacity .16s ease, box-shadow .16s ease, border-radius .24s ease, padding .22s ease, flex-basis .22s ease;
+  background: transparent; color: #e7f0e8; font-size: .875rem; font-weight: 700; white-space: nowrap;
+  transition: opacity .16s ease, box-shadow .16s ease, text-shadow .2s ease, border-radius .24s ease, padding .22s ease, flex-basis .22s ease;
 }
-.lang-btns button[data-lang="ua"] { --flag: url("assets/flags/ua.svg"); }
+/* The flag is a separate layer so it can fade in while the switcher expands. */
+.lang-btns button::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; opacity: 0;
+  background: linear-gradient(var(--shade), var(--shade)), var(--flag) center / cover no-repeat;
+  transition: opacity .22s ease;
+}
+.lang-btns button[data-lang="ua"] { --flag: linear-gradient(#0057b7 50%, #ffd700 50%); }
 .lang-btns button[data-lang="en"] { --flag: url("assets/flags/gb.svg"); }
-.lang-btns button[data-lang="de"] { --flag: url("assets/flags/de.svg"); }
-.lang-btns:hover button, .lang-btns:focus-within button { border-radius: 999px; }
+.lang-btns button[data-lang="de"] { --flag: linear-gradient(#000 33.34%, #d00 33.34% 66.67%, #ffce00 66.67%); }
+.lang-btns:hover button, .lang-btns:focus-within button { border-radius: 999px; color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
+.lang-btns:hover button::before, .lang-btns:focus-within button::before { opacity: 1; }
 .lang-btns:not(:hover):not(:focus-within) button:not(.active) { flex: 0 0 0; width: 0; padding-inline: 0; opacity: 0; pointer-events: none; }
 .lang-btns:not(:hover):not(:focus-within) button.active { flex: 1 1 100%; }
-.lang-btns button.active { --shade: rgba(9, 18, 13, .36); box-shadow: inset 0 0 0 2px var(--lime); }
-.lang-btns button:not(.active):hover { --shade: rgba(9, 18, 13, .3); box-shadow: inset 0 0 0 1px #ffffffa0; }
+.lang-btns:hover button.active, .lang-btns:focus-within button.active { --shade: rgba(9, 18, 13, .36); box-shadow: inset 0 0 0 2px var(--lime); }
+.lang-btns:hover button:not(.active):hover { --shade: rgba(9, 18, 13, .3); box-shadow: inset 0 0 0 1px #ffffffa0; }
 .lang-short { display: none; }
 
 .hero { position: relative; isolation: isolate; overflow: hidden; background: #101c17; color: #f4f8f4; }
@@ -343,6 +351,24 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 .logo-grid .logo-word { color: var(--forest); font-weight: 700; font-size: .93rem; line-height: 1.2; }
 .logo-grid .logo-more { background: transparent; border-style: dashed; color: var(--muted); font-size: .86rem; }
 .logo-grid .logo-featured { border-color: var(--action); box-shadow: inset 0 0 0 1px var(--action); }
+/* Logo facts */
+.logo-hint { margin: -14px 0 18px; }
+.logo-grid li[data-fact] { cursor: help; transition: border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
+.logo-grid li[data-fact]:hover, .logo-grid li[data-fact][aria-describedby] { border-color: var(--action); transform: translateY(-2px); box-shadow: 0 8px 18px rgba(16, 27, 23, .09); }
+.logo-grid li[data-fact]:focus-visible { outline-offset: 2px; }
+.fact-tip {
+  position: fixed; z-index: 20; width: min(310px, calc(100vw - 24px)); padding: 12px 14px 13px;
+  background: var(--ink); color: #e3ece5; border: 1px solid #3f604c; border-radius: 8px;
+  box-shadow: 0 16px 36px rgba(9, 18, 13, .28); font-size: .86rem; line-height: 1.45; pointer-events: none;
+  animation: fact-in .18s ease-out;
+}
+.fact-tip strong { display: block; margin-bottom: 4px; color: var(--lime); font-size: .82rem; }
+.fact-tip::after {
+  content: ""; position: absolute; left: var(--arrow-x, 50%); bottom: -6px; width: 10px; height: 10px;
+  background: var(--ink); border-right: 1px solid #3f604c; border-bottom: 1px solid #3f604c; transform: translateX(-50%) rotate(45deg);
+}
+.fact-tip[data-placement="bottom"]::after { top: -6px; bottom: auto; transform: translateX(-50%) rotate(-135deg); }
+@keyframes fact-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 .control-section { background: var(--ink); color: #f0f6f1; }
 .control-section .section-intro > p { color: var(--dark-muted); }
 .control-flow, .pilot-steps { display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; padding: 0; margin: 0; }
@@ -419,6 +445,10 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .lang-btns:hover button, .lang-btns:focus-within button,
   .lang-btns:not(:hover):not(:focus-within) button:not(.active),
   .lang-btns:not(:hover):not(:focus-within) button.active { flex: 0 0 auto; width: auto; min-width: 44px; min-height: 36px; padding-inline: 10px; border-radius: 4px; opacity: 1; pointer-events: auto; }
+  /* No pill here, so no flags: plain codes with the active language in lime. */
+  .lang-btns button::before, .lang-btns:hover button::before, .lang-btns:focus-within button::before { opacity: 0; }
+  .lang-btns button, .lang-btns:hover button, .lang-btns:focus-within button { color: #c5d2c9; text-shadow: none; box-shadow: none; }
+  .lang-btns button.active, .lang-btns:hover button.active, .lang-btns:focus-within button.active { background: var(--lime); color: #102118; box-shadow: none; }
   .lang-full { display: none; }
   .lang-short { display: inline; }
 }
@@ -427,7 +457,7 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chat-caret, .thinking-dots i, .stream-word { animation: none; }
+  .chat-caret, .thinking-dots i, .stream-word, .fact-tip { animation: none; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0s !important; }
 }
