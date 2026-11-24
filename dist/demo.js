@@ -195,7 +195,6 @@ const walkthroughToggle = document.querySelector("#walkthrough-toggle");
 const walkthroughPhase = document.querySelector("#walkthrough-phase");
 const walkthroughProgress = document.querySelector("#walkthrough-progress");
 const walkthroughBody = walkthrough.querySelector(".walkthrough-body");
-const walkthroughSourcesPanel = walkthrough.querySelector(".walkthrough-sources");
 const walkthroughRole = document.querySelector("#walkthrough-role");
 const scenarioButtons = [...walkthrough.querySelectorAll(".scenario-train [data-case]")];
 const scenarioThumb = walkthrough.querySelector(".scenario-thumb");
@@ -205,26 +204,34 @@ const answerBubble = walkthrough.querySelector(".conversation-answer");
 const thinking = document.querySelector("#walkthrough-thinking");
 const thinkingLabel = document.querySelector("#walkthrough-thinking-label");
 const answerParts = ["#walkthrough-answer-title", "#walkthrough-answer", "#walkthrough-limit"].map(selector => document.querySelector(selector));
-const sourceSteps = walkthrough.querySelectorAll(".walkthrough-sources [data-show-step]");
-const sourceItems = walkthrough.querySelectorAll("[data-source-step]");
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 let caseIndex = 0; // The scenarios play one after another in the order of the buttons.
 const caseName = () => scenarioButtons[caseIndex].dataset.case;
 const walkthroughCase = () => copy().walkthrough.cases[caseName()];
 
 // Pacing in milliseconds. The thinking timer shows simulated seconds, fast-forwarded.
-const PACE = { start: 350, key: 38, punctuation: 170, send: 550, source: 1350, compare: 1000, word: 80, part: 200, readBase: 3500, readPerWord: 200, fade: 700 };
+const PACE = { start: 350, key: 38, punctuation: 170, send: 550, decide: 1300, source: 1350, compare: 1000, word: 80, part: 200, readBase: 3500, readPerWord: 200, fade: 700 };
+const CHECKS_LEAVE = 240; // The checks fade out just before the answer starts.
 const THINKING_SECONDS = { resources: 14, incident: 11, maintenance: 9, stock: 12 };
 
-const cites = document.querySelector("#walkthrough-cites");
-const citesLabel = document.querySelector("#walkthrough-cites-label");
 const typedText = document.createElement("span");
 const ghostText = document.createElement("span"); // The untyped rest keeps the bubble at its final width.
 ghostText.className = "chat-ghost";
 const caret = document.createElement("span");
 caret.className = "chat-caret";
 caret.setAttribute("aria-hidden", "true");
-conversation.setAttribute("aria-hidden", "true"); // Screen readers get the static transcript instead.
+// What the assistant checks is its own decision, so nothing of it shows before the question is sent: the
+// rows appear one by one inside the reply while it thinks,
+const checksList = document.querySelector("#walkthrough-checks");
+const checkRows = [...checksList.querySelectorAll("li")]; // The decision, then one row per record.
+const checks = [...checksList.querySelectorAll("[data-check]")];
+const decidingLabel = document.querySelector("#walkthrough-deciding");
+const checkedBox = document.querySelector("#walkthrough-checked"); // and what was checked, to open after the answer.
+const checkedItems = [...checkedBox.querySelectorAll("li")];
+// Screen readers get the static transcript instead of the animation; only the disclosure stays reachable.
+[conversation.querySelector(".conversation-question"), ...answerBubble.children].forEach(element => {
+  if (element !== checkedBox) element.setAttribute("aria-hidden", "true");
+});
 
 let timeline;
 let wordSpans = [];
@@ -247,8 +254,8 @@ function buildTimeline() {
   });
   const typeEnd = time;
   const thinkStart = typeEnd + PACE.send;
-  const sourceStarts = [0, 1, 2].map(index => thinkStart + index * PACE.source);
-  const compareStart = thinkStart + 3 * PACE.source;
+  const sourceStarts = [0, 1, 2].map(index => thinkStart + PACE.decide + index * PACE.source);
+  const compareStart = sourceStarts[2] + PACE.source;
   const thinkEnd = compareStart + PACE.compare;
   const words = [];
   let at = thinkEnd + 250;
@@ -276,11 +283,12 @@ const countUntil = (times, t) => {
 
 function stageAt(t) {
   if (t < timeline.thinkStart) return 0;
-  if (t < timeline.sourceStarts[1]) return 1;
-  if (t < timeline.sourceStarts[2]) return 2;
-  if (t < timeline.compareStart) return 3;
-  if (t < timeline.thinkEnd) return 4;
-  return 5;
+  if (t < timeline.sourceStarts[0]) return 1;
+  if (t < timeline.sourceStarts[1]) return 2;
+  if (t < timeline.sourceStarts[2]) return 3;
+  if (t < timeline.compareStart) return 4;
+  if (t < timeline.thinkEnd) return 5;
+  return 6;
 }
 
 function renderWalkthrough(force = false) {
@@ -302,12 +310,12 @@ function renderWalkthrough(force = false) {
 
   const stage = stageAt(t);
   if (stage !== shown.stage) {
-    sourceSteps.forEach(element => { element.dataset.visible = stage >= Number(element.dataset.showStep); });
-    sourceItems.forEach(element => { element.dataset.reading = stage === Number(element.dataset.sourceStep); });
-    walkthroughPhase.textContent = text.steps[stage] ?? timeline.current.sources[stage - 1][2];
+    walkthroughPhase.textContent = text.steps[stage] ?? timeline.current.sources[stage - 2][2];
     walkthroughProgress.value = stage;
     answerBubble.dataset.visible = stage >= 1;
     thinking.hidden = stage < 1;
+    checkRows.forEach((row, index) => { row.dataset.state = stage > index + 1 ? "done" : stage === index + 1 ? "reading" : "wait"; });
+    checksList.dataset.leaving = stage === 6;
     shown.stage = stage;
   }
 
@@ -331,8 +339,13 @@ function renderWalkthrough(force = false) {
 
   const citing = t >= timeline.streamEnd;
   if (citing !== shown.citing) {
-    cites.hidden = !citing;
+    checkedBox.hidden = !citing;
     shown.citing = citing;
+  }
+  const checking = stage >= 1 && t < timeline.thinkEnd + CHECKS_LEAVE;
+  if (checking !== shown.checking) {
+    checksList.hidden = !checking;
+    shown.checking = checking;
   }
 
   const fading = t >= timeline.holdEnd;
@@ -357,7 +370,7 @@ function fillCase() {
   const { role, question, answerTitle, answer, limit, sources } = timeline.current;
   walkthroughRole.textContent = role;
   questionText.replaceChildren(typedText, caret, ghostText);
-  citesLabel.textContent = copy().walkthrough.cites;
+  decidingLabel.textContent = copy().walkthrough.deciding;
   answerParts.forEach(part => part.replaceChildren());
   wordSpans = timeline.words.map(word => {
     const span = document.createElement("span");
@@ -366,10 +379,11 @@ function fillCase() {
     answerParts[word.part].append(span);
     return span;
   });
-  sourceItems.forEach((source, index) => {
-    const [title, description] = sources[index];
-    source.querySelector("strong").textContent = title;
-    source.querySelector("p").textContent = description;
+  sources.forEach(([title, description], index) => {
+    checks[index].querySelector("strong").textContent = title;
+    checks[index].querySelector("em").textContent = description;
+    checkedItems[index].querySelector("strong").textContent = title;
+    checkedItems[index].querySelector("span").textContent = description;
   });
   const sourceList = sources.map(([title, description], index) => `${index + 1}. ${title}: ${description}`).join(" ");
   walkthroughTranscript.textContent = `${role}: ${question} ${i18n.text("assistantName")}: ${answerTitle} ${answer} ${limit} ${copy().walkthrough.cites}: ${sourceList}`;
@@ -379,20 +393,19 @@ function fillCase() {
 // streams in nor when the next scenario starts.
 function reserveHeights() {
   const saved = { caseIndex, elapsed };
+  closeChecked();
   conversation.style.minHeight = "";
-  walkthroughSourcesPanel.style.minHeight = "";
   let conversationHeight = 0;
-  let sourcesHeight = 0;
   scenarioButtons.forEach((button, index) => {
     caseIndex = index;
     fillCase();
-    elapsed = timeline.streamEnd;
-    renderWalkthrough(true);
-    conversationHeight = Math.max(conversationHeight, conversation.offsetHeight);
-    sourcesHeight = Math.max(sourcesHeight, walkthroughSourcesPanel.offsetHeight);
+    [timeline.thinkEnd - 1, timeline.streamEnd].forEach(moment => { // All checks listed, and the finished answer.
+      elapsed = moment;
+      renderWalkthrough(true);
+      conversationHeight = Math.max(conversationHeight, conversation.offsetHeight);
+    });
   });
   conversation.style.minHeight = `${conversationHeight}px`;
-  walkthroughSourcesPanel.style.minHeight = `${sourcesHeight}px`;
   caseIndex = saved.caseIndex;
   fillCase();
   elapsed = Math.min(saved.elapsed, timeline.end);
@@ -408,8 +421,27 @@ function placeThumb() {
   scenarioThumb.style.transform = `translate(${button.offsetLeft}px, ${button.offsetTop}px)`;
 }
 
+// Opening "what the assistant checked" holds the demo, closing it lets the demo go on.
+let heldByChecked = false;
+function closeChecked() {
+  if (heldByChecked) walkthroughPlaying = true;
+  heldByChecked = false;
+  checkedBox.open = false;
+}
+checkedBox.addEventListener("toggle", () => {
+  if (checkedBox.open && walkthroughPlaying) {
+    heldByChecked = true;
+    walkthroughPlaying = false;
+  } else if (!checkedBox.open && heldByChecked) {
+    heldByChecked = false;
+    walkthroughPlaying = true;
+  }
+  scheduleWalkthrough();
+});
+
 // Opens a scenario: from its first keystroke when playing, as a finished dialog otherwise.
 function selectCase(index) {
+  closeChecked();
   caseIndex = index;
   scenarioButtons.forEach((button, position) => button.setAttribute("aria-pressed", String(position === index)));
   fillCase();
@@ -458,13 +490,14 @@ scenarioButtons.forEach((button, index) => button.addEventListener("click", () =
 }));
 walkthroughToggle.addEventListener("click", () => {
   walkthroughPlaying = !walkthroughPlaying;
+  closeChecked();
   if (walkthroughPlaying && elapsed >= timeline.holdEnd) elapsed = 0;
   scheduleWalkthrough();
 });
 document.addEventListener("visibilitychange", scheduleWalkthrough);
 motionPreference.addEventListener("change", event => {
   if (!event.matches) return;
-  walkthroughPlaying = false;
+  walkthroughPlaying = heldByChecked = false;
   elapsed = timeline.streamEnd;
   scheduleWalkthrough();
 });

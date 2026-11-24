@@ -35,9 +35,9 @@
   <link rel="preload" href="assets/Rubik-BoldItalic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/production-line.webp" as="image" fetchpriority="high">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Sintelligence","applicationCategory":"BusinessApplication","description":"Industrial AI assistant that finds resource losses, explains downtime and keeps a team's know-how, with sources for every answer.","url":"https://sintelligence.sig-automation.de/","inLanguage":["de","en","uk"],"publisher":{"@type":"Organization","name":"Smart Industry Group GmbH","url":"https://sig-automation.com/"}}</script>
-  <link rel="stylesheet" href="styles.css?v=14">
-  <script src="i18n.js?v=11"></script>
-  <script src="demo.js?v=11" defer></script>
+  <link rel="stylesheet" href="styles.css?v=15">
+  <script src="i18n.js?v=12"></script>
+  <script src="demo.js?v=12" defer></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main" data-i18n="skipLink">Перейти до вмісту</a>
@@ -86,7 +86,7 @@
       <div class="frame">
         <div class="section-intro demo-intro">
           <div><h2 id="demo-title"><span data-i18n="demoTitle">Від запитання до відповіді</span> <span class="h2-sub" data-i18n="demoSubtitle">Типові сценарії використання</span></h2></div>
-          <p data-i18n="demoIntro">Чотири ситуації йдуть одна за одною. Оберіть будь-яку, щоб запустити її, і подивіться, які записи читає асистент.</p>
+          <p data-i18n="demoIntro">Чотири ситуації йдуть одна за одною. Оберіть будь-яку, щоб запустити її, і подивіться, як асистент сам вирішує, що перевірити.</p>
         </div>
         <div class="walkthrough" id="walkthrough" role="region" aria-label="Типові сценарії використання" data-i18n-aria="demoSubtitle">
           <div class="walkthrough-bar" id="walkthrough-bar" hidden>
@@ -105,24 +105,29 @@
                 <span id="walkthrough-role">Енергоменеджер</span>
                 <p id="walkthrough-question">Чому на той самий обсяг пішло більше електроенергії?</p>
               </div>
-              <div class="conversation-message conversation-answer" data-show-step="5">
+              <div class="conversation-message conversation-answer">
                 <span data-i18n="assistantName">Sintelligence</span>
                 <p class="chat-thinking" id="walkthrough-thinking" hidden><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span><span id="walkthrough-thinking-label"></span></p>
+                <ul class="chat-checks" id="walkthrough-checks" hidden>
+                  <li data-state="wait"><span class="check-mark"></span><span id="walkthrough-deciding"></span></li>
+                  <li data-state="wait" data-check><span class="check-mark"></span><span><strong></strong> <em></em></span></li>
+                  <li data-state="wait" data-check><span class="check-mark"></span><span><strong></strong> <em></em></span></li>
+                  <li data-state="wait" data-check><span class="check-mark"></span><span><strong></strong> <em></em></span></li>
+                </ul>
                 <p><strong id="walkthrough-answer-title">Почніть із періодів без роботи.</strong> <span id="walkthrough-answer">Лічильник показує витрати навіть тоді, коли ділянка нічого не випускала.</span></p>
                 <p class="conversation-limit" id="walkthrough-limit">Спершу з’ясуйте, яке споживання в цей час потрібне за регламентом.</p>
-                <p class="chat-cites" id="walkthrough-cites" hidden><span id="walkthrough-cites-label">Джерела</span> <span class="cite">1</span><span class="cite">2</span><span class="cite">3</span></p>
+                <details class="chat-checked" id="walkthrough-checked">
+                  <summary><span data-i18n="checkedLabel">Що перевірив асистент</span></summary>
+                  <ol>
+                    <li><strong>Лічильник</strong> <span>Витрати зросли зі 144 до 168 кВт·год.</span></li>
+                    <li><strong>Обсяг роботи</strong> <span>Обидві зміни випустили по 1 200 одиниць.</span></li>
+                    <li><strong>Графік роботи</strong> <span>Частина витрат припала на час без випуску.</span></li>
+                  </ol>
+                </details>
               </div>
             </div>
-            <div class="walkthrough-sources" aria-hidden="true">
-              <h3 data-i18n="sourcesHeading">Що перевіряє асистент</h3>
-              <ol>
-                <li data-source-step="1" data-show-step="1"><span class="source-light" aria-hidden="true">1</span><div><strong>Лічильник</strong><p data-show-step="2">Витрати зросли зі 144 до 168 кВт·год.</p></div></li>
-                <li data-source-step="2" data-show-step="2"><span class="source-light" aria-hidden="true">2</span><div><strong>Обсяг роботи</strong><p data-show-step="3">Обидві зміни випустили по 1 200 одиниць.</p></div></li>
-                <li data-source-step="3" data-show-step="3"><span class="source-light" aria-hidden="true">3</span><div><strong>Графік роботи</strong><p data-show-step="4">Частина витрат припала на час без випуску.</p></div></li>
-              </ol>
-            </div>
           </div>
-          <div class="walkthrough-status" id="walkthrough-status" hidden><span id="walkthrough-phase"></span><progress id="walkthrough-progress" max="5" value="0" aria-label="Хід демонстрації" data-i18n-aria="walkthroughProgress"></progress><span class="walkthrough-actions"><button type="button" id="walkthrough-toggle">Пауза</button></span></div>
+          <div class="walkthrough-status" id="walkthrough-status" hidden><span id="walkthrough-phase"></span><progress id="walkthrough-progress" max="6" value="0" aria-label="Хід демонстрації" data-i18n-aria="walkthroughProgress"></progress><span class="walkthrough-actions"><button type="button" id="walkthrough-toggle">Пауза</button></span></div>
         </div>
       </div>
     </section>
@@ -158,7 +163,7 @@
               </dl>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Sintelligence</span></p>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true"></span> <span data-i18n="assistantName">Sintelligence</span></p>
               <h3 id="resource-question">Де шукати перевитрату електроенергії?</h3>
               <dl class="answer">
                 <div><dt data-i18n="whatVisible">Що видно</dt><dd id="resource-finding">За того самого обсягу зміна B витратила на 24 кВт·год більше.</dd></div>
@@ -184,7 +189,7 @@
               </div>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Sintelligence</span></p>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true"></span> <span data-i18n="assistantName">Sintelligence</span></p>
               <h3 data-i18n="incQuestion">Що перевірити після зупинки лінії B?</h3>
               <dl class="answer">
                 <div><dt data-i18n="whatHappened">Що сталося</dt><dd data-i18n="incHappened">Перед зупинкою впали рівень на вході й тиск.</dd></div>
@@ -220,7 +225,7 @@
               </figure>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Sintelligence</span></p>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true"></span> <span data-i18n="assistantName">Sintelligence</span></p>
               <h3 data-i18n="trQuestion">Чи падав тиск перед зупинками P-204?</h3>
               <dl class="answer">
                 <div><dt data-i18n="whatRepeated">Що повторилося</dt><dd data-i18n="trRepeated">12 та 18 квітня тиск падав перед зупинкою.</dd></div>
@@ -243,7 +248,7 @@
               </ol>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Sintelligence</span></p>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true"></span> <span data-i18n="assistantName">Sintelligence</span></p>
               <h3 data-i18n="stQuestion">Як оцінити налаштування без аварії?</h3>
               <dl class="answer">
                 <div><dt data-i18n="stCompareLabel">Порівняти</dt><dd data-i18n="stCompare">Почати з періодів зі схожим навантаженням і відокремити їх від запусків та зупинок.</dd></div>
@@ -265,7 +270,7 @@
               </dl>
             </div>
             <div class="scenario-output">
-              <p class="response-author"><span class="assistant-mark" aria-hidden="true">✦</span> <span data-i18n="assistantName">Sintelligence</span></p>
+              <p class="response-author"><span class="assistant-mark" aria-hidden="true"></span> <span data-i18n="assistantName">Sintelligence</span></p>
               <h3 data-i18n="hoQuestion">Що передати про цю зупинку?</h3>
               <fieldset class="choice-group" id="report-choice">
                 <legend data-i18n="hoLegend">Чернетка для</legend>
@@ -302,7 +307,7 @@
             <p class="source-example" id="source-example">Приклад — журнал подій і графік рівня.</p>
           </article>
           <div class="source-tail" aria-hidden="true"></div>
-          <div class="source-result"><span class="assistant-mark" aria-hidden="true">✦</span><strong data-i18n="assistantName">Sintelligence</strong><span data-i18n="ctxResult">Пояснення з джерелами для інженера</span></div>
+          <div class="source-result"><span class="assistant-mark" aria-hidden="true"></span><strong data-i18n="assistantName">Sintelligence</strong><span data-i18n="ctxResult">Пояснення з джерелами для інженера</span></div>
         </div>
         <p class="small-note map-note" data-i18n="ctxNote">Перед підключенням ви обираєте, які джерела асистент зможе читати.</p>
       </div>
