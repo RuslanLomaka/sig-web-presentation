@@ -7,3 +7,90 @@
 - `dist/index.html` містить сторінку й тексти.
 - `dist/styles.css` містить стилі та підключення локальних шрифтів.
 - `dist/demo.js` містить сценарії, перемикачі та графіки.
+
+## Розгортання на IONOS
+
+Робоча адреса: **https://sintelligence.sig-automation.de**
+
+```
+Локальна розробка → git push у main → GitHub Actions → SFTP (порт 22) → IONOS Webhosting → сайт
+```
+
+На сервер потрапляє лише вміст `dist/`. `dist/index.html` стає `index.html` у корені сайту, без додаткової теки `dist`.
+
+- Workflow: [`.github/workflows/deploy-ionos.yml`](.github/workflows/deploy-ionos.yml)
+- Кроки розгортання: [`.github/scripts/deploy-ionos.sh`](.github/scripts/deploy-ionos.sh)
+
+Потрібні лише OpenSSH, curl і jq, які вже є на стандартних Linux-раннерах GitHub. Додаткових пакетів, сторонніх Actions, Docker чи платних сервісів немає. Єдина зовнішня дія, `actions/checkout`, закріплена за SHA коміту.
+
+### Коли запускається
+
+| Подія | Що відбувається |
+|---|---|
+| Push у `main`, який змінює файли в `dist/` | Автоматичне розгортання, якщо задано змінну `IONOS_REMOTE_DIR`. Без неї запуск лише попереджає, що нічого не розгорнуто. |
+| Actions → **Deploy to IONOS** → Run workflow → `test` | Перевірка з'єднання лише на читання. На сервері нічого не змінюється. |
+| Actions → **Deploy to IONOS** → Run workflow → `deploy` | Ручне розгортання. Працює лише з гілки `main`. |
+
+Зміни поза `dist/` (README, workflow) розгортання не запускають. Одночасно виконується лише один запуск. Наступний чекає, поки завершиться поточний, і не перериває його посеред завантаження.
+
+### Налаштування
+
+Repository secrets (Settings → Secrets and variables → Actions → Secrets):
+
+| Secret | Значення |
+|---|---|
+| `CICD_SSH_HOST_GITHUB_ACTIONS` | SFTP-хост IONOS, наприклад `access-XXXXXXXXXX.webspace-host.com` |
+| `CICD_SSH_USR_GITHUB_ACTIONS` | Ім'я SFTP-користувача |
+| `CICD_SSH_PWD_GITHUB_ACTIONS` | Пароль SFTP-користувача |
+
+Repository variable (Settings → Secrets and variables → Actions → Variables):
+
+| Variable | Значення |
+|---|---|
+| `IONOS_REMOTE_DIR` | Перевірена тека сайту на сервері: `/sintelligence` для основного SFTP-акаунта або `/` для акаунта, обмеженого текою сайту. Інші значення workflow відхиляє. Поки змінну не задано, автоматичне розгортання вимкнене. |
+
+### Перше ввімкнення
+
+1. Actions → **Deploy to IONOS** → **Run workflow** → гілка `main`, mode `test`.
+2. Відкрийте підсумок запуску. Тест перевіряє SSH-ключ сервера, вхід, те, як акаунт бачить webspace, і пропонує значення `IONOS_REMOTE_DIR`:
+   - `/sintelligence` видно → основний акаунт → `/sintelligence`;
+   - `/sintelligence` не видно → акаунт, обмежений текою сайту → `/`.
+3. Задайте змінну через Settings → Secrets and variables → Actions → Variables або командою:
+   ```bash
+   gh variable set IONOS_REMOTE_DIR --body /sintelligence --repo RuslanLomaka/sig-web-presentation
+   ```
+4. Запустіть workflow у режимі `deploy`. Відтоді кожен push у `main`, що змінює `dist/`, розгортається автоматично.
+
+### Що робить розгортання
+
+1. **Перевіряє `dist/` і налаштування** без мережі: `index.html` лежить на верхньому рівні, немає символічних посилань і назв із символами `" \ * ? [ ]`, запуск іде з `main`, `IONOS_REMOTE_DIR` має дозволене значення.
+2. **Перевіряє SSH-ключ сервера.** Ключі, які показує сервер, порівнюються з [офіційними відбитками IONOS](https://www.ionos.de/hilfe/hosting/ssh-zugaenge-einrichten-und-verwalten/uebersicht-der-ssh-fingerabdruecke-im-ionos-webhosting/). Якщо хоч один ключ не збігається, запуск зупиняється ще до входу. Далі ssh працює з `StrictHostKeyChecking yes`.
+3. **Перевіряє теку призначення, лише читаючи.** `/sintelligence` має вже існувати: workflow її не створює. `/` дозволено, лише коли `/sintelligence` не видно, бо інакше `/` означає весь webspace разом з основним сайтом.
+4. **Доводить, що тека є коренем сайту.** Записує тимчасовий файл `deploy-probe-….txt`, вимагає, щоб `https://sintelligence.sig-automation.de` віддав саме його, і видаляє файл. Якщо сайт його не віддає, більше нічого не завантажується.
+5. **Завантажує всі файли `dist/`**, разом із вкладеними `assets/` і шрифтами. `index.html` іде останнім, щоб сторінка не посилалася на ще не завантажені файли. Наявні файли перезаписуються. **На сервері нічого не видаляється.**
+6. **Перевіряє сайт через HTTPS.** Кожен файл і корінь сайту завантажуються з `https://sintelligence.sig-automation.de` і порівнюються з `dist/` за SHA-256.
+
+### Безпека
+
+- Облікові дані беруться лише з GitHub Secrets. Пароль передається ssh через `SSH_ASKPASS` зі змінної середовища. Він не потрапляє в командний рядок, у файли чи в лог, а GitHub додатково маскує значення secrets.
+- Secrets отримують лише ті кроки, яким вони потрібні. Workflow має тільки право `contents: read`.
+- Репозиторій публічний, тож і логи Actions публічні. Тест показує лише кількість файлів на сервері, без назв, а довгі числа в шляхах приховує.
+- Workflow ніколи не видаляє файли на сервері й пише лише в теку `IONOS_REMOTE_DIR`. Основний сайт компанії він не зачіпає. Застарілі файли з попередніх версій видаляйте вручну через SFTP-клієнт.
+- DNS і SSL workflow не змінює.
+
+### Усунення несправностей
+
+| Повідомлення або симптом | Причина та дії |
+|---|---|
+| `The server returned no SSH host keys` | Неправильний `CICD_SSH_HOST_GITHUB_ACTIONS` або порт 22 недоступний. Візьміть хост у панелі IONOS: Hosting → SFTP & SSH. |
+| `NO MATCH … not in the official IONOS fingerprint list` | Хост не належить IONOS Webhosting, або IONOS змінив ключі. Звірте з офіційною сторінкою. Змінюйте `IONOS_HOST_KEY_FINGERPRINTS` у workflow лише тоді, коли IONOS опублікував нові відбитки. |
+| `SSH host key verification failed` | Ключ змінився між перевіркою і входом. Нічого не надіслано. Перевірте відбитки, як описано вище. |
+| `Login refused` | Неправильний користувач або пароль у secrets, або в акаунта немає доступу SFTP. Не перезапускайте багато разів з неправильним паролем: IONOS може тимчасово заблокувати акаунт. |
+| `Production deployment is not enabled` або завдання «Automatic deployment not enabled yet» | Не задано `IONOS_REMOTE_DIR`. Виконайте кроки з розділу «Перше ввімкнення». |
+| `/sintelligence does not exist for this SFTP account` | Акаунт обмежений текою сайту, тоді задайте `/`. Або теку ще не створено в IONOS. |
+| `IONOS_REMOTE_DIR is '/', but this account can see /sintelligence` | Це основний акаунт, і `/` означає весь webspace. Задайте `/sintelligence`. |
+| `The probe file … was not served` | Субдомен в IONOS указує на іншу теку, або DNS чи SSL ще не активні. Перевірте в панелі IONOS теку webspace субдомену `sintelligence`. Нічого, крім тимчасового файлу, не завантажувалося. |
+| `URLs do not match dist/` | Завантаження обірвалося, або кеш віддав стару версію. Перезапустіть `deploy`. |
+| Помилка SSL на кроці HTTPS | Сертифікат ще не активний. Зачекайте й перезапустіть. |
+| Після push нічого не запустилося | Зміни були поза `dist/`. Запустіть `deploy` вручну. |
+| На сайті лишився старий файл | Workflow нічого не видаляє. Видаліть файл вручну через SFTP. |

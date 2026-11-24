@@ -1,0 +1,145 @@
+# Publishes dist/ to IONOS Webhosting (https://sintelligence.sig-automation.de) over SFTP.
+#
+# Manual run, mode "test":   read-only connection test. Changes nothing on the server.
+# Manual run, mode "deploy": uploads dist/ from main.
+# Push to main touching dist/: deploys automatically once the repository variable
+#                              IONOS_REMOTE_DIR is set (see README, "Deployment").
+#
+# The steps live in .github/scripts/deploy-ionos.sh and use only tools preinstalled
+# on GitHub's Ubuntu runners (OpenSSH, curl, jq). No third-party actions handle secrets.
+name: Deploy to IONOS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dist/**"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "test = read-only connection test (changes nothing); deploy = upload dist/ to IONOS"
+        type: choice
+        options:
+          - test
+          - deploy
+        default: test
+        required: true
+
+permissions:
+  contents: read
+
+# One run at a time. A newer run waits for the running one instead of cancelling it mid-upload.
+concurrency:
+  group: deploy-ionos-production
+  cancel-in-progress: false
+
+env:
+  SITE_URL: https://sintelligence.sig-automation.de
+  SOURCE_DIR: dist
+  # Official SSH host key fingerprints of IONOS Webhosting (ECDSA, RSA, ED25519), checked 2026-11-24 against
+  # https://www.ionos.de/hilfe/hosting/ssh-zugaenge-einrichten-und-verwalten/uebersicht-der-ssh-fingerabdruecke-im-ionos-webhosting/
+  # https://www.ionos.com/help/hosting/ssh-zugaenge-einrichten-und-verwalten/overview-of-ssh-fingerprints-in-ionos-web-hosting/
+  # Change these only after re-checking those pages. Any other key makes the run stop before logging in.
+  IONOS_HOST_KEY_FINGERPRINTS: >-
+    SHA256:J4oM+B2g7zZWAI3DolXR1e4vdIMrGO301kEN14/slsQ
+    SHA256:psLDE8kfhoS9GWrc/GTrdlPvyKPcWcGZv2JxOCvwF3w
+    SHA256:1gx2w8Rtv3wCgi7Jh8myf/KVd72cRQbow03UP8P095Q
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  connection-test:
+    name: Read-only connection test
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'test'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Verify IONOS SSH host key
+        env:
+          IONOS_SSH_HOST: ${{ secrets.CICD_SSH_HOST_GITHUB_ACTIONS }}
+        run: .github/scripts/deploy-ionos.sh setup-ssh
+
+      - name: Inspect remote directories (read-only)
+        env:
+          IONOS_SSH_HOST: ${{ secrets.CICD_SSH_HOST_GITHUB_ACTIONS }}
+          IONOS_SSH_USER: ${{ secrets.CICD_SSH_USR_GITHUB_ACTIONS }}
+          IONOS_SSH_PASSWORD: ${{ secrets.CICD_SSH_PWD_GITHUB_ACTIONS }}
+          IONOS_REMOTE_DIR: ${{ vars.IONOS_REMOTE_DIR }}
+        run: .github/scripts/deploy-ionos.sh inspect
+
+  deploy:
+    name: Deploy dist/ to IONOS
+    if: >-
+      (github.event_name == 'push' && vars.IONOS_REMOTE_DIR != '') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'deploy')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment:
+      name: ionos-production
+      url: https://sintelligence.sig-automation.de
+    env:
+      IONOS_REMOTE_DIR: ${{ vars.IONOS_REMOTE_DIR }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check configuration and dist/
+        run: .github/scripts/deploy-ionos.sh check-local
+
+      - name: Verify IONOS SSH host key
+        env:
+          IONOS_SSH_HOST: ${{ secrets.CICD_SSH_HOST_GITHUB_ACTIONS }}
+        run: .github/scripts/deploy-ionos.sh setup-ssh
+
+      - name: Check destination directory (read-only)
+        env:
+          IONOS_SSH_HOST: ${{ secrets.CICD_SSH_HOST_GITHUB_ACTIONS }}
+          IONOS_SSH_USER: ${{ secrets.CICD_SSH_USR_GITHUB_ACTIONS }}
+          IONOS_SSH_PASSWORD: ${{ secrets.CICD_SSH_PWD_GITHUB_ACTIONS }}
+        run: .github/scripts/deploy-ionos.sh preflight
+
+      - name: Prove destination is the web root (temporary probe file)
+        env:
+          IONOS_SSH_HOST: ${{ secrets.CICD_SSH_HOST_GITHUB_ACTIONS }}
+          IONOS_SSH_USER: ${{ secrets.CICD_SSH_USR_GITHUB_ACTIONS }}
+          IONOS_SSH_PASSWORD: ${{ secrets.CICD_SSH_PWD_GITHUB_ACTIONS }}
+        run: .github/scripts/deploy-ionos.sh probe
+
+      - name: Upload dist/
+        env:
+          IONOS_SSH_HOST: ${{ secrets.CICD_SSH_HOST_GITHUB_ACTIONS }}
+          IONOS_SSH_USER: ${{ secrets.CICD_SSH_USR_GITHUB_ACTIONS }}
+          IONOS_SSH_PASSWORD: ${{ secrets.CICD_SSH_PWD_GITHUB_ACTIONS }}
+        run: .github/scripts/deploy-ionos.sh upload
+
+      - name: Verify live site over HTTPS
+        run: .github/scripts/deploy-ionos.sh verify
+
+      - name: Remove leftover probe file
+        if: always()
+        env:
+          IONOS_SSH_HOST: ${{ secrets.CICD_SSH_HOST_GITHUB_ACTIONS }}
+          IONOS_SSH_USER: ${{ secrets.CICD_SSH_USR_GITHUB_ACTIONS }}
+          IONOS_SSH_PASSWORD: ${{ secrets.CICD_SSH_PWD_GITHUB_ACTIONS }}
+        run: .github/scripts/deploy-ionos.sh cleanup
+
+  deployment-not-enabled:
+    name: Automatic deployment not enabled yet
+    if: github.event_name == 'push' && vars.IONOS_REMOTE_DIR == ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Explain why nothing was deployed
+        run: |
+          msg="dist/ changed, but nothing was deployed: the repository variable IONOS_REMOTE_DIR is not set yet. Run this workflow manually in mode 'test', then set the variable as described in the README."
+          echo "::warning::$msg"
+          echo "$msg" >> "$GITHUB_STEP_SUMMARY"
