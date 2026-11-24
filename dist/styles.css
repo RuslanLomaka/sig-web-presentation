@@ -81,34 +81,57 @@ code, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .button-primary { background: var(--lime); color: #102118; }
 .button-primary:hover { background: #b6edb0; }
 
-/* Language switcher: shows the active language, expands on hover or keyboard focus. */
+/* Language switcher with flags. Collapsed it has the same shape as the other buttons and shows the
+   active language; on hover or keyboard focus it morphs into a pill with all three languages. */
 .lang-pending body { visibility: hidden; }
 .lang-pending .lang-btns, .lang-pending .lang-btns button { transition: none; }
 .header-actions { display: flex; align-items: center; gap: 14px; flex: none; }
 .lang-switch { position: relative; width: 132px; height: 46px; flex: none; }
 .lang-btns {
   position: absolute; top: 50%; right: 0; z-index: 2; transform: translateY(-50%);
-  display: flex; width: 132px; padding: 3px; gap: 2px; overflow: hidden;
-  border: 1px solid #63756a; border-radius: 999px; background: #101b17;
-  transition: width .24s ease, background .18s ease, border-color .18s ease;
+  display: flex; width: 132px; height: 46px; padding: 3px; gap: 3px; overflow: hidden;
+  border: 1px solid #63756a; border-radius: 6px; background: #101b17;
+  transition: width .24s ease, border-radius .24s ease, background .18s ease, border-color .18s ease;
 }
-.lang-btns:hover, .lang-btns:focus-within { width: 342px; background: var(--monitor); border-color: var(--lime); }
+.lang-btns:hover, .lang-btns:focus-within { width: 342px; border-radius: 999px; background: var(--monitor); border-color: var(--lime); }
 .lang-btns button {
-  flex: 1 1 0; min-width: 0; min-height: 38px; padding: 0 10px; border: 0; border-radius: 999px;
-  background: transparent; color: #c5d2c9; font-size: .875rem; font-weight: 700; white-space: nowrap;
-  transition: opacity .16s ease, color .16s ease, background .16s ease, padding .22s ease, flex-basis .22s ease;
+  --shade: rgba(9, 18, 13, .58);
+  flex: 1 1 0; min-width: 0; min-height: 38px; padding: 0 10px; border: 0; border-radius: 4px;
+  background: linear-gradient(var(--shade), var(--shade)), var(--flag) center / cover no-repeat;
+  color: #fff; font-size: .875rem; font-weight: 700; white-space: nowrap; text-shadow: 0 1px 3px rgba(0, 0, 0, .85);
+  transition: opacity .16s ease, box-shadow .16s ease, border-radius .24s ease, padding .22s ease, flex-basis .22s ease;
 }
+.lang-btns button[data-lang="ua"] { --flag: url("assets/flags/ua.svg"); }
+.lang-btns button[data-lang="en"] { --flag: url("assets/flags/gb.svg"); }
+.lang-btns button[data-lang="de"] { --flag: url("assets/flags/de.svg"); }
+.lang-btns:hover button, .lang-btns:focus-within button { border-radius: 999px; }
 .lang-btns:not(:hover):not(:focus-within) button:not(.active) { flex: 0 0 0; width: 0; padding-inline: 0; opacity: 0; pointer-events: none; }
 .lang-btns:not(:hover):not(:focus-within) button.active { flex: 1 1 100%; }
-.lang-btns button.active { background: var(--lime); color: #102118; }
-.lang-btns button:not(.active):hover { background: #ffffff14; color: var(--lime); }
+.lang-btns button.active { --shade: rgba(9, 18, 13, .36); box-shadow: inset 0 0 0 2px var(--lime); }
+.lang-btns button:not(.active):hover { --shade: rgba(9, 18, 13, .3); box-shadow: inset 0 0 0 1px #ffffffa0; }
 .lang-short { display: none; }
 
 .hero { position: relative; isolation: isolate; overflow: hidden; background: #101c17; color: #f4f8f4; }
-.hero-image {
-  position: absolute; inset: 0 0 0 48%; z-index: -1;
-  background: #0d1718 url("assets/production-line.webp") center / contain no-repeat;
-  border-left: 1px solid #ffffff19;
+/* The photo is part of the hero background: it fades and blurs into the dark surface on the left,
+   top and bottom, and is positioned so both robot arms stay clear of the headline. */
+.hero-image { position: absolute; inset: 0 0 0 34%; z-index: -1; pointer-events: none; }
+.hero-image::before, .hero-image::after {
+  content: ""; position: absolute; inset: 0;
+  background: url("assets/production-line.webp") left center / cover no-repeat;
+}
+.hero-image::before {
+  filter: saturate(.9) brightness(.94);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 40%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 84%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0%, #000 40%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 84%, transparent 100%);
+  mask-composite: intersect;
+}
+.hero-image::after {
+  filter: blur(18px) saturate(.75) brightness(.68);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, .7) 22%, transparent 50%), linear-gradient(to bottom, transparent 0%, #000 20%, #000 78%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, .7) 22%, transparent 50%), linear-gradient(to bottom, transparent 0%, #000 20%, #000 78%, transparent 100%);
+  mask-composite: intersect;
 }
 .hero-layout {
   min-height: clamp(475px, 36vw, 645px); padding-block: 60px;
@@ -365,7 +388,13 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .hero { display: flex; flex-direction: column-reverse; }
   .hero-layout { min-height: auto; padding-block: 48px; }
   .hero-copy { width: min(100%, 560px); padding-right: 0; }
-  .hero-image { position: relative; inset: auto; aspect-ratio: 1.7; border-left: 0; }
+  .hero-image { position: relative; inset: auto; aspect-ratio: 1.7; margin-top: -40px; }
+  .hero-image::before {
+    background-position: center;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 38%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 38%, #000 86%, transparent 100%);
+  }
+  .hero-image::after { display: none; }
   .hero h1 { font-size: clamp(2.55rem, 9vw, 4.6rem); }
   .walkthrough-body { grid-template-columns: 1fr; }
   .walkthrough-bar { flex-wrap: wrap; }
@@ -385,10 +414,11 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 /* Touch screens and narrow layouts: all three languages stay visible as short codes. */
 @media (hover: none), (max-width: 800px) {
   .lang-switch { width: auto; height: auto; }
-  .lang-btns, .lang-btns:hover, .lang-btns:focus-within { position: static; transform: none; width: auto; background: #101b17; border-color: #63756a; }
+  .lang-btns, .lang-btns:hover, .lang-btns:focus-within { position: static; transform: none; width: auto; height: auto; border-radius: 6px; background: #101b17; border-color: #63756a; }
   .lang-btns button,
+  .lang-btns:hover button, .lang-btns:focus-within button,
   .lang-btns:not(:hover):not(:focus-within) button:not(.active),
-  .lang-btns:not(:hover):not(:focus-within) button.active { flex: 0 0 auto; width: auto; min-width: 42px; min-height: 34px; padding-inline: 10px; opacity: 1; pointer-events: auto; }
+  .lang-btns:not(:hover):not(:focus-within) button.active { flex: 0 0 auto; width: auto; min-width: 44px; min-height: 36px; padding-inline: 10px; border-radius: 4px; opacity: 1; pointer-events: auto; }
   .lang-full { display: none; }
   .lang-short { display: inline; }
 }
