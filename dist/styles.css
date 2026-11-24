@@ -166,6 +166,87 @@ code, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .hero-copy .button { min-height: 52px; padding-inline: 22px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
+/* Three circles: automation, AI and systems integration come together step by step while scrolling.
+   Without scripts, with reduced motion and on very low screens this is simply the finished picture. */
+.advantage { position: relative; margin-top: -1px; background: #101c17; color: #f4f8f4; } /* -1px: no hairline below the hero. */
+.advantage-stage { position: relative; isolation: isolate; padding-block: 60px 70px; }
+.advantage-stage::before { /* A faint light behind the circles once they meet. */
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(60% 70% at 68% 52%, #1f3d2bcc, transparent 72%);
+}
+.advantage-layout {
+  display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); grid-template-rows: 1fr auto auto 1fr; grid-template-areas: ". venn" "title venn" "notes venn" ". venn";
+  gap: 0 clamp(36px, 5vw, 80px); align-items: center;
+}
+.advantage h2 { grid-area: title; font-size: clamp(2.3rem, 3.9vw, 4rem); line-height: 1.06; letter-spacing: -.05em; }
+.advantage h2 span, .advantage h2 em { display: block; }
+.advantage h2 em { color: var(--lime); font: italic 700 1em/1.08 Rubik, Roboto, Arial, sans-serif; }
+.advantage-notes { grid-area: notes; max-width: 520px; margin-top: 30px; }
+.advantage-notes ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 15px; }
+.advantage-notes li { --tone: #6fb0de; position: relative; padding-left: 17px; }
+.advantage-notes .note-ai { --tone: #72cd78; }
+.advantage-notes .note-int { --tone: #e0b672; }
+.advantage-notes li::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 2px; background: var(--tone); }
+.advantage-notes strong { display: block; color: var(--tone); font-size: 1.02rem; }
+.advantage-notes li span { color: #c6d5cb; }
+.advantage-text { margin-top: 24px; color: #e6f0e8; font-size: 1.125rem; line-height: 1.5; }
+.venn {
+  grid-area: venn; justify-self: center; position: relative; container-type: inline-size; aspect-ratio: 600 / 544;
+  width: min(100%, 610px, calc((100vh - var(--header-height) - 90px) * 1.1));
+  width: min(100%, 610px, calc((100svh - var(--header-height) - 90px) * 1.1));
+}
+.venn-circle {
+  --tone: 79, 143, 191;
+  position: absolute; left: 0; top: 0; width: 62%; aspect-ratio: 1; border-radius: 50%;
+  border: 1.5px solid rgba(var(--tone), .85); background: radial-gradient(circle at 50% 50%, rgba(var(--tone), .2), rgba(var(--tone), .38));
+  box-shadow: 0 0 46px rgba(var(--tone), .16), inset 0 0 40px rgba(var(--tone), .14);
+}
+.venn-ai { --tone: 85, 178, 93; left: 38%; }
+.venn-int { --tone: 208, 163, 92; left: 19%; top: 31.6%; }
+.venn-label {
+  position: absolute; left: 31%; top: 29%; width: 54%; translate: -50% -50%; display: grid; justify-items: center; gap: .35em;
+  color: #fff; font-size: 13px; font-size: clamp(.78rem, 3.35cqw, 1.18rem); font-weight: 700; line-height: 1.18; text-align: center;
+}
+.venn-ai .venn-label { left: 69%; }
+.venn-int .venn-label { left: 50%; top: 72%; width: 60%; }
+.venn-label svg { width: 2.1em; height: 2.1em; fill: none; stroke: rgb(var(--tone)); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; filter: brightness(1.5); }
+.venn-badge {
+  position: absolute; left: 50%; top: 45.5%; width: 45%; padding: 3.6% 3.2%; transform: translate(-50%, -50%);
+  border: 1.5px solid var(--lime); border-radius: 10px; background: #0c1712; box-shadow: 0 0 0 5px #92df9124, 0 14px 44px #000b;
+}
+.venn-badge img { width: 100%; height: auto; }
+
+@media screen and (prefers-reduced-motion: no-preference) and (min-height: 480px) {
+  .js .advantage { height: 320vh; height: 320svh; }
+  .js .advantage-stage { position: sticky; top: 0; height: 100vh; height: 100svh; padding-block: var(--header-height) 0; overflow: clip; }
+  .js .advantage-layout { height: 100%; }
+  /* From here on: the steps. Every rule names what has NOT happened yet. */
+  .scene-ready .venn-circle { transition: transform 1s cubic-bezier(.22, .8, .24, 1), opacity .7s ease; }
+  .scene-ready .venn-label { transition: translate 1s cubic-bezier(.22, .8, .24, 1), scale 1s cubic-bezier(.22, .8, .24, 1); }
+  .scene-ready .venn-badge { transition: transform .7s cubic-bezier(.3, 1.5, .5, 1) .15s, opacity .4s ease .15s; }
+  .scene-ready .advantage-stage::before, .scene-ready .advantage-notes li, .scene-ready .advantage-text, .scene-ready .advantage h2 em { transition: opacity .7s ease, transform .8s cubic-bezier(.22, .8, .24, 1); }
+  .scene-ready .advantage-stage:not(.s4) .venn-auto { transform: translate(-9%, -7%) scale(.78); }
+  .scene-ready .advantage-stage:not(.s4) .venn-ai { transform: translate(9%, -7%) scale(.78); }
+  .scene-ready .advantage-stage:not(.s4) .venn-int { transform: translate(0, 14%) scale(.78); }
+  /* While the circles are apart, each label sits in the middle of its circle (62cqw wide). */
+  .scene-ready .advantage-stage:not(.s4) .venn-label { scale: 1.2; }
+  .scene-ready .advantage-stage:not(.s4) .venn-auto .venn-label { translate: calc(-50% + 11.8cqw) calc(-50% + 13cqw); }
+  .scene-ready .advantage-stage:not(.s4) .venn-ai .venn-label { translate: calc(-50% - 11.8cqw) calc(-50% + 13cqw); }
+  .scene-ready .advantage-stage:not(.s4) .venn-int .venn-label { translate: -50% calc(-50% - 13.6cqw); }
+  .scene-ready .advantage-stage:not(.s1) .venn-auto { transform: translate(-105%, -20%) scale(.6) rotate(-24deg); opacity: 0; }
+  .scene-ready .advantage-stage:not(.s2) .venn-ai { transform: translate(105%, -20%) scale(.6) rotate(24deg); opacity: 0; }
+  .scene-ready .advantage-stage:not(.s3) .venn-int { transform: translate(0, 110%) scale(.6); opacity: 0; }
+  .scene-ready .advantage-stage:not(.s4)::before { opacity: 0; }
+  .scene-ready .advantage-stage:not(.s5) .venn-badge { transform: translate(-50%, -50%) scale(.3); opacity: 0; }
+  .scene-ready .advantage-stage.s5 .venn-badge { animation: badge-ring 1.5s ease-out .35s 1; }
+  .scene-ready .advantage-stage:not(.s1) .note-auto, .scene-ready .advantage-stage:not(.s2) .note-ai,
+  .scene-ready .advantage-stage:not(.s3) .note-int { opacity: 0; transform: translateY(14px); }
+  .scene-ready .advantage-stage.s2:not(.s4) .note-auto, .scene-ready .advantage-stage.s3:not(.s4) .note-ai { opacity: .55; }
+  .scene-ready .advantage-stage:not(.s4) .advantage-text { opacity: 0; transform: translateY(14px); }
+  .scene-ready .advantage-stage:not(.s5) h2 em { opacity: 0; transform: translateX(-18px); }
+}
+@keyframes badge-ring { from { box-shadow: 0 0 0 0 #92df9199, 0 14px 44px #000b; } to { box-shadow: 0 0 0 34px #92df9100, 0 14px 44px #000b; } }
+
 .panel-kicker { display: block; color: var(--muted); font-size: .82rem; font-weight: 700; letter-spacing: .04em; }
 .tag { display: inline-flex; align-items: center; gap: 7px; padding: 4px 9px; border-radius: 4px; font-size: .83rem; font-weight: 700; white-space: nowrap; }
 .tag-stop { color: #8f2626; background: #f7e1df; }
@@ -489,6 +570,14 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   }
   .hero-image::after { display: none; }
   .hero h1 { font-size: clamp(2.55rem, 9vw, 4.6rem); }
+  /* Three circles: heading, diagram and one line of explanation at a time. */
+  .advantage-stage { padding-block: 10px 48px; }
+  .advantage-stage::before { background: radial-gradient(90% 46% at 50% 50%, #1f3d2bcc, transparent 72%); }
+  .advantage-layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "title" "venn" "notes"; gap: 22px; }
+  .advantage h2 { font-size: clamp(2rem, 8.6vw, 3.2rem); }
+  .advantage-notes { margin-top: 0; max-width: none; }
+  .advantage-text { margin-top: 18px; font-size: 1.02rem; }
+  .venn { width: min(100%, 460px); width: min(100%, 460px, 56svh); }
   .walkthrough-bar { flex-wrap: wrap; }
   .scenario-train { flex: 1 0 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 24px; }
   .scenario-train button, .scenario-thumb { border-radius: 20px; }
@@ -522,6 +611,15 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .pilot-action, .footer-layout { align-items: flex-start; flex-wrap: wrap; }
   .integration-group { grid-template-columns: 1fr; gap: 14px; }
   .logo-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+}
+
+@media screen and (max-width: 800px) and (prefers-reduced-motion: no-preference) and (min-height: 480px) {
+  .js .advantage-layout { align-content: center; }
+  .js .advantage-notes, .js .advantage-notes ul { display: grid; gap: 0; }
+  .js .advantage-notes > *, .js .advantage-notes li { grid-area: 1 / 1; margin-top: 0; }
+  .js .advantage-notes .advantage-text { margin-top: 0; }
+  .scene-ready .advantage-stage.s2 .note-auto, .scene-ready .advantage-stage.s3 .note-ai, .scene-ready .advantage-stage.s4 .note-int,
+  .scene-ready .advantage-stage.s2:not(.s4) .note-auto, .scene-ready .advantage-stage.s3:not(.s4) .note-ai, .scene-ready .advantage-stage.s4 .note-auto, .scene-ready .advantage-stage.s4 .note-ai { opacity: 0; transform: translateY(-10px); }
 }
 
 /* Phones: a slim, half-transparent header that lets the page show through. The hero starts under it. */

@@ -656,4 +656,26 @@ document.addEventListener("sig:languagechange", () => {
   logoToggleLabels.forEach(label => label());
   if (factTile) showFact(factTile);
 });
+
+// ---------------------------------------------------------------------------
+// Three circles: scrolling plays the scene step by step (1-3: a circle comes in, 4: the circles
+// meet, 5: Sintelligence appears where they overlap). Scrolling back rewinds it. The motion itself
+// is CSS; without motion, or on very low screens, the styles show the finished picture.
+// ---------------------------------------------------------------------------
+const sceneStage = document.querySelector("#advantage-stage");
+const scene = sceneStage.parentElement;
+// Where each step starts, in screen heights after the stage has reached the top.
+const STEP_STARTS = [-0.42, 0.22, 0.72, 1.22, 1.62];
+let sceneStep = -1;
+function playScene() {
+  const scrolled = -scene.getBoundingClientRect().top / window.innerHeight;
+  const step = STEP_STARTS.filter(start => scrolled >= start).length;
+  if (step === sceneStep) return;
+  sceneStep = step;
+  STEP_STARTS.forEach((start, index) => sceneStage.classList.toggle(`s${index + 1}`, step > index));
+}
+playScene();
+window.addEventListener("scroll", playScene, { passive: true });
+window.addEventListener("resize", playScene);
+document.documentElement.classList.add("scene-ready"); // Animate only from now on.
 })();

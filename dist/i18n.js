@@ -43,6 +43,15 @@
       heroText: "Where can you save resources, reduce downtime or cut manual work? Sintelligence looks for the answer in your data, shows its sources and suggests the next step.",
       heroCta: "Watch the demo",
       heroAudiences: "Manufacturing · Food industry · Logistics · Medical technology",
+      advTitle1: "Not just AI.",
+      advTitle2: "Industrial intelligence.",
+      advText: "Where machine knowledge, artificial intelligence and real-world engineering meet.",
+      advAuto: "Industrial automation",
+      advAutoText: "Controllers, SCADA and sensors show what is really happening on the line.",
+      advAi: "Artificial intelligence",
+      advAiText: "Open models run on your own server and explain their answers.",
+      advInt: "Systems integration",
+      advIntText: "ERP, databases and documents come together in one picture.",
       demoTitle: "From question to answer",
       demoSubtitle: "Typical usage scenarios",
       scenariosLabel: "Choose a scenario",
@@ -225,6 +234,15 @@
       heroText: "Wo lassen sich Ressourcen sparen, Stillstände verkürzen oder manuelle Arbeit vermeiden? Sintelligence sucht die Antwort in Ihren Daten, zeigt die Quellen und schlägt den nächsten Schritt vor.",
       heroCta: "Demo ansehen",
       heroAudiences: "Fertigung · Lebensmittelindustrie · Logistik · Medizintechnik",
+      advTitle1: "Nicht nur KI.",
+      advTitle2: "Industrielle Intelligenz.",
+      advText: "Wo Maschinenwissen, künstliche Intelligenz und Ingenieurpraxis zusammentreffen.",
+      advAuto: "Industrie\u00ADautomation",
+      advAutoText: "Steuerungen, SCADA und Sensoren zeigen, was an der Linie wirklich passiert.",
+      advAi: "Künstliche Intelligenz",
+      advAiText: "Offene Modelle laufen auf Ihrem eigenen Server und erklären ihre Antworten.",
+      advInt: "System\u00ADintegration",
+      advIntText: "ERP, Datenbanken und Dokumente ergeben ein gemeinsames Bild.",
       demoTitle: "Von der Frage zur Antwort",
       demoSubtitle: "Typische Einsatzszenarien",
       scenariosLabel: "Szenario wählen",
@@ -991,6 +1009,7 @@
 
   // Pick the language before the first paint; hide the Ukrainian source text until it is replaced.
   const root = document.documentElement;
+  root.classList.add("js");
   root.lang = locales[api.language].lang;
   const reveal = () => {
     void root.offsetWidth; // Apply the translated state first, so the switcher does not animate into it.
