@@ -912,6 +912,37 @@
       button.classList.toggle("active", active);
       button.setAttribute("aria-pressed", String(active));
     });
+    // Phones and touch screens: the globe button shows the current language as two letters.
+    const current = document.querySelector(".lang-current");
+    if (!current) return;
+    const code = locales[api.language].lang.toUpperCase();
+    const name = document.querySelector(`.lang-btns [data-lang="${api.language}"] .lang-full`).textContent;
+    const label = api.language === "ua" ? sourceText["data-i18n-aria:languageLabel"] ?? "Мова" : page[api.language].languageLabel;
+    current.querySelector(".lang-code").textContent = code;
+    current.setAttribute("aria-label", `${label}: ${name} (${code})`);
+  }
+
+  // Opens and closes the language bar on phones and touch screens (the globe button is hidden elsewhere).
+  function bindLanguageBar() {
+    const box = document.querySelector(".lang-switch");
+    const current = document.querySelector(".lang-current");
+    if (!box || !current) return;
+    const setOpen = open => {
+      box.classList.toggle("open", open);
+      current.setAttribute("aria-expanded", String(open));
+    };
+    current.addEventListener("click", () => setOpen(!box.classList.contains("open")));
+    box.querySelectorAll("[data-lang]").forEach(button => button.addEventListener("click", () => {
+      if (!box.classList.contains("open")) return;
+      setOpen(false);
+      current.focus({ preventScroll: true });
+    }));
+    document.addEventListener("pointerdown", event => { if (!box.contains(event.target)) setOpen(false); });
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape" || !box.classList.contains("open")) return;
+      setOpen(false);
+      current.focus({ preventScroll: true });
+    });
   }
 
   function setLanguage(language, { save = false } = {}) {
@@ -975,6 +1006,7 @@
       document.querySelectorAll(".lang-btns [data-lang]").forEach(button => {
         button.addEventListener("click", () => setLanguage(button.dataset.lang, { save: true }));
       });
+      bindLanguageBar();
     } finally {
       reveal();
     }
