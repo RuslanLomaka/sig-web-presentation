@@ -430,6 +430,8 @@
       walkthrough: {
         pause: "Пауза",
         play: "Відтворити",
+        thinking: "Думає · {s} с",
+        thought: "Думав {s} с",
         steps: ["Інженер ставить запитання", null, null, null, "Асистент зіставляє записи", "Інженер отримує підказку"],
         cases: {
           resources: {
@@ -500,6 +502,8 @@
       walkthrough: {
         pause: "Pause",
         play: "Play",
+        thinking: "Thinking · {s} s",
+        thought: "Thought for {s} s",
         steps: ["The engineer asks a question", null, null, null, "The assistant compares the records", "The engineer gets a hint"],
         cases: {
           resources: {
@@ -570,6 +574,8 @@
       walkthrough: {
         pause: "Pause",
         play: "Abspielen",
+        thinking: "Denkt nach · {s} s",
+        thought: "Hat {s} s nachgedacht",
         steps: ["Der Ingenieur stellt eine Frage", null, null, null, "Der Assistent gleicht die Aufzeichnungen ab", "Der Ingenieur erhält einen Hinweis"],
         cases: {
           resources: {
@@ -671,6 +677,11 @@
     language: Object.hasOwn(locales, initial) ? initial : browserLanguage(),
     get content() { return content[api.language]; },
     get numberLocale() { return locales[api.language].numbers; },
+    // Static page text by data-i18n key in the current language.
+    text(key) {
+      if (api.language !== "ua") return page[api.language][key];
+      return sourceText[`data-i18n:${key}`] ?? document.querySelector(`[data-i18n="${key}"]`)?.textContent;
+    },
     setLanguage
   };
   window.SIG_I18N = api;

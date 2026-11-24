@@ -6,9 +6,9 @@
   <meta name="description" content="Промисловий AI-асистент SIG допомагає знаходити втрати ресурсів, розбирати простої та зберігати досвід команди." data-i18n-content="metaDescription">
   <meta name="color-scheme" content="light">
   <title data-i18n="pageTitle">Промисловий AI-асистент · Smart Industry Group</title>
-  <link rel="stylesheet" href="styles.css?v=3">
-  <script src="i18n.js?v=3"></script>
-  <script src="demo.js?v=3" defer></script>
+  <link rel="stylesheet" href="styles.css?v=4">
+  <script src="i18n.js?v=4"></script>
+  <script src="demo.js?v=4" defer></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main" data-i18n="skipLink">Перейти до вмісту</a>
@@ -66,13 +66,15 @@
             </div>
           </div>
           <div class="walkthrough-body">
-            <div class="conversation">
+            <p class="visually-hidden" id="walkthrough-transcript"></p>
+            <div class="conversation" id="walkthrough-conversation">
               <div class="conversation-message conversation-question">
                 <span data-i18n="roleEngineer">Інженер</span>
                 <p id="walkthrough-question">Чому на той самий обсяг пішло більше електроенергії?</p>
               </div>
               <div class="conversation-message conversation-answer" data-show-step="5">
                 <span data-i18n="assistantName">Асистент SIG</span>
+                <p class="chat-thinking" id="walkthrough-thinking" hidden><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span><span id="walkthrough-thinking-label"></span></p>
                 <p><strong id="walkthrough-answer-title">Почніть із періодів без роботи.</strong> <span id="walkthrough-answer">Лічильник показує витрати навіть тоді, коли ділянка нічого не випускала.</span></p>
                 <p class="conversation-limit" id="walkthrough-limit">Спершу з’ясуйте, яке споживання в цей час потрібне за регламентом.</p>
               </div>
