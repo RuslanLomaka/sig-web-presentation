@@ -480,7 +480,7 @@ function positionFact() {
   factTip.dataset.placement = above ? "top" : "bottom";
   factTip.style.left = `${Math.round(left)}px`;
   factTip.style.top = `${Math.round(above ? tile.top - height - 12 : tile.bottom + 12)}px`;
-  factTip.style.setProperty("--arrow-x", `${Math.round(tile.left + tile.width / 2 - left)}px`);
+  factTip.style.setProperty("--arrow-x", `${Math.round(tile.left + tile.width / 2 - left - factTip.clientLeft)}px`);
 }
 
 function showFact(tile) {
