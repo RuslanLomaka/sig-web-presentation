@@ -386,15 +386,23 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
 .control-section { background: var(--ink); color: #f0f6f1; }
 .control-section .section-intro > p { color: var(--dark-muted); }
 .control-flow, .pilot-steps { display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; padding: 0; margin: 0; }
-.control-flow { border: 1px solid #43574a; border-radius: 7px; overflow: hidden; background: #18281f; margin-bottom: 36px; }
-.control-flow li { border-top: 2px solid #789982; padding: 17px 15px; }
-.control-flow li + li { border-left: 1px solid #43574a; }
-.control-flow li:last-child { background: #2b4835; border-top-color: var(--lime); }
-.control-flow span { display: block; font-weight: 700; }
-.control-flow { counter-reset: step; }
-.control-flow li { counter-increment: step; }
-.control-flow span::before { content: counter(step) ". "; color: var(--lime); }
 .control-flow small { color: #bbcdc0; display: block; margin-top: 5px; font-size: .87rem; }
+/* "You decide" is a fixed process, not a set of controls: numbered steps joined by arrows,
+   with no card borders, fills or hover states that would suggest something to click. */
+.control-flow { counter-reset: step; gap: 28px; margin-bottom: 40px; }
+.control-flow li { position: relative; counter-increment: step; padding-top: 54px; cursor: default; }
+.control-flow li::before {
+  content: counter(step); position: absolute; top: 0; left: 0; width: 38px; height: 38px; border-radius: 50%;
+  display: grid; place-items: center; border: 2px solid #5f7d69; background: var(--ink); color: var(--lime); font-weight: 700;
+}
+.control-flow li:not(:last-child)::after { content: ""; position: absolute; top: 18px; left: 48px; right: -12px; height: 2px; background: #5f7d69; }
+.control-flow li:not(:last-child) small::after {
+  content: ""; position: absolute; top: 14px; right: -20px;
+  border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent #5f7d69;
+}
+.control-flow li:last-child::before { background: var(--lime); border-color: var(--lime); color: var(--ink); box-shadow: 0 0 0 6px rgba(146, 223, 145, .14); }
+.control-flow li:last-child span { color: var(--lime); }
+.control-flow span { display: block; font-weight: 700; font-size: 1.04rem; }
 .deployment { display: grid; grid-template-columns: 1fr 1.45fr; gap: 34px; border-top: 1px solid #43574a; padding-top: 25px; }
 .deployment > div:first-child p { color: var(--dark-muted); margin-top: 6px; max-width: 400px; }
 .deployment .choice-group { margin-top: 0; }
@@ -462,7 +470,11 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .scenario { gap: 0; }
   .scenario-output { border-left: 0; border-top: 1px solid var(--line); }
   .source-connector, .source-tail { display: none; }
-  .control-flow { grid-template-columns: repeat(2, 1fr); }
+  /* Phones: a vertical timeline with downward arrows. */
+  .control-flow { grid-template-columns: 1fr; gap: 24px; }
+  .control-flow li { padding: 7px 0 0 56px; min-height: 38px; }
+  .control-flow li:not(:last-child)::after { top: 44px; bottom: -18px; left: 18px; right: auto; width: 2px; height: auto; }
+  .control-flow li:not(:last-child) small::after { top: auto; bottom: -26px; right: auto; left: 14px; border-width: 8px 5px 0 5px; border-color: #5f7d69 transparent transparent transparent; }
   .pilot-steps { grid-template-columns: 1fr; gap: 5px; }
   .pilot-action, .footer-layout { align-items: flex-start; flex-wrap: wrap; }
   .integration-group { grid-template-columns: 1fr; gap: 14px; }
