@@ -68,6 +68,10 @@ code, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 }
 .header-layout { min-height: var(--header-height); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand { display: inline-flex; align-items: center; flex: none; }
+/* Product brand: the Sintelligence logo with the company endorsement under it. */
+.brand-product { flex-direction: column; align-items: flex-start; gap: 6px; }
+.brand-product img { width: clamp(176px, 16.5vw, 228px); height: auto; }
+.brand-by { padding-left: 3px; color: #9fb3a6; font-size: .64rem; font-weight: 700; letter-spacing: .13em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
 .site-header nav { display: flex; align-items: center; gap: 32px; font-size: .94rem; }
 .site-header nav a { color: #c5d2c9; transition: color .18s ease; }
 .site-header nav a:hover { color: var(--lime); }
@@ -450,6 +454,8 @@ h3 { font-size: 1.42rem; line-height: 1.23; letter-spacing: -.02em; }
   .lang-btns button, .lang-btns:hover button, .lang-btns:focus-within button { color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, .85); box-shadow: none; }
   .lang-btns button.active, .lang-btns:hover button.active, .lang-btns:focus-within button.active { --shade: rgba(9, 18, 13, .36); box-shadow: inset 0 0 0 2px var(--lime); }
   .lang-full { display: none; }
+  .brand-product img { width: 156px; }
+  .brand-by { font-size: .56rem; letter-spacing: .1em; }
   .lang-short { display: inline; }
 }
 @media (max-width: 560px), (hover: none) and (max-width: 1100px) {
