@@ -1,5 +1,8 @@
 "use strict";
 
+// Everything stays inside this function, so nothing leaks into the global scope.
+(() => {
+
 // Texts come from i18n.js (window.SIG_I18N) in the current language.
 const i18n = window.SIG_I18N;
 const copy = () => i18n.content;
@@ -33,13 +36,28 @@ function drawChart(canvas, values, axis) {
   ctx.font = "12px Roboto, Arial, sans-serif";
   ctx.textBaseline = "middle";
 
+  // Gaps in the archive: a shaded band, labelled once per run of missing points.
+  const bandLeft = i => Math.max(x(i) - step / 2, margin.left);
+  const bandRight = i => Math.min(x(i) + step / 2, width - margin.right);
   values.forEach((value, i) => {
     if (value !== null) return;
-    const left = Math.max(x(i) - step / 2, margin.left);
-    const right = Math.min(x(i) + step / 2, width - margin.right);
     ctx.fillStyle = "#fff0d2";
-    ctx.fillRect(left, margin.top, right - left, plotHeight);
+    ctx.fillRect(bandLeft(i), margin.top, bandRight(i) - bandLeft(i), plotHeight);
   });
+  if (axis.noData) {
+    ctx.font = "10px Roboto, Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#8a5d0c";
+    values.forEach((value, i) => {
+      if (value !== null || (i > 0 && values[i - 1] === null)) return;
+      let end = i;
+      while (end + 1 < values.length && values[end + 1] === null) end++;
+      const left = bandLeft(i);
+      const right = bandRight(end);
+      if (right - left >= ctx.measureText(axis.noData).width + 6) ctx.fillText(axis.noData, (left + right) / 2, margin.top + 10);
+    });
+    ctx.font = "12px Roboto, Arial, sans-serif";
+  }
 
   ctx.textAlign = "right";
   axis.ticks.forEach(tick => {
@@ -81,8 +99,10 @@ function drawChart(canvas, values, axis) {
 
 function updatePressure() {
   const { value } = document.querySelector('input[name="trend"]:checked');
-  document.querySelector("#trend-note").textContent = copy().trends[value];
-  drawChart(pressureChart, trendValues[value], { ...pressureAxis, labels: copy().axisLabels });
+  const note = document.querySelector("#trend-note");
+  const text = copy().trends[value];
+  if (note.textContent !== text) note.textContent = text; // A live region: only announce real changes.
+  drawChart(pressureChart, trendValues[value], { ...pressureAxis, labels: copy().axisLabels, noData: copy().noData });
 }
 
 // The note always follows the language; drawChart itself skips the hidden canvas.
@@ -117,6 +137,7 @@ tabList.addEventListener("keydown", event => {
   const selected = tabs[nextIndex];
   selectTab(selected);
   selected.focus();
+  selected.scrollIntoView({ block: "nearest", inline: "nearest" }); // The tab row scrolls sideways on phones.
 });
 
 // Buttons that show one entry of copy()[group]; the pressed button decides which.
@@ -189,7 +210,11 @@ const walkthroughCase = () => copy().walkthrough.cases[walkthroughSelect.value];
 const PACE = { start: 350, key: 38, punctuation: 170, send: 550, source: 1350, compare: 1000, word: 80, part: 200, readBase: 3500, readPerWord: 200, fade: 700 };
 const THINKING_SECONDS = { resources: 14, incident: 11 };
 
+const cites = document.querySelector("#walkthrough-cites");
+const citesLabel = document.querySelector("#walkthrough-cites-label");
 const typedText = document.createElement("span");
+const ghostText = document.createElement("span"); // The untyped rest keeps the bubble at its final width.
+ghostText.className = "chat-ghost";
 const caret = document.createElement("span");
 caret.className = "chat-caret";
 caret.setAttribute("aria-hidden", "true");
@@ -260,6 +285,7 @@ function renderWalkthrough(force = false) {
   const characters = countUntil(timeline.charTimes, t);
   if (characters !== shown.characters) {
     typedText.textContent = timeline.characters.slice(0, characters).join("");
+    ghostText.textContent = timeline.characters.slice(characters).join("");
     shown.characters = characters;
   }
   const typing = t < timeline.typeEnd + 300;
@@ -297,6 +323,12 @@ function renderWalkthrough(force = false) {
     shown.words = words;
   }
 
+  const citing = t >= timeline.streamEnd;
+  if (citing !== shown.citing) {
+    cites.hidden = !citing;
+    shown.citing = citing;
+  }
+
   const fading = t >= timeline.holdEnd;
   if (fading !== shown.fading) {
     conversation.dataset.fading = fading;
@@ -318,7 +350,8 @@ function reserveConversationHeight() {
 
 function rebuildWalkthrough({ restart }) {
   timeline = buildTimeline();
-  questionText.replaceChildren(typedText, caret);
+  questionText.replaceChildren(typedText, caret, ghostText);
+  citesLabel.textContent = copy().walkthrough.cites;
   answerParts.forEach(part => part.replaceChildren());
   wordSpans = timeline.words.map(word => {
     const span = document.createElement("span");
@@ -333,7 +366,8 @@ function rebuildWalkthrough({ restart }) {
     source.querySelector("p").textContent = description;
   });
   const { question, answerTitle, answer, limit } = timeline.current;
-  walkthroughTranscript.textContent = `${i18n.text("roleEngineer")}: ${question} ${i18n.text("assistantName")}: ${answerTitle} ${answer} ${limit}`;
+  const sourceList = timeline.current.sources.map(([title, description], index) => `${index + 1}. ${title}: ${description}`).join(" ");
+  walkthroughTranscript.textContent = `${i18n.text("roleEngineer")}: ${question} ${i18n.text("assistantName")}: ${answerTitle} ${answer} ${limit} ${copy().walkthrough.cites}: ${sourceList}`;
   if (restart) elapsed = 0;
   else elapsed = Math.min(elapsed, timeline.streamEnd);
   reserveConversationHeight();
@@ -405,10 +439,16 @@ document.querySelector("#walkthrough-selector").hidden = false;
 document.querySelector("#walkthrough-status").hidden = false;
 if (motionPreference.matches) elapsed = Number.MAX_SAFE_INTEGER; // Reduced motion: show the finished dialog.
 rebuildWalkthrough({ restart: !motionPreference.matches });
-const walkthroughObserver = new IntersectionObserver(([entry]) => {
-  walkthroughOnscreen = entry.intersectionRatio >= 0.2;
+document.fonts.ready.then(reserveConversationHeight); // Web fonts change line breaks: measure again.
+let walkthroughSeen = false;
+const walkthroughObserver = new IntersectionObserver(entries => {
+  walkthroughOnscreen = entries[entries.length - 1].intersectionRatio >= 0.5;
+  if (walkthroughOnscreen && !walkthroughSeen) {
+    walkthroughSeen = true;
+    if (walkthroughPlaying) elapsed = 0; // Visitors see the dialog from its first keystroke.
+  }
   scheduleWalkthrough();
-}, { threshold: 0.2 });
+}, { threshold: [0, 0.5] });
 walkthroughObserver.observe(walkthrough);
 
 // ---------------------------------------------------------------------------
@@ -448,7 +488,8 @@ function showFact(tile) {
   if (!text) return;
   if (factTile && factTile !== tile) factTile.removeAttribute("aria-describedby");
   factTile = tile;
-  factTitle.textContent = (tile.querySelector(".logo-word, .logo-name") || tile).textContent.trim();
+  const titleSource = tile.dataset.fact === "more" ? tile.closest(".integration-group").querySelector("h3") : tile.querySelector(".logo-word, .logo-name") || tile;
+  factTitle.textContent = titleSource.textContent.trim();
   factText.textContent = text;
   factTip.hidden = false;
   tile.setAttribute("aria-describedby", factTip.id);
@@ -478,20 +519,21 @@ document.querySelectorAll(".logo-grid").forEach(grid => {
   const items = [...grid.querySelectorAll("[data-fact]")];
   items.forEach((item, index) => { item.tabIndex = index === 0 ? 0 : -1; });
   grid.addEventListener("keydown", event => {
-    const index = items.indexOf(document.activeElement);
+    const visible = items.filter(item => item.getClientRects().length);
+    const index = visible.indexOf(document.activeElement);
     if (index === -1) return;
     let next;
     switch (event.key) {
-      case "ArrowRight": case "ArrowDown": next = (index + 1) % items.length; break;
-      case "ArrowLeft": case "ArrowUp": next = (index - 1 + items.length) % items.length; break;
+      case "ArrowRight": case "ArrowDown": next = (index + 1) % visible.length; break;
+      case "ArrowLeft": case "ArrowUp": next = (index - 1 + visible.length) % visible.length; break;
       case "Home": next = 0; break;
-      case "End": next = items.length - 1; break;
+      case "End": next = visible.length - 1; break;
       default: return;
     }
     event.preventDefault();
-    items[index].tabIndex = -1;
-    items[next].tabIndex = 0;
-    items[next].focus();
+    items.forEach(item => { item.tabIndex = -1; });
+    visible[next].tabIndex = 0;
+    visible[next].focus();
   });
 });
 
@@ -499,4 +541,32 @@ document.addEventListener("keydown", event => { if (event.key === "Escape") hide
 document.addEventListener("pointerdown", event => { if (factTile && !event.target.closest("[data-fact]")) hideFact(); });
 window.addEventListener("scroll", positionFact, { passive: true });
 window.addEventListener("resize", positionFact);
-document.addEventListener("sig:languagechange", () => { if (factTile) showFact(factTile); });
+// Phones: long logo groups show six tiles and a "Show all (n)" button (the CSS applies only to narrow screens).
+const logoToggleLabels = [];
+document.querySelectorAll(".logo-grid").forEach(grid => {
+  const count = grid.children.length;
+  if (count <= 6) return;
+  grid.classList.add("is-collapsed");
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "logo-toggle";
+  const label = () => {
+    const collapsed = grid.classList.contains("is-collapsed");
+    button.textContent = collapsed ? copy().showAll.replace("{n}", count) : copy().showLess;
+    button.setAttribute("aria-expanded", String(!collapsed));
+  };
+  button.addEventListener("click", () => {
+    grid.classList.toggle("is-collapsed");
+    hideFact();
+    label();
+  });
+  grid.after(button);
+  logoToggleLabels.push(label);
+  label();
+});
+
+document.addEventListener("sig:languagechange", () => {
+  logoToggleLabels.forEach(label => label());
+  if (factTile) showFact(factTile);
+});
+})();

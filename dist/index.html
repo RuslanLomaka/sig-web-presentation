@@ -8,12 +8,19 @@
   <meta name="theme-color" content="#101b17">
   <title data-i18n="pageTitle">Sintelligence · Промисловий AI-асистент від Smart Industry Group</title>
   <link rel="canonical" href="https://sintelligence.sig-automation.de/">
+  <link rel="alternate" hreflang="de" href="https://sintelligence.sig-automation.de/?lang=de">
+  <link rel="alternate" hreflang="en" href="https://sintelligence.sig-automation.de/?lang=en">
+  <link rel="alternate" hreflang="uk" href="https://sintelligence.sig-automation.de/?lang=uk">
+  <link rel="alternate" hreflang="x-default" href="https://sintelligence.sig-automation.de/">
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
   <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
   <!-- Link previews (Slack, Teams, LinkedIn, WhatsApp): crawlers do not run JavaScript, so these stay in English. -->
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="uk_UA">
   <meta property="og:site_name" content="Sintelligence">
   <meta property="og:title" content="Sintelligence · Industrial AI assistant by Smart Industry Group">
   <meta property="og:description" content="Finds resource losses, explains downtime and keeps your team's know-how, with sources for every answer. In English, German and Ukrainian.">
@@ -23,9 +30,13 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Sintelligence, industrial AI assistant by Smart Industry Group">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="styles.css?v=8">
-  <script src="i18n.js?v=8"></script>
-  <script src="demo.js?v=8" defer></script>
+  <link rel="preload" href="assets/Roboto-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/Roboto-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/production-line.webp" as="image" fetchpriority="high">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Sintelligence","applicationCategory":"BusinessApplication","description":"Industrial AI assistant that finds resource losses, explains downtime and keeps a team's know-how, with sources for every answer.","url":"https://sintelligence.sig-automation.de/","inLanguage":["de","en","uk"],"publisher":{"@type":"Organization","name":"Smart Industry Group GmbH","url":"https://sig-automation.com/"}}</script>
+  <link rel="stylesheet" href="styles.css?v=9">
+  <script src="i18n.js?v=9"></script>
+  <script src="demo.js?v=9" defer></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main" data-i18n="skipLink">Перейти до вмісту</a>
@@ -43,12 +54,12 @@
       <div class="header-actions">
         <div class="lang-switch">
           <div class="lang-btns" role="group" aria-label="Мова" data-i18n-aria="languageLabel">
-            <button type="button" data-lang="ua" lang="uk" class="active" aria-pressed="true" aria-label="Українська"><span class="lang-full">Українська</span><span class="lang-short" aria-hidden="true">UA</span></button>
-            <button type="button" data-lang="en" lang="en" aria-pressed="false" aria-label="English"><span class="lang-full">English</span><span class="lang-short" aria-hidden="true">EN</span></button>
-            <button type="button" data-lang="de" lang="de" aria-pressed="false" aria-label="Deutsch"><span class="lang-full">Deutsch</span><span class="lang-short" aria-hidden="true">DE</span></button>
+            <button type="button" data-lang="ua" lang="uk" class="active" aria-pressed="true" aria-label="Українська (UA)"><span class="lang-full">Українська</span><span class="lang-short" aria-hidden="true">UA</span></button>
+            <button type="button" data-lang="en" lang="en" aria-pressed="false" aria-label="English (EN)"><span class="lang-full">English</span><span class="lang-short" aria-hidden="true">EN</span></button>
+            <button type="button" data-lang="de" lang="de" aria-pressed="false" aria-label="Deutsch (DE)"><span class="lang-full">Deutsch</span><span class="lang-short" aria-hidden="true">DE</span></button>
           </div>
         </div>
-        <a class="button button-outline" href="https://sig-automation.com/ua#contacts" data-i18n="headerContact" data-i18n-href="contactsUrl">Контакти SIG</a>
+        <a class="button button-outline" href="https://sig-automation.com/ua#contacts" data-i18n="headerContact" data-i18n-href="contactsUrl">Зв’язатися</a>
       </div>
     </div>
   </header>
@@ -60,8 +71,11 @@
         <div class="hero-copy">
           <h1 id="hero-title"><span data-i18n="heroTitle1">Промисловий</span><br><em data-i18n="heroTitle2">AI-асистент</em></h1>
           <p data-i18n="heroText">Де можна заощадити ресурси, скоротити простої чи прибрати ручну роботу? Sintelligence шукає відповідь у ваших даних, показує джерела й підказує наступний крок.</p>
-          <a class="button button-primary" href="#demo" data-i18n="heroCta">Подивитися демо</a>
-          <p class="hero-audiences" data-i18n="heroAudiences">Виробництво · Харчова галузь · Логістика · Обладнання медзакладів</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#demo" data-i18n="heroCta">Подивитися демо</a>
+            <a class="button button-outline" href="https://sig-automation.com/ua#contacts" data-i18n="heroCta2" data-i18n-href="contactsUrl">Обговорити пілот</a>
+          </div>
+          <p class="hero-audiences" data-i18n="heroAudiences">Виробництво · Харчова галузь · Логістика · Медична техніка</p>
         </div>
       </div>
     </section>
@@ -72,7 +86,7 @@
           <div><h2 id="demo-title" data-i18n="demoTitle">Від запитання до відповіді</h2></div>
           <p data-i18n="demoIntro">Оберіть ситуацію. Подивіться, які записи читає асистент і з чого пропонує почати.</p>
         </div>
-        <div class="walkthrough" id="walkthrough" aria-label="Демонстрація розмови інженера з асистентом" data-i18n-aria="walkthroughLabel">
+        <div class="walkthrough" id="walkthrough" role="region" aria-label="Демонстрація розмови інженера з асистентом" data-i18n-aria="walkthroughLabel">
           <div class="walkthrough-bar">
             <p><strong data-i18n="walkthroughTitle">Розмова з асистентом</strong><span data-i18n="walkthroughNote">Умовний приклад</span></p>
             <label class="walkthrough-select" id="walkthrough-selector" hidden><span class="visually-hidden" data-i18n="walkthroughCaseLabel">Сценарій демонстрації</span>
@@ -94,15 +108,16 @@
                 <span data-i18n="assistantName">Sintelligence</span>
                 <p class="chat-thinking" id="walkthrough-thinking" hidden><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span><span id="walkthrough-thinking-label"></span></p>
                 <p><strong id="walkthrough-answer-title">Почніть із періодів без роботи.</strong> <span id="walkthrough-answer">Лічильник показує витрати навіть тоді, коли ділянка нічого не випускала.</span></p>
+                <p class="chat-cites" id="walkthrough-cites" hidden><span id="walkthrough-cites-label">Джерела</span> <span class="cite">1</span><span class="cite">2</span><span class="cite">3</span></p>
                 <p class="conversation-limit" id="walkthrough-limit">Спершу з’ясуйте, яке споживання в цей час потрібне за регламентом.</p>
               </div>
             </div>
-            <div class="walkthrough-sources">
+            <div class="walkthrough-sources" aria-hidden="true">
               <h3 data-i18n="sourcesHeading">Що перевіряє асистент</h3>
               <ol>
-                <li data-source-step="1" data-show-step="1"><span class="source-light" aria-hidden="true"></span><div><strong>Лічильник</strong><p data-show-step="2">Витрати зросли зі 144 до 168 кВт·год.</p></div></li>
-                <li data-source-step="2" data-show-step="2"><span class="source-light" aria-hidden="true"></span><div><strong>Обсяг роботи</strong><p data-show-step="3">Обидві зміни випустили по 1 200 одиниць.</p></div></li>
-                <li data-source-step="3" data-show-step="3"><span class="source-light" aria-hidden="true"></span><div><strong>Графік роботи</strong><p data-show-step="4">Частина витрат припала на час без випуску.</p></div></li>
+                <li data-source-step="1" data-show-step="1"><span class="source-light" aria-hidden="true">1</span><div><strong>Лічильник</strong><p data-show-step="2">Витрати зросли зі 144 до 168 кВт·год.</p></div></li>
+                <li data-source-step="2" data-show-step="2"><span class="source-light" aria-hidden="true">2</span><div><strong>Обсяг роботи</strong><p data-show-step="3">Обидві зміни випустили по 1 200 одиниць.</p></div></li>
+                <li data-source-step="3" data-show-step="3"><span class="source-light" aria-hidden="true">3</span><div><strong>Графік роботи</strong><p data-show-step="4">Частина витрат припала на час без випуску.</p></div></li>
               </ol>
             </div>
           </div>
@@ -157,7 +172,7 @@
               <div class="scenario-head"><p class="panel-kicker" data-i18n="incKicker">Журнал лінії B</p><span class="tag tag-stop" data-i18n="tagStop">Зупинка</span></div>
               <h3 data-i18n="incTitle">Події перед зупинкою</h3>
               <p class="small-note" data-i18n="incNote">Натисніть на подію, щоб побачити деталі.</p>
-              <div class="event-list" aria-label="Події лінії B" data-i18n-aria="incEventsLabel">
+              <div class="event-list" role="group" aria-label="Події лінії B" data-i18n-aria="incEventsLabel">
                 <button class="event" type="button" data-event="level" aria-pressed="true"><time>10:42:16</time><span data-i18n="evLevel">Низький рівень на вході</span><code>LT-101</code></button>
                 <button class="event" type="button" data-event="pressure" aria-pressed="false"><time>10:42:18</time><span data-i18n="evPressure">Падіння тиску</span><code>PT-204</code></button>
                 <button class="event" type="button" data-event="stop" aria-pressed="false"><time>10:42:20</time><span data-i18n="evStop">Зупинка лінії</span><code>LINE B</code></button>
@@ -198,8 +213,8 @@
                 <label><input type="radio" name="trend" value="24"><span data-i18n="trDate24">24 квітня</span></label>
               </fieldset>
               <figure class="chart-figure">
-                <figcaption data-i18n="trCaption">Тиск PT-204, бар · 5 хвилин до зупинки</figcaption>
-                <canvas id="pressure-chart" role="img" aria-describedby="trend-note"></canvas>
+                <figcaption id="trend-caption" data-i18n="trCaption">Тиск PT-204, бар · 5 хвилин до зупинки</figcaption>
+                <canvas id="pressure-chart" role="img" aria-labelledby="trend-caption trend-note"></canvas>
                 <p class="small-note" id="trend-note" aria-live="polite">12 квітня тиск знизився з 2,9 до 1,4 бар.</p>
               </figure>
             </div>
@@ -273,7 +288,7 @@
           <p data-i18n="ctxIntro">Він може шукати в документах, даних обладнання та випадках, які вже перевіряла ваша команда.</p>
         </div>
         <div class="source-map">
-          <div class="source-list" aria-label="Джерела контексту" data-i18n-aria="ctxSourcesLabel">
+          <div class="source-list" role="group" aria-label="Джерела контексту" data-i18n-aria="ctxSourcesLabel">
             <button type="button" data-source="scada" aria-pressed="true" data-i18n="srcScada">Дані обладнання</button>
             <button type="button" data-source="plc" aria-pressed="false" data-i18n="srcPlc">Програма контролера</button>
             <button type="button" data-source="docs" aria-pressed="false" data-i18n="srcDocs">Схеми та інструкції</button>
@@ -303,14 +318,14 @@
         <div class="integration-group">
           <div><h3 id="int-brands" data-i18n="intBrandsTitle">Обладнання будь-якого виробника</h3><p data-i18n="intBrandsText">Контролери, приводи, датчики й панелі оператора — і нові, і ті, що вже працюють на лінії.</p></div>
           <ul class="logo-grid" aria-labelledby="int-brands">
-            <li data-fact="siemens"><img src="assets/logos/siemens.svg" width="154" height="28" alt=""><span class="logo-name">Siemens</span></li>
-            <li data-fact="schneider"><img src="assets/logos/schneiderelectric.svg" width="29" height="28" alt=""><span class="logo-name">Schneider Electric</span></li>
-            <li data-fact="rockwell"><img src="assets/logos/rockwellautomation.svg" width="28" height="28" alt=""><span class="logo-name">Allen‑Bradley · Rockwell</span></li>
+            <li data-fact="siemens"><img loading="lazy" decoding="async" src="assets/logos/siemens.svg" width="154" height="28" alt=""><span class="logo-name visually-hidden">Siemens</span></li>
+            <li data-fact="schneider"><img loading="lazy" decoding="async" src="assets/logos/schneiderelectric.svg" width="29" height="28" alt=""><span class="logo-name">Schneider Electric</span></li>
+            <li data-fact="rockwell"><img loading="lazy" decoding="async" src="assets/logos/rockwellautomation.svg" width="28" height="28" alt=""><span class="logo-name">Allen‑Bradley · Rockwell</span></li>
             <li data-fact="beckhoff"><span class="logo-word">Beckhoff</span></li>
-            <li data-fact="abb"><img src="assets/logos/abb.svg" width="71" height="28" alt=""><span class="logo-name">ABB</span></li>
-            <li data-fact="mitsubishi"><img src="assets/logos/mitsubishi.svg" width="32" height="28" alt=""><span class="logo-name">Mitsubishi Electric</span></li>
-            <li data-fact="bnr"><img src="assets/logos/bandrautomation.svg" width="51" height="28" alt=""><span class="logo-name">B&amp;R</span></li>
-            <li data-fact="bosch"><img src="assets/logos/bosch.svg" width="28" height="28" alt=""><span class="logo-name">Bosch Rexroth</span></li>
+            <li data-fact="abb"><img loading="lazy" decoding="async" src="assets/logos/abb.svg" width="71" height="28" alt=""><span class="logo-name visually-hidden">ABB</span></li>
+            <li data-fact="mitsubishi"><img loading="lazy" decoding="async" src="assets/logos/mitsubishi.svg" width="32" height="28" alt=""><span class="logo-name">Mitsubishi Electric</span></li>
+            <li data-fact="bnr"><img loading="lazy" decoding="async" src="assets/logos/bandrautomation.svg" width="51" height="28" alt=""><span class="logo-name visually-hidden">B&amp;R</span></li>
+            <li data-fact="bosch"><img loading="lazy" decoding="async" src="assets/logos/bosch.svg" width="28" height="28" alt=""><span class="logo-name">Bosch Rexroth</span></li>
             <li data-fact="omron"><span class="logo-word">Omron</span></li>
             <li data-fact="phoenix"><span class="logo-word">Phoenix Contact</span></li>
             <li data-fact="wago"><span class="logo-word">WAGO</span></li>
@@ -330,7 +345,7 @@
             <li data-fact="modbus"><span class="logo-word">Modbus TCP/RTU</span></li>
             <li data-fact="iolink"><span class="logo-word">IO-Link</span></li>
             <li data-fact="canopen"><span class="logo-word">CANopen</span></li>
-            <li data-fact="mqtt"><img src="assets/logos/mqtt.svg" width="28" height="28" alt=""><span class="logo-name">MQTT</span></li>
+            <li data-fact="mqtt"><img loading="lazy" decoding="async" src="assets/logos/mqtt.svg" width="28" height="28" alt=""><span class="logo-name">MQTT</span></li>
             <li data-fact="s7"><span class="logo-word">Siemens S7</span></li>
           </ul>
         </div>
@@ -338,27 +353,27 @@
         <div class="integration-group">
           <div><h3 id="int-databases" data-i18n="intDbTitle">Бази даних</h3><p data-i18n="intDbText">SQL, документні бази й часові ряди: архіви процесу, дані MES та системи історії даних.</p></div>
           <ul class="logo-grid" aria-labelledby="int-databases">
-            <li data-fact="postgresql"><img src="assets/logos/postgresql.svg" width="27" height="28" alt=""><span class="logo-name">PostgreSQL</span></li>
+            <li data-fact="postgresql"><img loading="lazy" decoding="async" src="assets/logos/postgresql.svg" width="27" height="28" alt=""><span class="logo-name">PostgreSQL</span></li>
             <li data-fact="mssql"><span class="logo-word">Microsoft SQL Server</span></li>
             <li data-fact="oracle"><span class="logo-word">Oracle Database</span></li>
-            <li data-fact="mysql"><img src="assets/logos/mysql.svg" width="41" height="28" alt=""><span class="logo-name">MySQL</span></li>
-            <li data-fact="mariadb"><img src="assets/logos/mariadb.svg" width="43" height="28" alt=""><span class="logo-name">MariaDB</span></li>
-            <li data-fact="mongodb"><img src="assets/logos/mongodb.svg" width="13" height="28" alt=""><span class="logo-name">MongoDB</span></li>
-            <li data-fact="influxdb"><img src="assets/logos/influxdb.svg" width="28" height="28" alt=""><span class="logo-name">InfluxDB</span></li>
-            <li data-fact="timescale"><img src="assets/logos/timescale.svg" width="30" height="28" alt=""><span class="logo-name">TimescaleDB</span></li>
-            <li data-fact="sqlite"><img src="assets/logos/sqlite.svg" width="25" height="28" alt=""><span class="logo-name">SQLite</span></li>
-            <li data-fact="hana"><img src="assets/logos/sap.svg" width="55" height="28" alt=""><span class="logo-name">SAP HANA</span></li>
+            <li data-fact="mysql"><img loading="lazy" decoding="async" src="assets/logos/mysql.svg" width="41" height="28" alt=""><span class="logo-name visually-hidden">MySQL</span></li>
+            <li data-fact="mariadb"><img loading="lazy" decoding="async" src="assets/logos/mariadb.svg" width="43" height="28" alt=""><span class="logo-name">MariaDB</span></li>
+            <li data-fact="mongodb"><img loading="lazy" decoding="async" src="assets/logos/mongodb.svg" width="13" height="28" alt=""><span class="logo-name">MongoDB</span></li>
+            <li data-fact="influxdb"><img loading="lazy" decoding="async" src="assets/logos/influxdb.svg" width="28" height="28" alt=""><span class="logo-name">InfluxDB</span></li>
+            <li data-fact="timescale"><img loading="lazy" decoding="async" src="assets/logos/timescale.svg" width="30" height="28" alt=""><span class="logo-name">TimescaleDB</span></li>
+            <li data-fact="sqlite"><img loading="lazy" decoding="async" src="assets/logos/sqlite.svg" width="25" height="28" alt=""><span class="logo-name">SQLite</span></li>
+            <li data-fact="hana"><img loading="lazy" decoding="async" src="assets/logos/sap.svg" width="55" height="28" alt=""><span class="logo-name">SAP HANA</span></li>
           </ul>
         </div>
 
         <div class="integration-group">
           <div><h3 id="int-business" data-i18n="intErpTitle">ERP, облік і склад</h3><p data-i18n="intErpText">SAP ERP та інші системи обліку, складу, техобслуговування й виробництва — через API, бази даних або обмін файлами.</p></div>
           <ul class="logo-grid" aria-labelledby="int-business">
-            <li data-fact="sap"><img src="assets/logos/sap.svg" width="55" height="28" alt=""><span class="logo-name">SAP ERP · S/4HANA</span></li>
+            <li data-fact="sap"><img loading="lazy" decoding="async" src="assets/logos/sap.svg" width="55" height="28" alt=""><span class="logo-name">SAP ERP · S/4HANA</span></li>
             <li data-fact="dynamics"><span class="logo-word">Microsoft Dynamics 365</span></li>
-            <li data-fact="datev"><img src="assets/logos/datev.svg" width="28" height="28" alt=""><span class="logo-name">DATEV</span></li>
-            <li data-fact="odoo"><img src="assets/logos/odoo.svg" width="85" height="28" alt=""><span class="logo-name">Odoo</span></li>
-            <li data-fact="sage"><img src="assets/logos/sage.svg" width="49" height="28" alt=""><span class="logo-name">Sage</span></li>
+            <li data-fact="datev"><img loading="lazy" decoding="async" src="assets/logos/datev.svg" width="28" height="28" alt=""><span class="logo-name">DATEV</span></li>
+            <li data-fact="odoo"><img loading="lazy" decoding="async" src="assets/logos/odoo.svg" width="85" height="28" alt=""><span class="logo-name visually-hidden">Odoo</span></li>
+            <li data-fact="sage"><img loading="lazy" decoding="async" src="assets/logos/sage.svg" width="49" height="28" alt=""><span class="logo-name visually-hidden">Sage</span></li>
             <li data-fact="mes"><span class="logo-word">MES</span><span class="logo-name" data-i18n="intMes">Виробництво</span></li>
             <li data-fact="wms"><span class="logo-word">WMS</span><span class="logo-name" data-i18n="intWms">Склад</span></li>
             <li data-fact="cmms"><span class="logo-word">CMMS</span><span class="logo-name" data-i18n="intCmms">Техобслуговування</span></li>
@@ -368,16 +383,16 @@
         <div class="integration-group">
           <div><h3 id="int-ai" data-i18n="intAiTitle">AI на вашому сервері</h3><p data-i18n="intAiText">Відкриті моделі працюють локально, на сервері підприємства, без передачі даних у хмару. Через MCP асистент отримує доступ лише до дозволених систем.</p></div>
           <ul class="logo-grid" aria-labelledby="int-ai">
-            <li class="logo-featured" data-fact="mcp"><img src="assets/logos/modelcontextprotocol.svg" width="25" height="28" alt=""><span class="logo-name">Model Context Protocol</span></li>
-            <li data-fact="llama"><img src="assets/logos/meta.svg" width="42" height="28" alt=""><span class="logo-name">Llama</span></li>
-            <li data-fact="mistral"><img src="assets/logos/mistralai.svg" width="39" height="28" alt=""><span class="logo-name">Mistral</span></li>
-            <li data-fact="qwen"><img src="assets/logos/qwen.svg" width="28" height="28" alt=""><span class="logo-name">Qwen</span></li>
-            <li data-fact="deepseek"><img src="assets/logos/deepseek.svg" width="38" height="28" alt=""><span class="logo-name">DeepSeek</span></li>
+            <li class="logo-featured" data-fact="mcp"><img loading="lazy" decoding="async" src="assets/logos/modelcontextprotocol.svg" width="25" height="28" alt=""><span class="logo-name">Model Context Protocol</span></li>
+            <li data-fact="llama"><img loading="lazy" decoding="async" src="assets/logos/meta.svg" width="42" height="28" alt=""><span class="logo-name">Llama</span></li>
+            <li data-fact="mistral"><img loading="lazy" decoding="async" src="assets/logos/mistralai.svg" width="39" height="28" alt=""><span class="logo-name">Mistral</span></li>
+            <li data-fact="qwen"><img loading="lazy" decoding="async" src="assets/logos/qwen.svg" width="28" height="28" alt=""><span class="logo-name">Qwen</span></li>
+            <li data-fact="deepseek"><img loading="lazy" decoding="async" src="assets/logos/deepseek.svg" width="38" height="28" alt=""><span class="logo-name">DeepSeek</span></li>
             <li data-fact="gemma"><span class="logo-word">Gemma</span></li>
             <li data-fact="gptoss"><span class="logo-word">gpt-oss</span></li>
-            <li data-fact="ollama"><img src="assets/logos/ollama.svg" width="21" height="28" alt=""><span class="logo-name">Ollama</span></li>
-            <li data-fact="vllm"><img src="assets/logos/vllm.svg" width="27" height="28" alt=""><span class="logo-name">vLLM</span></li>
-            <li data-fact="nvidia"><img src="assets/logos/nvidia.svg" width="42" height="28" alt=""><span class="logo-name">NVIDIA GPU</span></li>
+            <li data-fact="ollama"><img loading="lazy" decoding="async" src="assets/logos/ollama.svg" width="21" height="28" alt=""><span class="logo-name">Ollama</span></li>
+            <li data-fact="vllm"><img loading="lazy" decoding="async" src="assets/logos/vllm.svg" width="27" height="28" alt=""><span class="logo-name">vLLM</span></li>
+            <li data-fact="nvidia"><img loading="lazy" decoding="async" src="assets/logos/nvidia.svg" width="42" height="28" alt=""><span class="logo-name">NVIDIA GPU</span></li>
           </ul>
         </div>
         <p class="small-note map-note" data-i18n="intTrademarks">Назви й логотипи належать їхнім власникам і показані лише для позначення сумісності.</p>
@@ -425,8 +440,8 @@
           <li><h3 data-i18n="pilot3Title">Додати потрібне</h3><p data-i18n="pilot3Text">Далі можна підключити аналіз витрат води й енергії, облік простоїв або звіти для команди.</p></li>
         </ol>
         <div class="pilot-action" id="contact">
-          <div><h3 data-i18n="ctaTitle">Хочете побачити демо?</h3><p data-i18n="ctaText">Розкажіть нам про одну ситуацію, яка забирає час у вашої команди.</p></div>
-          <a class="button button-primary" href="https://sig-automation.com/ua#contacts" data-i18n="ctaButton" data-i18n-href="contactsUrl">Запросити демо в SIG</a>
+          <div><h3 data-i18n="ctaTitle">Обговорімо вашу задачу</h3><p data-i18n="ctaText">Розкажіть про одну ситуацію, яка забирає час у вашої команди, — і ми запропонуємо пілот.</p></div>
+          <a class="button button-primary" href="https://sig-automation.com/ua#contacts" data-i18n="ctaButton" data-i18n-href="contactsUrl">Запросити пілотну розмову</a>
         </div>
       </div>
     </section>
@@ -434,7 +449,7 @@
 
   <footer class="site-footer">
     <div class="frame footer-layout">
-      <a class="brand" href="https://sig-automation.com/ua" aria-label="Smart Industry Group" data-i18n-href="companyUrl"><img src="assets/sig.svg" width="96" height="37" alt="Smart Industry Group"></a>
+      <a class="brand" href="https://sig-automation.com/ua" aria-label="Smart Industry Group" data-i18n-href="companyUrl"><img loading="lazy" decoding="async" src="assets/sig.svg" width="96" height="37" alt="Smart Industry Group"></a>
       <p data-i18n="footerNote">Sintelligence — продукт Smart Industry Group · Сценарії та дані умовні</p>
       <nav class="footer-links" aria-label="Інформація про компанію" data-i18n-aria="footerNavLabel">
         <a href="https://sig-automation.com/ua#contacts" data-i18n="footerContacts" data-i18n-href="contactsUrl">Контакти на сайті SIG</a>

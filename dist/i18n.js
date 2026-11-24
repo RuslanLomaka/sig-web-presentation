@@ -35,13 +35,14 @@
       navExamples: "Examples",
       navPilot: "Where to start",
       languageLabel: "Language",
-      headerContact: "Contact SIG",
+      headerContact: "Contact us",
+      heroCta2: "Discuss a pilot",
       contactsUrl: "https://sig-automation.com/en#contacts",
       heroTitle1: "Industrial",
       heroTitle2: "AI assistant",
-      heroText: "Where can you save resources, cut downtime or remove manual work? Sintelligence looks for the answer in your data, shows its sources and suggests the next step.",
+      heroText: "Where can you save resources, reduce downtime or cut manual work? Sintelligence looks for the answer in your data, shows its sources and suggests the next step.",
       heroCta: "Watch the demo",
-      heroAudiences: "Manufacturing · Food industry · Logistics · Medical facility equipment",
+      heroAudiences: "Manufacturing · Food industry · Logistics · Medical technology",
       demoTitle: "From question to answer",
       demoIntro: "Choose a situation. See which records the assistant reads and where it suggests you start.",
       walkthroughLabel: "Demo of a conversation between an engineer and the assistant",
@@ -80,7 +81,7 @@
       evLevel: "Low inlet level",
       evPressure: "Pressure drop",
       evStop: "Line stoppage",
-      incQuestion: "What should be checked after the line B stoppage?",
+      incQuestion: "What should be checked after the Line B stoppage?",
       whatHappened: "What happened",
       incHappened: "Inlet level and pressure dropped before the stoppage.",
       possibleCause: "Possible cause",
@@ -172,7 +173,7 @@
       intHint: "Hover over or tap a logo to discover a fact about it.",
       intTrademarks: "Names and logos belong to their respective owners and are shown only to indicate compatibility.",
       ctlTitle: "You decide what to do",
-      ctlIntro: "In the first phase the assistant reads the data it is allowed to and gives a hint. The engineer checks it and decides what to do with the equipment.",
+      ctlIntro: "In the first phase the assistant reads the data it is allowed to and suggests a next step. The engineer checks the suggestion and decides what to do with the equipment.",
       flow1: "You choose the sources",
       flow1Note: "Documents, logs, equipment data",
       flow2: "You grant read access",
@@ -197,9 +198,9 @@
       pilot2Text: "Confirmed cases can be recorded so the next shift can find them.",
       pilot3Title: "Add what you need",
       pilot3Text: "Next you can add analysis of water and energy use, downtime tracking or reports for the team.",
-      ctaTitle: "Would you like to see a demo?",
-      ctaText: "Tell us about one situation that costs your team time.",
-      ctaButton: "Request a demo from SIG",
+      ctaTitle: "Let's discuss your use case",
+      ctaText: "Tell us about one situation that costs your team time, and we will propose a pilot.",
+      ctaButton: "Request a pilot call",
       footerNote: "Sintelligence is a product of Smart Industry Group · Illustrative scenarios and data",
       footerNavLabel: "Company information",
       footerContacts: "Contact on the SIG website",
@@ -207,29 +208,30 @@
       footerPrivacy: "Privacy policy"
     },
     de: {
-      pageTitle: "Sintelligence · Industrieller KI-Assistent von Smart Industry Group",
+      pageTitle: "Sintelligence · Industrieller KI-Assistent von der Smart Industry Group",
       metaDescription: "Sintelligence, der industrielle KI-Assistent der Smart Industry Group, hilft, Ressourcenverluste zu finden, Stillstände zu analysieren und das Wissen des Teams zu bewahren.",
       skipLink: "Zum Inhalt springen",
-      brandHome: "Sintelligence — zum Seitenanfang",
-      brandBy: "von Smart Industry Group",
+      brandHome: "Sintelligence – zum Seitenanfang",
+      brandBy: "von der Smart Industry Group",
       companyUrl: "https://sig-automation.com/de",
       navLabel: "Abschnitte der Präsentation",
       navDemo: "So funktioniert es",
       navExamples: "Beispiele",
       navPilot: "Erste Schritte",
       languageLabel: "Sprache",
-      headerContact: "Kontakt SIG",
+      headerContact: "Kontakt aufnehmen",
+      heroCta2: "Pilotprojekt besprechen",
       contactsUrl: "https://sig-automation.com/de#contacts",
       heroTitle1: "Industrieller",
       heroTitle2: "KI-Assistent",
       heroText: "Wo lassen sich Ressourcen sparen, Stillstände verkürzen oder manuelle Arbeit vermeiden? Sintelligence sucht die Antwort in Ihren Daten, zeigt die Quellen und schlägt den nächsten Schritt vor.",
       heroCta: "Demo ansehen",
-      heroAudiences: "Fertigung · Lebensmittelindustrie · Logistik · Technik für medizinische Einrichtungen",
+      heroAudiences: "Fertigung · Lebensmittelindustrie · Logistik · Medizintechnik",
       demoTitle: "Von der Frage zur Antwort",
-      demoIntro: "Wählen Sie eine Situation. Sehen Sie, welche Aufzeichnungen der Assistent liest und womit er zu beginnen empfiehlt.",
+      demoIntro: "Wählen Sie eine Situation. Sehen Sie, welche Aufzeichnungen der Assistent liest und wo Sie ansetzen sollten.",
       walkthroughLabel: "Demo eines Gesprächs zwischen Ingenieur und Assistent",
       walkthroughTitle: "Gespräch mit dem Assistenten",
-      walkthroughNote: "Fiktives Beispiel",
+      walkthroughNote: "Beispielhafte Darstellung",
       walkthroughCaseLabel: "Demo-Szenario",
       caseResources: "Ressourcenverbrauch",
       caseIncident: "Linienstillstand",
@@ -239,7 +241,7 @@
       sourcesHeading: "Was der Assistent prüft",
       walkthroughProgress: "Fortschritt der Demo",
       examplesTitle: "Was können Sie noch fragen?",
-      examplesIntro: "Derselbe Ansatz passt zu vielen Aufgaben – vom Wasserverbrauch bei der Reinigung bis zu Verzögerungen im Lager. Wählen Sie ein Beispiel. Die Daten sind fiktiv.",
+      examplesIntro: "Derselbe Ansatz passt zu vielen Aufgaben – vom Wasserverbrauch bei der Reinigung bis zu Verzögerungen im Lager. Wählen Sie ein Beispiel. Alle Daten sind Beispieldaten.",
       tabsLabel: "Szenarien des Assistenten",
       tabTrends: "Druckverlauf",
       tabStable: "Prozessverbesserung",
@@ -260,12 +262,12 @@
       incTitle: "Ereignisse vor dem Stillstand",
       incNote: "Wählen Sie ein Ereignis, um Details zu sehen.",
       incEventsLabel: "Ereignisse Linie B",
-      evLevel: "Niedriger Füllstand am Eingang",
+      evLevel: "Niedriger Füllstand im Zulauf",
       evPressure: "Druckabfall",
       evStop: "Linienstillstand",
       incQuestion: "Was ist nach dem Stillstand von Linie B zu prüfen?",
       whatHappened: "Was passiert ist",
-      incHappened: "Vor dem Stillstand sanken Eingangsfüllstand und Druck.",
+      incHappened: "Vor dem Stillstand sanken der Füllstand im Zulauf und der Druck.",
       possibleCause: "Mögliche Ursache",
       incCause: "Die Pumpe hat möglicherweise zu wenig Material erhalten.",
       incCheck: "Ob beim Anlaufen der Pumpe genug Material vorhanden war.",
@@ -276,7 +278,7 @@
       incSrc1: "LT-101 um 10:42:16, PT-204 um 10:42:18 und Stillstand um 10:42:20.",
       incSrc2Label: "Verlauf LT-101",
       incSrc2: "der Füllstand sank von 10:24 bis 10:42.",
-      incSrc3Label: "Anleitung P-204",
+      incSrc3Label: "Betriebsanleitung P-204",
       incSrc3: "Anlauf- und Zufuhrbedingungen zur Prüfung durch den Ingenieur.",
       trKicker: "Signalarchiv · Drei Stillstände",
       trTitle: "Druck vor dem Stillstand",
@@ -292,7 +294,7 @@
       trMissing: "Für den 24. April liegen nur Teile der Aufzeichnungen vor.",
       trCheck: "Druck, Strom und Füllstand in den letzten fünf Minuten vor jedem Stillstand vergleichen.",
       trBasisLabel: "Vergleichsgrundlage",
-      trBasis1: "Drei fiktive Stillstandseinträge aus dem Ereignisprotokoll.",
+      trBasis1: "Drei beispielhafte Stillstandseinträge aus dem Ereignisprotokoll.",
       trBasis2: "Verlauf von PT-204 in den fünf Minuten vor jedem Ereignis. Lücken im Archiv bleiben sichtbar.",
       stKicker: "Linie B · Stabiler Betrieb",
       tagOk: "In Betrieb",
@@ -352,10 +354,10 @@
       intCmms: "Instandhaltung",
       intAiTitle: "KI auf Ihrem eigenen Server",
       intAiText: "Offene Modelle laufen lokal auf einem Server in Ihrem Unternehmen, ohne Daten in die Cloud zu senden. Über MCP erreicht der Assistent nur die freigegebenen Systeme.",
-      intHint: "Bewegen Sie die Maus über ein Logo oder tippen Sie darauf, um einen spannenden Fakt zu entdecken.",
+      intHint: "Bewegen Sie die Maus über ein Logo oder tippen Sie darauf, um Wissenswertes zu erfahren.",
       intTrademarks: "Namen und Logos gehören ihren jeweiligen Inhabern und dienen nur als Hinweis auf die Kompatibilität.",
       ctlTitle: "Sie entscheiden, was zu tun ist",
-      ctlIntro: "In der ersten Phase liest der Assistent die freigegebenen Daten und gibt einen Hinweis. Der Ingenieur prüft ihn und entscheidet, was mit der Anlage geschieht.",
+      ctlIntro: "In der ersten Phase liest der Assistent die freigegebenen Daten und schlägt einen nächsten Schritt vor. Der Ingenieur prüft den Vorschlag und entscheidet, was mit der Anlage geschieht.",
       flow1: "Sie wählen die Quellen",
       flow1Note: "Dokumente, Protokolle, Anlagendaten",
       flow2: "Sie erteilen Lesezugriff",
@@ -380,10 +382,10 @@
       pilot2Text: "Bestätigte Fälle können festgehalten werden, damit die nächste Schicht sie findet.",
       pilot3Title: "Nach Bedarf erweitern",
       pilot3Text: "Danach lassen sich Analysen des Wasser- und Energieverbrauchs, Stillstandserfassung oder Berichte für das Team ergänzen.",
-      ctaTitle: "Möchten Sie eine Demo sehen?",
-      ctaText: "Erzählen Sie uns von einer Situation, die Ihr Team Zeit kostet.",
-      ctaButton: "Demo bei SIG anfragen",
-      footerNote: "Sintelligence ist ein Produkt der Smart Industry Group · Fiktive Szenarien und Daten",
+      ctaTitle: "Sprechen wir über Ihren Anwendungsfall",
+      ctaText: "Erzählen Sie uns von einer Situation, die Ihr Team Zeit kostet – wir schlagen Ihnen ein Pilotprojekt vor.",
+      ctaButton: "Pilotgespräch anfragen",
+      footerNote: "Sintelligence ist ein Produkt der Smart Industry Group · Beispielhafte Szenarien und Daten",
       footerNavLabel: "Unternehmensinformationen",
       footerContacts: "Kontakt auf der SIG-Website",
       footerImprint: "Impressum",
@@ -399,6 +401,9 @@
         "18": "18 квітня тиск знизився з 2,8 до 1,6 бар.",
         "24": "24 квітня частина записів відсутня. Тиск у момент зупинки невідомий."
       },
+      noData: "немає даних",
+      showAll: "Показати всі ({n})",
+      showLess: "Згорнути",
       axisLabels: ["−5 хв", "−4", "−3", "−2", "−1", "Зупинка"],
       events: {
         level: ["LT-101 · Низький рівень", "Рівень у приймальному бункері був низьким за 4 секунди до зупинки лінії."],
@@ -444,7 +449,7 @@
         bosch: "Історія починається 1795 року з кузні родини Рексрот у Шпессарті. Сьогодні ця дочірня компанія Bosch із Лора-на-Майні виробляє гідравліку, приводи й системи керування.",
         omron: "Заснована в Японії 1933 року; назва походить від району Омуро в Кіото, де був її ранній завод. 1967 року Omron допомогла створити першу у світі безлюдну залізничну станцію з автоматичними турнікетами.",
         phoenix: "Заснована в Ессені 1923 року, нині розташована в Бломберзі. 1928 року Phoenix Contact представила модульну клемну колодку — сьогодні вона є майже в кожній шафі керування.",
-        wago: "Сімейна компанія з Міндена, заснована 1951 року. WAGO зробила популярними безгвинтові пружинні з'єднання; її CAGE CLAMP з'явилася 1977 року.",
+        wago: "Сімейна компанія з Міндена, заснована 1951 року. WAGO зробила популярними безгвинтові пружинні з’єднання; її CAGE CLAMP з’явилася 1977 року.",
         festo: "Назва поєднує прізвища засновників Фецера і Штолля (Есслінген, 1925). Festo — лідер пневматики, що створює роботів, натхненних природою, як-от літаючого SmartBird.",
         more: "Старі машини без мережевого порту можна підключити через шлюзи або додаткові датчики, тож працююче обладнання не треба замінювати.",
         opcua: "Опублікований 2008 року і стандартизований як IEC 62541. На відміну від класичних польових шин, передає не лише значення, а й їхній зміст, і має вбудоване шифрування та автентифікацію.",
@@ -455,7 +460,7 @@
         modbus: "Створений Modicon 1979 року і безкоштовний для використання. Modbus старший за IBM PC і досі є спільною мовою лічильників, приводів і датчиків.",
         iolink: "Перший міжнародно стандартизований інтерфейс «точка-точка» для датчиків і виконавчих пристроїв (IEC 61131-9). Працює зі звичайним неекранованим кабелем і дозволяє змінювати налаштування датчика дистанційно.",
         canopen: "Побудований на шині CAN, яку Bosch розробила для автомобілів у 1980-х, і підтримується CAN in Automation з Нюрнберга. Поширений у мобільних машинах, медичній техніці та ліфтах.",
-        mqtt: "Винайдений 1999 року для моніторингу нафтопроводів через дорогий супутниковий зв'язок, тому надзвичайно легкий. Сьогодні це стандарт OASIS та ISO й основа багатьох IIoT-платформ.",
+        mqtt: "Винайдений 1999 року для моніторингу нафтопроводів через дорогий супутниковий зв’язок, тому надзвичайно легкий. Сьогодні це стандарт OASIS та ISO й основа багатьох IIoT-платформ.",
         s7: "Контролери SIMATIC S7 обмінюються даними за протоколом S7 через TCP-порт 102. Серія S7-300, випущена в середині 1990-х, досі працює на багатьох заводах.",
         postgresql: "Виросла з проєкту POSTGRES в Університеті Каліфорнії в Берклі (1986) і повністю відкрита. З 2023 року — найпопулярніша база даних серед розробників за опитуванням Stack Overflow.",
         mssql: "Перша версія вийшла 1989 року разом із Sybase. Часто є основою MES, систем архівування даних та ERP на заводах із Windows.",
@@ -466,8 +471,8 @@
         influxdb: "Відкрита база часових рядів із 2013 року, створена для нескінченних потоків показів датчиків із мітками часу.",
         timescale: "Розширення, яке перетворює PostgreSQL на базу часових рядів, тож дані процесу можна аналізувати звичайним SQL.",
         sqlite: "Імовірно, найпоширеніша база даних у світі: вона працює в кожному смартфоні й браузері. Її вихідний код є суспільним надбанням.",
-        hana: "Колонкова база даних SAP, що працює в оперативній пам'яті, випущена 2010 року. SAP S/4HANA працює тільки на ній.",
-        sap: "Заснована 1972 року п'ятьма колишніми працівниками IBM; найбільша софтверна компанія Європи. S/4HANA (2015) — її нинішнє покоління ERP.",
+        hana: "Колонкова база даних SAP, що працює в оперативній пам’яті, випущена 2010 року. SAP S/4HANA працює тільки на ній.",
+        sap: "Заснована 1972 року п’ятьма колишніми працівниками IBM; найбільша софтверна компанія Європи. S/4HANA (2015) — її нинішнє покоління ERP.",
         dynamics: "ERP- і CRM-пакет Microsoft з 2016 року. Редакція Business Central походить від данської ERP Navision, популярної серед німецьких середніх підприємств.",
         datev: "Кооператив податкових консультантів, заснований у Нюрнберзі 1966 року. DATEV — стандартна програма німецьких податкових консультантів, тож облікові дані часто потрапляють саме туди.",
         odoo: "Відкрита ERP з Бельгії, що почалася 2005 року як TinyERP. Модульні застосунки охоплюють склад, виробництво й бухгалтерію.",
@@ -475,15 +480,15 @@
         mes: "Системи керування виробництвом (MES) поєднують ERP і цех. Стандарт ISA-95 (IEC 62264) описує, як між ними передаються замовлення й виробничі дані.",
         wms: "Системи керування складом відстежують кожну палету й комірку. Разом із виробничими даними вони показують, через нестачу якого матеріалу насправді стоїть лінія.",
         cmms: "Системи техобслуговування зберігають наряди й історію ремонтів — саме той досвід команди, який асистент може знайти, коли несправність повториться.",
-        mcp: "Відкритий стандарт, який Anthropic представила в листопаді 2024 року; його вже підтримують OpenAI, Google і Microsoft. Його називають «USB-C для AI»: один інтерфейс з'єднує моделі з інструментами й даними.",
+        mcp: "Відкритий стандарт, який Anthropic представила в листопаді 2024 року; його вже підтримують OpenAI, Google і Microsoft. Його називають «USB-C для AI»: один інтерфейс з’єднує моделі з інструментами й даними.",
         llama: "Сімейство моделей Meta з відкритими вагами, перший випуск — лютий 2023 року. Ваги можна завантажити й запускати на власних серверах.",
         mistral: "Заснована в Парижі 2023 року. Першу модель, Mistral 7B, опублікували за ліцензією Apache 2.0 через торент-посилання — європейський варіант для локального AI.",
         qwen: "Сімейство моделей Alibaba Cloud. Багато версій мають відкриті ваги за ліцензією Apache 2.0 і належать до найпопулярніших основ для донавчання на Hugging Face.",
         deepseek: "DeepSeek-R1 вийшла в січні 2025 року з відкритими вагами за ліцензією MIT. Через низьку заявлену вартість навчання ринкова вартість NVIDIA за день упала на сотні мільярдів доларів.",
         gemma: "Відкриті моделі Google, створені на основі тих самих досліджень, що й Gemini; перший випуск — лютий 2024 року. Малі версії працюють на одному GPU чи навіть на ноутбуці.",
-        gptoss: "Перші моделі OpenAI з відкритими вагами після GPT-2 (2019), випущені в серпні 2025 року за ліцензією Apache 2.0. Менша модель працює на комп'ютері з 16 ГБ пам'яті.",
+        gptoss: "Перші моделі OpenAI з відкритими вагами після GPT-2 (2019), випущені в серпні 2025 року за ліцензією Apache 2.0. Менша модель працює на комп’ютері з 16 ГБ пам’яті.",
         ollama: "Відкритий інструмент (ліцензія MIT), що завантажує й запускає локальні мовні моделі однією командою, — зручно для першого пілоту на власному сервері.",
-        vllm: "Відкритий рушій для запуску моделей з Університету Каліфорнії в Берклі (2023). Техніка PagedAttention керує пам'яттю GPU як віртуальною пам'яттю операційної системи, тож одночасно обслуговує багатьох користувачів.",
+        vllm: "Відкритий рушій для запуску моделей з Університету Каліфорнії в Берклі (2023). Техніка PagedAttention керує пам’яттю GPU як віртуальною пам’яттю операційної системи, тож одночасно обслуговує багатьох користувачів.",
         nvidia: "Відтоді як CUDA (2007) зробила відеокарти придатними для загальних обчислень, GPU NVIDIA стали стандартним обладнанням для AI. Для локальних моделей вистачає однієї карти в робочій станції."
       },
       walkthrough: {
@@ -491,6 +496,7 @@
         play: "Відтворити",
         thinking: "Думає · {s} с",
         thought: "Думав {s} с",
+        cites: "Джерела",
         steps: ["Інженер ставить запитання", null, null, null, "Асистент зіставляє записи", "Інженер отримує підказку"],
         cases: {
           resources: {
@@ -524,6 +530,9 @@
         "18": "On 18 April the pressure fell from 2.8 to 1.6 bar.",
         "24": "On 24 April some records are missing. The pressure at the moment of the stoppage is unknown."
       },
+      noData: "no data",
+      showAll: "Show all ({n})",
+      showLess: "Show less",
       axisLabels: ["−5 min", "−4", "−3", "−2", "−1", "Stop"],
       events: {
         level: ["LT-101 · Low level", "The level in the feed hopper was low 4 seconds before the line stopped."],
@@ -537,8 +546,8 @@
         team: ["What has already been checked", "An engineer records a confirmed case. The next shift can find it if the problem comes back.", "Example: what was checked last time and what it showed."]
       },
       reports: {
-        engineer: ["Shift handover", "Before line B stopped, a low level at LT-101 and a pressure drop at PT-204 were recorded. At 10:24:10 the P-204 start threshold was changed from 35% to 15%. Check the actual feed and the start-up conditions. The check result has not been recorded yet."],
-        manager: ["Summary for the manager", "The shift's priority is to deal with the repeated stoppages of line B. The team needs to check the feed and assess the possible impact of the threshold change. There is no confirmed cause yet."]
+        engineer: ["Shift handover", "Before Line B stopped, a low level at LT-101 and a pressure drop at PT-204 were recorded. At 10:24:10 the P-204 start threshold was changed from 35% to 15%. Check the actual feed and the start-up conditions. The check result has not been recorded yet."],
+        manager: ["Summary for the manager", "The shift's priority is to deal with the repeated stoppages of Line B. The team needs to check the feed and assess the possible impact of the threshold change. There is no confirmed cause yet."]
       },
       resources: {
         energy: [
@@ -616,7 +625,8 @@
         play: "Play",
         thinking: "Thinking · {s} s",
         thought: "Thought for {s} s",
-        steps: ["The engineer asks a question", null, null, null, "The assistant compares the records", "The engineer gets a hint"],
+        cites: "Sources",
+        steps: ["The engineer asks a question", null, null, null, "The assistant compares the records", "The engineer gets a recommendation"],
         cases: {
           resources: {
             question: "Why did the same output take more electricity?",
@@ -649,6 +659,9 @@
         "18": "Am 18. April fiel der Druck von 2,8 auf 1,6 bar.",
         "24": "Am 24. April fehlen Teile der Aufzeichnungen. Der Druck im Moment des Stillstands ist unbekannt."
       },
+      noData: "keine Daten",
+      showAll: "Alle anzeigen ({n})",
+      showLess: "Weniger anzeigen",
       axisLabels: ["−5 min", "−4", "−3", "−2", "−1", "Stopp"],
       events: {
         level: ["LT-101 · Niedriger Füllstand", "Der Füllstand im Aufgabebunker war 4 Sekunden vor dem Linienstillstand niedrig."],
@@ -741,12 +754,13 @@
         play: "Abspielen",
         thinking: "Denkt nach · {s} s",
         thought: "Hat {s} s nachgedacht",
-        steps: ["Der Ingenieur stellt eine Frage", null, null, null, "Der Assistent gleicht die Aufzeichnungen ab", "Der Ingenieur erhält einen Hinweis"],
+        cites: "Quellen",
+        steps: ["Der Ingenieur stellt eine Frage", null, null, null, "Der Assistent gleicht die Aufzeichnungen ab", "Der Ingenieur erhält eine Empfehlung"],
         cases: {
           resources: {
             question: "Warum wurde für dieselbe Menge mehr Strom verbraucht?",
             answerTitle: "Beginnen Sie mit den Zeiten ohne Produktion.",
-            answer: "Der Zähler zeigt Verbrauch, auch wenn der Bereich nichts produziert hat.",
+            answer: "Der Zähler erfasst auch dann Verbrauch, wenn der Bereich nichts produziert.",
             limit: "Klären Sie zuerst, welcher Verbrauch in dieser Zeit laut Vorgabe nötig ist.",
             sources: [
               ["Zähler", "Der Verbrauch stieg von 144 auf 168 kWh.", "Der Assistent liest den Zähler"],
@@ -757,12 +771,12 @@
           incident: {
             question: "Linie B steht. Was prüfe ich zuerst?",
             answerTitle: "Prüfen Sie die Zufuhr zur Pumpe.",
-            answer: "Vor dem Stillstand sanken Eingangsfüllstand und Druck. Eine zu geringe Zufuhr könnte das erklären.",
+            answer: "Vor dem Stillstand sanken der Füllstand im Zulauf und der Druck. Eine zu geringe Zufuhr könnte das erklären.",
             limit: "Es gibt keine Durchflussdaten. Die Ursache muss noch geprüft werden.",
             sources: [
               ["Ereignisprotokoll", "Füllstand und Druck sanken vor dem Stillstand.", "Der Assistent liest das Ereignisprotokoll"],
               ["Füllstandsverlauf", "Der Füllstand sank schon vor dem Stillstandssignal.", "Der Assistent sieht sich den Füllstandsverlauf an"],
-              ["Pumpenanleitung", "Die Anleitung nennt Anlauf- und Zufuhrbedingungen.", "Der Assistent gleicht mit der Anleitung ab"]
+              ["Betriebsanleitung Pumpe", "Die Anleitung nennt Anlauf- und Zufuhrbedingungen.", "Der Assistent gleicht mit der Anleitung ab"]
             ]
           }
         }
@@ -777,6 +791,7 @@
     ["data-i18n-href", el => el.getAttribute("href"), (el, value) => el.setAttribute("href", value)],
     ["data-i18n-content", el => el.getAttribute("content"), (el, value) => el.setAttribute("content", value)]
   ];
+  const has = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
   const sourceText = {};
   let sourceCaptured = false;
 
@@ -826,7 +841,7 @@
   }
 
   function setLanguage(language, { save = false } = {}) {
-    if (!Object.hasOwn(locales, language)) language = DEFAULT_LANGUAGE;
+    if (!has(locales, language)) language = DEFAULT_LANGUAGE;
     api.language = language;
     document.documentElement.lang = locales[language].lang;
     applyPage(language);
@@ -834,12 +849,27 @@
     if (save) {
       try { localStorage.setItem(STORAGE_KEY, language); } catch { /* Storage can be blocked. */ }
     }
+    if (save) {
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", language === "ua" ? "uk" : language);
+        window.history.replaceState(null, "", url);
+      } catch { /* Old browsers: the language still switches. */ }
+    }
     document.dispatchEvent(new CustomEvent("sig:languagechange", { detail: { language } }));
   }
 
-  const initial = savedLanguage();
+  // A link such as ?lang=de opens that language (sales can send German links); then the saved choice; then the browser.
+  function urlLanguage() {
+    try {
+      const value = (new URLSearchParams(window.location.search).get("lang") || "").toLowerCase();
+      return value === "uk" ? "ua" : value;
+    } catch { return ""; }
+  }
+  const requested = urlLanguage();
+  const initial = has(locales, requested) ? requested : savedLanguage();
   const api = {
-    language: Object.hasOwn(locales, initial) ? initial : browserLanguage(),
+    language: has(locales, initial) ? initial : browserLanguage(),
     get content() { return content[api.language]; },
     get numberLocale() { return locales[api.language].numbers; },
     // Static page text by data-i18n key in the current language.

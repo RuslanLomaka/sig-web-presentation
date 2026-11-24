@@ -412,10 +412,18 @@ cmd_verify() {
   log "Comparing the live site with $SOURCE_DIR/ over HTTPS:"
   check_url "$SITE_URL/" "$SOURCE_DIR/index.html"
   while IFS= read -r -d '' entry; do
+    # Apache never serves .htaccess and similar files; their effect is checked instead.
+    [[ "${entry##*/}" == .ht* ]] && continue
     url="$SITE_URL/$(jq -rn --arg p "$entry" '$p | split("/") | map(@uri) | join("/")')"
     check_url "$url" "$SOURCE_DIR/$entry"
   done < <(list_source f)
   rm -f "$tmp" "$tmp.err"
+  if [[ -f "$SOURCE_DIR/.htaccess" && "$SITE_URL" == https://* ]]; then
+    local plain="http://${SITE_URL#https://}/" redirect
+    redirect="$(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' --max-time 20 "$plain" 2>/dev/null || true)"
+    log "  http:// answers: $redirect"
+    [[ "$redirect" == 301\ https://* ]] || warn "Plain HTTP does not redirect to HTTPS yet ($redirect). Check that .htaccess is active."
+  fi
 
   ((failures == 0)) || die "$failures of $checked URLs do not match $SOURCE_DIR/. The upload may be incomplete, or a cache served old content; run the deployment again."
   log "All $checked URLs serve exactly the files from $SOURCE_DIR/."
