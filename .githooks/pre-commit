@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Linters and project rules, about three seconds.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+node tools/check.mjs --fast --no-stamp || { echo "Commit stopped. 'npm run check' shows the same and fixes the cache versions."; exit 1; }

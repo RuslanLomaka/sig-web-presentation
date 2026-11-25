@@ -50,6 +50,12 @@ defaults:
     shell: bash
 
 jobs:
+  # Nothing is deployed unless linters, project rules and browser measurements pass. Uses no secrets.
+  checks:
+    name: Checks
+    if: github.event_name == 'push' || inputs.mode == 'deploy'
+    uses: ./.github/workflows/checks.yml
+
   connection-test:
     name: Read-only connection test
     if: github.event_name == 'workflow_dispatch' && inputs.mode == 'test'
@@ -76,6 +82,7 @@ jobs:
 
   deploy:
     name: Deploy dist/ to IONOS
+    needs: checks
     if: >-
       (github.event_name == 'push' && vars.IONOS_REMOTE_DIR != '') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'deploy')

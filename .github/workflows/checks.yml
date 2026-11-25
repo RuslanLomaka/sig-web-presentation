@@ -1,0 +1,46 @@
+# Judges the site before it is published: linters, project rules, and measurements in a real browser.
+# Uses no secrets. deploy-ionos.yml calls it and deploys only if it passes.
+name: Checks
+
+on:
+  workflow_call:
+    inputs:
+      deploying: # The self-test is about the checks, not about the site: a deployment does not wait for it.
+        type: boolean
+        default: true
+  pull_request:
+  push: # Pushes that touch dist/ on main are checked by the deployment itself.
+    paths: ["**", "!dist/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Linters, rules and browser measurements
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Node 22 or newer from the runner's own tool cache, so no further action is needed.
+      - name: Choose Node
+        run: |
+          node_dir="$(ls -d "$RUNNER_TOOL_CACHE"/node/2[2-9].*/x64/bin 2>/dev/null | sort -V | tail -n 1 || true)"
+          if [[ -n "$node_dir" ]]; then echo "$node_dir" >> "$GITHUB_PATH"; fi
+
+      - name: Install the linters (exact versions, no install scripts)
+        run: |
+          node --version
+          npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Check
+        run: node tools/check.mjs --no-stamp
+
+      - name: Prove that the checks catch mistakes
+        if: ${{ !inputs.deploying }}
+        run: node tools/selftest.mjs

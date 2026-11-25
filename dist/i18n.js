@@ -27,7 +27,7 @@
       pageTitle: "Sintelligence · Industrial AI assistant by Smart Industry Group",
       metaDescription: "Sintelligence, the industrial AI assistant by Smart Industry Group, helps you find resource losses, analyse downtime and keep your team's know-how.",
       skipLink: "Skip to content",
-      brandHome: "Sintelligence — back to top",
+      brandHome: "Sintelligence by Smart Industry Group – back to top",
       brandBy: "by Smart Industry Group",
       companyUrl: "https://sig-automation.com/en",
       navLabel: "Presentation sections",
@@ -218,7 +218,7 @@
       pageTitle: "Sintelligence · Industrieller KI-Assistent von der Smart Industry Group",
       metaDescription: "Sintelligence, der industrielle KI-Assistent der Smart Industry Group, hilft, Ressourcenverluste zu finden, Stillstände zu analysieren und das Wissen des Teams zu bewahren.",
       skipLink: "Zum Inhalt springen",
-      brandHome: "Sintelligence – zum Seitenanfang",
+      brandHome: "Sintelligence von der Smart Industry Group – zum Seitenanfang",
       brandBy: "von der Smart Industry Group",
       companyUrl: "https://sig-automation.com/de",
       navLabel: "Abschnitte der Präsentation",
@@ -940,7 +940,7 @@
     const name = document.querySelector(`.lang-btns [data-lang="${api.language}"] .lang-full`).textContent;
     const label = api.language === "ua" ? sourceText["data-i18n-aria:languageLabel"] ?? "Мова" : page[api.language].languageLabel;
     current.querySelector(".lang-code").textContent = code;
-    current.setAttribute("aria-label", `${label}: ${name} (${code})`);
+    current.setAttribute("aria-label", `${code} – ${label}: ${name}`); // Starts with what is visible.
   }
 
   // Opens and closes the language bar on phones and touch screens (the globe button is hidden elsewhere).
@@ -966,8 +966,8 @@
     });
   }
 
-  function setLanguage(language, { save = false } = {}) {
-    if (!has(locales, language)) language = DEFAULT_LANGUAGE;
+  function setLanguage(wanted, { save = false } = {}) {
+    const language = has(locales, wanted) ? wanted : DEFAULT_LANGUAGE;
     api.language = language;
     document.documentElement.lang = locales[language].lang;
     applyPage(language);
@@ -1012,7 +1012,7 @@
   root.classList.add("js");
   root.lang = locales[api.language].lang;
   const reveal = () => {
-    void root.offsetWidth; // Apply the translated state first, so the switcher does not animate into it.
+    root.getBoundingClientRect(); // Apply the translated state first, so the switcher does not animate into it.
     root.classList.remove("lang-pending");
   };
   if (api.language !== "ua") {

@@ -60,15 +60,15 @@ function drawChart(canvas, values, axis) {
   }
 
   ctx.textAlign = "right";
-  axis.ticks.forEach(tick => {
+  axis.ticks.forEach(mark => {
     ctx.strokeStyle = "#dce5db";
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(margin.left, y(tick));
-    ctx.lineTo(width - margin.right, y(tick));
+    ctx.moveTo(margin.left, y(mark));
+    ctx.lineTo(width - margin.right, y(mark));
     ctx.stroke();
     ctx.fillStyle = "#52655a";
-    ctx.fillText(tick.toLocaleString(i18n.numberLocale), margin.left - 7, y(tick));
+    ctx.fillText(mark.toLocaleString(i18n.numberLocale), margin.left - 7, y(mark));
   });
   ctx.textAlign = "center";
   axis.labels.forEach((label, i) => ctx.fillText(label, x(i), height - 13));
@@ -291,76 +291,75 @@ function stageAt(t) {
   return 6;
 }
 
-function renderWalkthrough(force = false) {
-  if (force) shown = {};
-  const t = elapsed;
-  const text = copy().walkthrough;
+// True when a value differs from what is on the page (and remembers it), so rendering only touches what changed.
+function changed(name, value) {
+  if (shown[name] === value) return false;
+  shown[name] = value;
+  return true;
+}
 
+function renderQuestion(t) {
   const characters = countUntil(timeline.charTimes, t);
-  if (characters !== shown.characters) {
+  if (changed("characters", characters)) {
     typedText.textContent = timeline.characters.slice(0, characters).join("");
     ghostText.textContent = timeline.characters.slice(characters).join("");
-    shown.characters = characters;
   }
   const typing = t < timeline.typeEnd + 300;
-  if (typing !== shown.typing) {
-    caret.hidden = !typing;
-    shown.typing = typing;
-  }
+  if (changed("typing", typing)) caret.hidden = !typing;
+}
 
-  const stage = stageAt(t);
-  if (stage !== shown.stage) {
-    walkthroughPhase.textContent = text.steps[stage] ?? timeline.current.sources[stage - 2][2];
-    walkthroughProgress.value = stage;
-    answerBubble.dataset.visible = stage >= 1;
-    thinking.hidden = stage < 1;
-    checkRows.forEach((row, index) => { row.dataset.state = stage > index + 1 ? "done" : stage === index + 1 ? "reading" : "wait"; });
-    checksList.dataset.leaving = stage === 6;
-    shown.stage = stage;
-  }
+function checkState(row, stage) {
+  if (stage > row + 1) return "done";
+  return stage === row + 1 ? "reading" : "wait";
+}
 
-  if (stage >= 1) {
-    const done = t >= timeline.thinkEnd;
-    const fraction = Math.min(1, (t - timeline.thinkStart) / (timeline.thinkEnd - timeline.thinkStart));
-    const seconds = done ? timeline.seconds : Math.max(1, Math.round(timeline.seconds * fraction));
-    const label = (done ? text.thought : text.thinking).replace("{s}", seconds);
-    if (label !== shown.label) {
-      thinkingLabel.textContent = label;
-      thinking.dataset.done = done;
-      shown.label = label;
-    }
-  }
+function renderStage(stage, text) {
+  if (!changed("stage", stage)) return;
+  walkthroughPhase.textContent = text.steps[stage] ?? timeline.current.sources[stage - 2][2];
+  walkthroughProgress.value = stage;
+  answerBubble.dataset.visible = stage >= 1;
+  thinking.hidden = stage < 1;
+  checkRows.forEach((row, index) => { row.dataset.state = checkState(index, stage); });
+  checksList.dataset.leaving = stage === 6;
+}
 
+function renderThinking(t, text) {
+  const done = t >= timeline.thinkEnd;
+  const fraction = Math.min(1, (t - timeline.thinkStart) / (timeline.thinkEnd - timeline.thinkStart));
+  const seconds = done ? timeline.seconds : Math.max(1, Math.round(timeline.seconds * fraction));
+  const label = (done ? text.thought : text.thinking).replace("{s}", seconds);
+  if (!changed("label", label)) return;
+  thinkingLabel.textContent = label;
+  thinking.dataset.done = done;
+}
+
+function renderAnswer(t, stage) {
   const words = countUntil(timeline.words.map(word => word.at), t);
-  if (words !== shown.words) {
-    wordSpans.forEach((span, index) => { span.hidden = index >= words; });
-    shown.words = words;
-  }
-
-  const citing = t >= timeline.streamEnd;
-  if (citing !== shown.citing) {
-    checkedBox.hidden = !citing;
-    shown.citing = citing;
-  }
+  if (changed("words", words)) wordSpans.forEach((span, index) => { span.hidden = index >= words; });
+  const answered = t >= timeline.streamEnd;
+  if (changed("answered", answered)) checkedBox.hidden = !answered;
   const checking = stage >= 1 && t < timeline.thinkEnd + CHECKS_LEAVE;
-  if (checking !== shown.checking) {
-    checksList.hidden = !checking;
-    shown.checking = checking;
-  }
-
+  if (changed("checking", checking)) checksList.hidden = !checking;
   const fading = t >= timeline.holdEnd;
-  if (fading !== shown.fading) {
-    walkthroughBody.dataset.fading = fading;
-    shown.fading = fading;
-  }
+  if (changed("fading", fading)) walkthroughBody.dataset.fading = fading;
+}
 
-  // The train fills up while its scenario plays (in half-percent steps).
+// The train fills up while its scenario plays (in half-percent steps).
+function renderTrain(t) {
   const finished = motionPreference.matches && !walkthroughPlaying;
   const progress = finished ? 100 : Math.round(Math.min(1, t / timeline.holdEnd) * 200) / 2;
-  if (progress !== shown.progress) {
-    scenarioThumb.style.setProperty("--progress", `${progress}%`);
-    shown.progress = progress;
-  }
+  if (changed("progress", progress)) scenarioThumb.style.setProperty("--progress", `${progress}%`);
+}
+
+function renderWalkthrough(force = false) {
+  if (force) shown = {};
+  const text = copy().walkthrough;
+  const stage = stageAt(elapsed);
+  renderQuestion(elapsed);
+  renderStage(stage, text);
+  if (stage >= 1) renderThinking(elapsed, text);
+  renderAnswer(elapsed, stage);
+  renderTrain(elapsed);
   walkthroughToggle.textContent = walkthroughPlaying ? text.pause : text.play;
 }
 
@@ -471,6 +470,7 @@ function tick() {
 }
 
 function scheduleWalkthrough() {
+  walkthrough.dataset.running = walkthroughActive(); // Paused or off screen: the dots and the caret rest, too.
   if (walkthroughActive()) {
     if (!frame) {
       lastTick = 0;

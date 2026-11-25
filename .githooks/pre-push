@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# The full check, unless exactly this state has already passed it.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+node -e 'import("./tools/lib/passed.mjs").then(({ hasPassed }) => process.exit(hasPassed() ? 0 : 1))' && exit 0
+node tools/check.mjs --no-stamp || { echo "Push stopped: the check fails."; exit 1; }
